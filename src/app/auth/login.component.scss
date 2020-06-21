@@ -1,0 +1,16 @@
+@import "base/colors";
+@import "abstract/placeholders";
+
+:host {
+  display: flex;
+}
+.app-login-img {
+  @extend %app-img;
+}
+.login-card {
+  min-height: 60%;
+}
+.forgot-pwd-link,
+.signup-link {
+  @extend %app-link;
+}
