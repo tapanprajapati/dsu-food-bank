@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { MaterialModule } from '@app/material.module';
@@ -27,6 +28,8 @@ import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.co
     CoreModule,
     SharedModule,
     AuthModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent, HomeComponent, NotFoundComponent, SignUpComponent, ForgotPasswordComponent],
