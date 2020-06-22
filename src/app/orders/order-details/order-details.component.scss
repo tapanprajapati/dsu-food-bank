@@ -7,11 +7,17 @@
   @extend %app-img;
 }
 .order-item-img {
-  max-width: 15vw;
-  max-height: 15vh;
+  width: 10vw;
+  min-height: 100px;
 }
 .orders-link {
   @extend %app-link;
+}
+// Handling item image on smaller devices
+@media all and (max-width: 668px) {
+  .order-item-img {
+    width: 30vw;
+  }
 }
 
 // order status
