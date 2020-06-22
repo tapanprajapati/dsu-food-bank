@@ -105,3 +105,7 @@ th.mat-header-cell,
 td.mat-cell {
   min-width: 7rem;
 }
+
+.mat-button.mat-primary .mat-button-focus-overlay {
+  background-color: #f5f5f5;
+}

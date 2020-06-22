@@ -1,1 +1,75 @@
-<h1>Order Details</h1>
+<section class="container">
+  <h1>Order Details</h1>
+  <hr />
+  <div class="row">
+    <div class="col-md-5">
+      <h6 class="font-weight-bold">Order #</h6>
+      <small>{{ order.id }}</small>
+      <h6 class="font-weight-bold">Ordered on</h6>
+      <small>{{ order.placedDate }}</small>
+      <h6 class="font-weight-bold">Pickup Date</h6>
+      <small>{{ order.pickupDate }}</small>
+    </div>
+    <div class="col-md-7">
+      <h6 class="font-weight-bold">Status</h6>
+      <!-- 
+            TODO: Make it dynamic,
+            unnecessary markup iterations
+        -->
+      <ul id="progressbar" *ngIf="order.status == 'PROCESSING'">
+        <li class="step0 active" id="step1">PLACED</li>
+        <li class="step0 active" id="step2">APPROVED</li>
+        <li class="step0 active text-center" id="step3">PROCESSING</li>
+        <li class="step0 text-right" id="step4">RECEIVED</li>
+      </ul>
+      <ul id="progressbar" *ngIf="order.status == 'PENDING'">
+        <li class="step0 active" id="step1">PLACED</li>
+        <li class="step0 active" id="step2">APPROVED</li>
+        <li class="step0 text-center" id="step3">PROCESSING</li>
+        <li class="step0 text-right" id="step4">RECEIVED</li>
+      </ul>
+      <ul id="progressbar" *ngIf="order.status == 'COMPLETED'">
+        <li class="step0 active" id="step1">PLACED</li>
+        <li class="step0 active" id="step2">APPROVED</li>
+        <li class="step0 active text-center" id="step3">PROCESSING</li>
+        <li class="step0 active text-right" id="step4">RECEIVED</li>
+      </ul>
+      <ul id="progressbar" *ngIf="order.status == 'REJECTED'">
+        <li class="step0 active-reject" id="step1">PLACED</li>
+        <li class="step0 active-reject" id="step2">REJECTED</li>
+        <li class="step0 text-center" id="step3">PROCESSING</li>
+        <li class="step0 text-right" id="step4">RECEIVED</li>
+      </ul>
+    </div>
+  </div>
+  <hr />
+  <div class="row d-flex">
+    <div class="col-md-7">
+      <h6 class="mb-4 font-weight-bold">Items</h6>
+      <div class="card mat-elevation-z2 mb-4 flex-row" *ngFor="let orderItem of order.items">
+        <img class="order-item-img" src="./../../../assets/media/product-item.png" alt="product image" />
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div>{{ orderItem.name }}</div>
+              <small>Product Category</small>
+            </div>
+            <div class="col-md-6">
+              <div>Quantity</div>
+              <small>{{ orderItem.qty }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <img class="order-details-img" src="./../../../assets/media/app-order-details.png" alt="order details page" />
+      <a class="btn btn-default app-primary-btn mb-4 w-100" routerLink="/orders">BACK TO ORDERS</a>
+    </div>
+  </div>
+</section>
+
+<!--
+    Order Details Image
+    REF: https://dribbble.com/shots/5616662-Moving
+-->
