@@ -1,0 +1,5 @@
+@import "abstract/placeholders";
+
+.view-order-link {
+  @extend %app-link;
+}

@@ -99,3 +99,9 @@ footer {
 .mat-primary .mat-pseudo-checkbox-checked {
   background-color: $primary-text-blue !important;
 }
+
+// stylelint-disable-next-line selector-no-qualifying-type
+th.mat-header-cell,
+td.mat-cell {
+  min-width: 7rem;
+}
