@@ -49,11 +49,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   private _createSignupForm() {
     this.signupForm = this.formBuilder.group({
-      bannerId: ['', Validators.required, Validators.minLength(9)],
+      bannerId: ['', [Validators.required, Validators.maxLength(9)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$')],
+      ],
     });
   }
 }
