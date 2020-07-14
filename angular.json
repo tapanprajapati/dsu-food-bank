@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "dal-food-bank"
+  "defaultProject": "dal-food-bank",
+  "cli": {
+    "analytics": "72820520-b5ed-4bfb-82d4-eb3b3af13797"
+  }
 }

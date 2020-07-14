@@ -1,3 +1,5 @@
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +33,8 @@ import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.co
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
+    MatSortModule,
+    MatTableModule,
   ],
   declarations: [AppComponent, HomeComponent, NotFoundComponent, SignUpComponent, ForgotPasswordComponent],
   providers: [
