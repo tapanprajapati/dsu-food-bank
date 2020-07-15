@@ -51,6 +51,7 @@
     "bootstrap": "^4.5.0",
     "express": "^4.17.1",
     "material-design-icons-iconfont": "^5.0.1",
+    "ng-validate-equal": "^1.0.4",
     "path": "^0.12.7",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.1",
