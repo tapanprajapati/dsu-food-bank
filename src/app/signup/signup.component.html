@@ -90,10 +90,34 @@
                 characters long.</mat-error
               >
             </mat-form-field>
-            <!-- TODO:
-            1) Confirm Password Field
-            2) Material dropdown for role + should be part of formgroup object
-            -->
+            <mat-form-field class="w-100">
+              <mat-label>Confirm Password</mat-label>
+              <input
+                matInput
+                type="password"
+                placeholder="Enter a confirm password"
+                [formControl]="confirm_password"
+                autocomplete="off"
+                required
+              />
+              <mat-error
+                *ngIf="confirm_password.hasError('required') && !confirm_password.hasError('confirmedValidator')"
+                >Please enter password.</mat-error
+              >
+              <mat-error
+                *ngIf="!confirm_password.hasError('required') && confirm_password.hasError('confirmedValidator')"
+              >
+                Password and Confirm Password must be same.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex.lt-sm="100%">
+              <mat-label>Roles</mat-label>
+              <mat-select [formControl]="role" single required>
+                <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
             <div class="w-100 d-flex pt-4">
               <button class="app-primary-btn w-100" [disabled]="!signupForm.valid" type="submit" mat-button>
                 SIGNUP

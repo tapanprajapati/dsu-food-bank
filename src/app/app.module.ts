@@ -17,6 +17,7 @@ import { HomeComponent } from '@app/home/home.component';
 import { SignUpComponent } from '@app/signup/signup.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
 import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,14 @@ import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.co
     ReactiveFormsModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, SignUpComponent, ForgotPasswordComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    NotFoundComponent,
+    SignUpComponent,
+    ForgotPasswordComponent,
+    CheckoutComponent,
+  ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
     { provide: MAT_DIALOG_DATA, useValue: {} },
