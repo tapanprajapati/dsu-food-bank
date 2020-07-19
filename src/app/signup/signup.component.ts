@@ -1,6 +1,8 @@
 import { UserModel } from './../@core/model/user.model';
 import { RoleModel } from './../@core/model/role.model';
 import { SignupService } from './signup.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,7 +17,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   roles: RoleModel[];
   User: UserModel;
-  constructor(private SignupService: SignupService, private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private SignupService: SignupService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
 
   ngOnInit() {
     this._createSignupForm();
@@ -24,30 +35,30 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   signup() {
-    console.log(this.signupForm.controls);
-    if (this.signupForm.valid) {
-      this.User.bannerId = this.signupForm.controls.bannerId.value;
-      this.User.firstname = this.signupForm.controls.firstname.value;
-      this.User.lastname = this.signupForm.controls.lastname.value;
-      this.User.email = this.signupForm.controls.email.value;
-      this.User.password = this.signupForm.controls.password.value;
-      this.User.roleid = this.signupForm.controls.role.value;
-      console.log(this.User);
-
-      this.SignupService.addUser(this.User).subscribe(
-        (res) => {
-          alert('Registred Successfully.');
-          this.router.navigate(['/login']);
-        },
-        (error) => {
-          if (error.status == 500) {
-            alert('Registred failed.');
+    try {
+      console.log(this.signupForm.controls);
+      if (this.signupForm.valid) {
+        this.SignupService.addUser(this.signupForm.value).subscribe(
+          (res) => {
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'User added successfully.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+            this.router.navigate(['/login']);
+          },
+          (error) => {
+            if (error.status == 500) {
+              const dialogConfig = this._matDialogConfig;
+              dialogConfig.data = { header: 'Failure!', content: 'Please try again.' };
+              this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+            }
           }
-        }
-      );
+        );
+      }
+    } catch (e) {
+      const dialogConfig = this._matDialogConfig;
+      dialogConfig.data = { header: 'Failure!', content: 'Error Occured.' };
+      this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
     }
-    // alert('Registred Successfully.');
-    // this.router.navigate(['/login']);
   }
 
   loadRoles() {

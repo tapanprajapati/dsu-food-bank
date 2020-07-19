@@ -1,3 +1,4 @@
+import { OrderModel } from './../@core/model/order.model';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
@@ -5,8 +6,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { OrderService } from './order.service';
-import { OrderModel } from '@core/model/order.model';
-
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -15,7 +14,8 @@ import { OrderModel } from '@core/model/order.model';
 export class OrdersComponent implements OnInit, OnDestroy {
   ordersDataSource: MatTableDataSource<OrderModel>;
   // TODO: Make it dynamic, fetch it based on OrderModel schema
-  orderColumns: string[] = ['Order Id.', 'placed_date', 'pickup_date', 'status', 'actions'];
+  orderColumns: string[] = ['id', 'placedDate', 'pickupDate', 'status', 'actions'];
+  orderClm: string[] = ['id', 'placedDate', 'pickupDate', 'status'];
 
   // TODO: Verify Sorting
   @ViewChild(MatSort, { static: true }) sort: MatSort;

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SignupService {
-  _url = 'http://localhost:3000/register_user';
+  _url = 'http://localhost:3000/create';
 
   private _roles = [
     {
@@ -34,8 +34,10 @@ export class SignupService {
   }
 
   addUser(user: UserModel) {
-    const dialogConfig = this._matDialogConfig;
-    dialogConfig.data = { header: 'Success!', content: 'User added successfully.' };
-    return this._http.post<any>(this._url, user);
+    try {
+      return this._http.post<any>(this._url, user);
+    } catch (e) {
+      throw new Error();
+    }
   }
 }
