@@ -17,16 +17,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   roles: RoleModel[];
   User: UserModel;
-  constructor(
-    private SignupService: SignupService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private _matDialog: MatDialog
-  ) {}
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',
     minHeight: '200px',
   };
+  constructor(
+    private Signup_Service: SignupService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private _matDialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this._createSignupForm();
@@ -38,7 +38,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     try {
       console.log(this.signupForm.controls);
       if (this.signupForm.valid) {
-        this.SignupService.addUser(this.signupForm.value).subscribe(
+        this.Signup_Service.addUser(this.signupForm.value).subscribe(
           (res) => {
             const dialogConfig = this._matDialogConfig;
             dialogConfig.data = { header: 'Success!', content: 'User added successfully.' };
@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
           },
           (error) => {
-            if (error.status == 500) {
+            if (error.status === 500) {
               const dialogConfig = this._matDialogConfig;
               dialogConfig.data = { header: 'Failure!', content: 'Please try again.' };
               this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
@@ -62,7 +62,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   loadRoles() {
-    this.roles = this.SignupService.getAllroles();
+    this.roles = this.Signup_Service.getAllroles();
   }
 
   get bannerId() {

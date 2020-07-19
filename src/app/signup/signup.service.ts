@@ -22,12 +22,11 @@ export class SignupService {
       name: 'Volunteer',
     },
   ];
-
-  constructor(private _http: HttpClient) {}
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',
     minHeight: '200px',
   };
+  constructor(private _http: HttpClient) {}
 
   getAllroles(): RoleModel[] {
     return this._roles;
