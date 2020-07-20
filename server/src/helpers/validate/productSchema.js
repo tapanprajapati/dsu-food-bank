@@ -5,4 +5,11 @@
  */
 const { Joi } = require('express-validation');
 
-module.exports = {};
+module.exports = {
+  // GET: /api/products/:productId
+  getProductById: {
+    params: Joi.object({
+      productId: Joi.number().required(),
+    }),
+  },
+};

@@ -2,13 +2,14 @@
  * @author Parth Parmar <parth.parmar@default.ca>
  *
  */
+import { CategoryModel } from '@core/model/category.model';
+
 export interface ProductModel {
-  id: string;
+  id: number;
   name: string;
   description: string;
   limit: number;
   availableQuantity: number;
   imagePath: string;
-  categoryId: string;
-  categoryName: string;
+  category: CategoryModel;
 }

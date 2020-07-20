@@ -9,7 +9,7 @@ const { validate } = require('express-validation');
 const ProductService = require('src/services/ProductService');
 const ProductController = require('src/controllers/ProductController');
 const productController = new ProductController(new ProductService());
-const { authenticateRoute } = require('src/helpers/auth');
+const productSchema = require('../helpers/validate/productSchema');
 
 /**
  * GET: /api/products endpoint to get records for provided userId and jobname
@@ -22,8 +22,6 @@ router.route(`/`).get(productController.getAll);
 /**
  * GET: /api/products/:productId
  */
-router.route(`/:productId`).get(productController.getProductById);
-
-// router.route(`/:name`).get(productController.getProductByName);
+router.route(`/:productId`).get(validate(productSchema.getProductById), productController.getProductById);
 
 module.exports = router;

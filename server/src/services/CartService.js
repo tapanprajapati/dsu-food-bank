@@ -1,6 +1,7 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
+ * Service layer for the cart resource communicating with the database and transforming the response for front-end
  */
 
 const mysql = require('mysql');
