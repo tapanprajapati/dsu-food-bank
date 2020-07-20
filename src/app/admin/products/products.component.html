@@ -1,1 +1,69 @@
-Products
+<div class="container-fluid mat-elevation-z8">
+  <div class="table-responsive d-flex flex-column mt-2">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let product">
+          {{ product.name }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let product">
+          {{ product.category }}
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+        <td mat-cell *matCellDef="let product">
+          {{ product.quantity }}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="limit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Limit</th>
+        <td mat-cell *matCellDef="let product">
+          {{ product.limit }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="on_order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>On Order</th>
+        <td mat-cell *matCellDef="let product">{{ product.on_order }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+        <td mat-cell *matCellDef="let product">
+          <!-- <mat-icon
+              class="delete-product-button"
+              color="primary"
+              aria-hidden="false"
+              aria-label="delete icon"
+              (click)="edit(product)"
+              >create</mat-icon
+            >
+            <mat-icon
+              class="delete-product-button"
+              color="warn"
+              aria-hidden="false"
+              aria-label="delete icon"
+              (click)="delete(product)"
+              >delete</mat-icon
+            > -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="[7]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
