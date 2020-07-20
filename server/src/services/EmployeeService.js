@@ -37,4 +37,53 @@ EmployeeService.prototype.getAll = async function getAll() {
   }
 };
 
+EmployeeService.prototype.addUserRole = async function addUserRole(data) {
+  const newUserquery = mysql.format(queries.addUserRole, [data.BannerId, data.RoleId]);
+
+  console.log(`The Query for creating a job entry - ${newUserquery}`);
+
+  try {
+    let items = await database.query(newUserquery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+EmployeeService.prototype.deleteUserRole = async function deleteUserRole(params) {
+  const deleteUserRoleQuery = mysql.format(queries.deleteUserRole, [params.BannerId, params.RoleId]);
+  console.log(`The Query for delete a employee information - ${deleteUserRoleQuery}`);
+  try {
+    let items = await database.query(deleteUserRoleQuery);
+    if (items.affectedRows == 0) {
+      return {
+        success: true,
+        statusCode: 200,
+        items,
+        message: 'User with BannerId does not exist',
+      };
+    } else {
+      return {
+        success: true,
+        statusCode: 200,
+        items,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 module.exports = EmployeeService;

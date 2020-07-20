@@ -37,6 +37,8 @@ server.get('/', (req, res) => res.sendStatus(200));
 server.use('/api/products', productRoutes);
 server.use('/api', userRoutes);
 server.use('/api/employee', employeeRoutes);
+server.use('/api/employee/:BannerId/:RoleId', employeeRoutes);
+server.use('api/employee/add', employeeRoutes);
 
 /**
  * Handling unexpected and validation errors

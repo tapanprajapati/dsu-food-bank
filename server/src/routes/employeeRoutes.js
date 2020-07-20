@@ -18,5 +18,7 @@ const { authenticateRoute } = require('src/helpers/auth');
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
 router.route(`/`).get(employeeController.getAll);
+router.route(`/:BannerId/:RoleId`).delete(employeeController.deleteUserRole);
+router.route(`/add`).post(employeeController.addUserRole);
 
 module.exports = router;
