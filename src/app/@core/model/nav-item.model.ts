@@ -1,3 +1,7 @@
+/**
+ * @author Parth Parmar <parth.parmar@default.ca>
+ *
+ */
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 export interface NavItemModel {

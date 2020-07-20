@@ -19,4 +19,8 @@ const { authenticateRoute } = require('src/helpers/auth');
  */
 router.route(`/`).get(productController.getAll);
 
+// router.route(`/:productId`).get(productController.getProductById);
+
+// router.route(`/:name`).get(productController.getProductByName);
+
 module.exports = router;

@@ -1,3 +1,8 @@
+/**
+ * @author Parth Parmar <parth.parmar@default.ca>
+ *
+ */
+
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';

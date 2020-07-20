@@ -1,3 +1,7 @@
+/**
+ * @author Parth Parmar <parth.parmar@default.ca>
+ *
+ */
 export interface ProductModel {
   id: string;
   name: string;

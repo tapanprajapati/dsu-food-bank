@@ -1,3 +1,8 @@
+/**
+ * @author Parth Parmar <parth.parmar@default.ca>
+ *
+ */
+
 import { ProductModel } from '@core/model/product.model';
 import { CategoryModel } from '@core/model/category.model';
 import { Injectable } from '@angular/core';
