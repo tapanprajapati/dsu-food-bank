@@ -45,7 +45,8 @@ footer {
 }
 
 // UI Elements
-.mat-button.mat-accent {
+.mat-button.mat-accent,
+.mat-list-item.mat-accent {
   color: $white;
   font-weight: bold;
   background-color: $nav-active-bg-blue;

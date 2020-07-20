@@ -9,7 +9,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "npm run lint:app && npm run prettier && ng build --prod",
+    "build": "npm run prettier && ng build --prod",
     "postinstall": "npm run build",
     "dev": "ng serve --aot -o",
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",

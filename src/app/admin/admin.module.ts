@@ -11,8 +11,11 @@ import { AdminOrdersComponent } from './orders/orders.component';
 import { AdminWorkersComponent } from './workers/workers.component';
 import { AdminProductsComponent } from './products/products.component';
 
+import { AdminOrderService } from './services/admin-order.service';
+
 @NgModule({
   imports: [CommonModule, TranslateModule, FlexLayoutModule, MaterialModule, AdminRoutingModule],
   declarations: [AdminComponent, AdminOrdersComponent, AdminProductsComponent, AdminWorkersComponent],
+  providers: [AdminOrderService],
 })
 export class AdminModule {}
