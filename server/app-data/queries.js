@@ -6,4 +6,5 @@
 module.exports = {
   getProducts: 'SELECT * FROM dalfoodbank.Item',
   getCategories: 'SELECT * FROM dalfoodbank.Category',
+  signIn: '',
 };

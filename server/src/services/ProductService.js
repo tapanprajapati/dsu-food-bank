@@ -37,4 +37,8 @@ ProductService.prototype.getAll = async function getAll() {
   }
 };
 
+ProductService.prototype.getProductById = async function getProductById(id) {
+  const getProductByIdQuery = mysql.format(queries.getProductById, id);
+};
+
 module.exports = ProductService;
