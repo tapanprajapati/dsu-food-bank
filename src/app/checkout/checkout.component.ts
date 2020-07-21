@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../products/product.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -31,11 +31,6 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this._createCheckoutForm();
-    this.loadProducts();
-  }
-
-  loadProducts() {
-    this.filteredProducts = this._getProducts();
   }
 
   checkout() {
@@ -90,9 +85,7 @@ export class CheckoutComponent implements OnInit {
   get pickupTime() {
     return this.checkoutForm.controls.pickupTime;
   }
-  private _getProducts(): ProductModel[] {
-    return this._productService.getAllProducts();
-  }
+
   private _createCheckoutForm() {
     this.checkoutForm = this.formBuilder.group({
       bannerId: ['', [Validators.required, Validators.pattern('^(B){1}([0-9]){8}$')]],

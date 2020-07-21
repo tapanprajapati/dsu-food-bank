@@ -1,5 +1,6 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
+ *
  */
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');

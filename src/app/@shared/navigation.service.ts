@@ -1,4 +1,12 @@
+/**
+ * @author Parth Parmar <parth.parmar@dal.ca>
+ *
+ */
+
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { APP_TITLES } from '@core/const/app.const';
 import { NavItemModel } from '@core/model/nav-item.model';
 
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +16,8 @@ import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg
   providedIn: 'root',
 })
 export class NavigationService {
+  constructor(private _router: Router, private _titleService: Title) {}
+
   getPrimaryNavigationItems(): NavItemModel[] {
     return [
       { name: 'Home', routeLink: '/home' },
@@ -56,5 +66,10 @@ export class NavigationService {
         iconName: faInstagram,
       },
     ];
+  }
+
+  navigateTo404() {
+    this._titleService.setTitle(`${APP_TITLES.not_found}`);
+    this._router.navigate(['/not-found']);
   }
 }

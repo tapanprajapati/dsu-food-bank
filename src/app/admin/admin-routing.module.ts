@@ -11,6 +11,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
+      { path: '', redirectTo: 'orders', pathMatch: 'full' },
       { path: 'orders', component: AdminOrdersComponent },
       { path: 'products', component: AdminProductsComponent },
       { path: 'workers', component: AdminWorkersComponent },
