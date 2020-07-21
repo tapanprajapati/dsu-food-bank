@@ -10,6 +10,7 @@ const cors = require('cors');
 const { ValidationError } = require('express-validation');
 
 const productRoutes = require('src/routes/productRoutes');
+const categoryRoutes = require('src/routes/categoryRoutes');
 const userRoutes = require('src/routes/userRoutes');
 
 /**
@@ -34,6 +35,7 @@ server.get('/', (req, res) => res.sendStatus(200));
  * Application routes
  */
 server.use('/api/products', productRoutes);
+server.use('/api/categories', categoryRoutes);
 server.use('/api', userRoutes);
 
 /**

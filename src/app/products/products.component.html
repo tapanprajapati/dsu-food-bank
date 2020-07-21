@@ -1,3 +1,6 @@
+<!--
+  @author Parth Parmar <parth.parmar@default.ca>
+-->
 <section class="products container mt-5 mb-5">
   <div class="row">
     <div class="col-md-12">
@@ -24,23 +27,23 @@
         </mat-form-field>
       </div>
       <div class="w-100 d-flex justify-content-end mb-4" [@slideToBottom] *ngIf="categoryControl.value?.length > 0">
-        <a class="reset-link clear-all" (click)="resetProducts(); loadProducts()">CLEAR ALL</a>
+        <a class="reset-link clear-all" (click)="resetProducts(); getAllProducts()">CLEAR ALL</a>
       </div>
-      <div class="row d-flex flex-column align-items-center" *ngIf="filteredProducts.length === 0">
+      <div class="row d-flex flex-column align-items-center" *ngIf="filteredProducts?.length === 0">
         <picture class="col-md-6">
           <img src="./../../assets/media/no-results.png" class="no-results-img" />
         </picture>
         <div class="col-md-6 text-center no-results-text">No Products Found...</div>
         <div class="col-md-6 text-center">
-          <a class="reset-link" (click)="resetProducts(); loadProducts()">Reset All Filters</a>
+          <a class="reset-link" (click)="resetProducts(); getAllProducts()">Reset All Filters</a>
         </div>
       </div>
       <div class="grid w-100">
         <mat-card *ngFor="let product of filteredProducts" (click)="goToProductDetails(product.id)">
-          <img src="./../../assets/media/product-item.png" mat-card-image class="product-img" />
+          <img src="{{ product?.imagePath }}" mat-card-image class="product-img app-image-load" />
           <mat-card-content class="pl-3 pr-3 pt-3">
-            <h6 class="font-weight-bold">{{ product.name }}</h6>
-            <small class="">{{ product.categoryName }}</small>
+            <h6 class="font-weight-bold">{{ product?.name }}</h6>
+            <small class="">{{ product?.category?.name }}</small>
           </mat-card-content>
           <mat-card-actions class="pl-3 pb-3 pr-3">
             <button mat-stroked-button class="w-100" (click)="addToCart(product, $event)">ADD TO CART</button>
@@ -50,6 +53,8 @@
     </div>
   </div>
 </section>
+<app-loader [isLoading]="isLoading" [size]="5"></app-loader>
+
 <!-- REF: 
   Products Image - https://dribbble.com/shots/6990945-Grocery-smallcase 
   No Result Found Image - https://dribbble.com/shots/4020070-Scribd-No-Search-Results-Found 

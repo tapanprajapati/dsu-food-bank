@@ -21,13 +21,12 @@ const productSchema = require('../helpers/validate/productSchema');
 router.route(`/`).get(productController.getAll).post(validate(productSchema.createProduct), productController.create);
 
 /**
- * GET: /api/products/:itemId endpoint to get records for provided itemId
- * Possible outcomes:
- * Successfully fetches record { "success": true, "statusCode": 200, "result": [] }
- * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
+ * GET: /api/products/:productId
  */
-router.route(`/:itemId`).get(productController.getSpecific);
-
-router.route(`/:id`).put(validate(productSchema.updateProduct), productController.update);
+router
+  .route(`/:productId`)
+  .get(validate(productSchema.getProductById), productController.getProductById)
+  .put(validate(productSchema.updateProduct), productController.update)
+  .delete(validate(productSchema.deleteProduct), productController.deleteProduct);
 
 module.exports = router;

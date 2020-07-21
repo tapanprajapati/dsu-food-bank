@@ -30,6 +30,20 @@ module.exports = {
   //PUT: /api/products
   updateProduct: {
     body: updateProductSchema,
-    params: Joi.object({ id: Joi.number().required() }),
+    params: Joi.object({ productId: Joi.number().required() }),
+  },
+
+  // GET: /api/products/:productId
+  getProductById: {
+    params: Joi.object({
+      productId: Joi.number().required(),
+    }),
+  },
+
+  // DELETE: /api/products/:productId
+  deleteProduct: {
+    params: Joi.object({
+      productId: Joi.number().required(),
+    }),
   },
 };
