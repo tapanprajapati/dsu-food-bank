@@ -39,9 +39,13 @@
         </div>
       </div>
       <div class="grid w-100">
-        <mat-card *ngFor="let product of filteredProducts" (click)="goToProductDetails(product.id)">
-          <img src="{{ product?.imagePath }}" mat-card-image class="product-img app-image-load" />
-          <mat-card-content class="pl-3 pr-3 pt-3">
+        <mat-card
+          class="d-flex flex-column"
+          *ngFor="let product of filteredProducts"
+          (click)="goToProductDetails(product.id)"
+        >
+          <img src="{{ product?.imagePath | async }}" mat-card-image class="product-img app-image-load" />
+          <mat-card-content class="pl-3 pr-3 pt-3 mt-a">
             <h6 class="font-weight-bold">{{ product?.name }}</h6>
             <small class="">{{ product?.category?.name }}</small>
           </mat-card-content>
