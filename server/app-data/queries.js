@@ -4,9 +4,6 @@
  * Centralized queries required for various endpoints
  */
 module.exports = {
-  getProducts: 'SELECT * FROM dalfoodbank.Item join(dalfoodbank.Category) using(CategoryId) order by ItemId;',
-  getSpecificProduct:
-    'SELECT * FROM dalfoodbank.Item join(dalfoodbank.Category) using(CategoryId) where ItemId=? order by ItemId',
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
   updateProduct:

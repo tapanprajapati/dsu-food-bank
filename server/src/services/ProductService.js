@@ -37,25 +37,6 @@ ProductService.prototype.getAll = async function getAll() {
   }
 };
 
-ProductService.prototype.getSpecific = async function getSpecific(params) {
-  const getSpecificProductsQuery = mysql.format(queries.getSpecificProduct, [parseInt(params.itemId)]);
-  console.log(`The Query for fetching specific product - ${getSpecificProductsQuery}`);
-  try {
-    let result = await database.query(getSpecificProductsQuery);
-    return {
-      success: true,
-      statusCode: 200,
-      items: result,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      statusCode: 500,
-      error,
-    };
-  }
-};
-
 ProductService.prototype.create = async function create(data) {
   const getCreateProductQuery = mysql.format(queries.createProduct, [
     data.name,

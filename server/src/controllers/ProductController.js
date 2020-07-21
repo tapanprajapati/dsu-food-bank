@@ -18,11 +18,6 @@ ProductController.prototype.getAll = async function getAll(req, res) {
   res.status(response.statusCode).send(response);
 };
 
-ProductController.prototype.getSpecific = async function getSpecific(req, res) {
-  let response = await this.service.getSpecific(req.params);
-  res.status(response.statusCode).send(response);
-};
-
 ProductController.prototype.create = async function create(req, res) {
   let response = await this.service.create(req.body);
   res.status(response.statusCode).send(response);
