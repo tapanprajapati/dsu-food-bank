@@ -14,8 +14,8 @@ import { OrderService } from './order.service';
 export class OrdersComponent implements OnInit, OnDestroy {
   ordersDataSource: MatTableDataSource<OrderModel>;
   // TODO: Make it dynamic, fetch it based on OrderModel schema
-  orderColumns: string[] = ['id', 'placedDate', 'pickupDate', 'status', 'actions'];
-  orderClm: string[] = ['id', 'placedDate', 'pickupDate', 'status'];
+  orderColumns: string[] = ['orderId', 'OrderDate', 'DeliveredDate', 'Status', 'actions'];
+  orderClm: string[] = ['orderId', 'OrderDate', 'DeliveredDate', 'Status'];
 
   // TODO: Verify Sorting
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -33,11 +33,17 @@ export class OrdersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   viewOrderDetails(order: OrderModel) {
-    this._router.navigate([`orders/${order.id}`]);
+    console.log(order.orderId);
+    this._router.navigate([`orders/${order.orderId}`]);
   }
 
   private _getAllOrders() {
-    this._orders = this._orderService.getAllOrders();
+    this._orderService.getAllOrders().subscribe((res) => {
+      this._orders = res['items'] as OrderModel[];
+      console.log(res);
+      console.log(this._orders);
+      this._initializeDataGrid();
+    });
   }
   private _initializeDataGrid() {
     this.ordersDataSource = new MatTableDataSource<OrderModel>(this._orders);

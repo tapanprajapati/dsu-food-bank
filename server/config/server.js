@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const { ValidationError } = require('express-validation');
 
+const orderRoutes = require('src/routes/orderRoutes');
 const productRoutes = require('src/routes/productRoutes');
 const userRoutes = require('src/routes/userRoutes');
 
@@ -33,6 +34,7 @@ server.get('/', (req, res) => res.sendStatus(200));
 /**
  * Application routes
  */
+server.use('/api/orders', orderRoutes);
 server.use('/api/products', productRoutes);
 server.use('/api', userRoutes);
 

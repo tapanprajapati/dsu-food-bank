@@ -1,14 +1,18 @@
-import { TempProductModel } from './temp-product.model';
+import { ProductModel } from '@core/model/product.model';
 
+export interface OrderDetailModel {
+  orderId: number;
+  item: ProductModel[];
+  OrderDate: Date;
+  DeliveredDate: Date;
+  status: string;
+  PickUpSlot: Date;
+}
 export interface OrderModel {
-  id: number;
-  // TODO: Replace with ProductModel once backend is ready
-  items: TempProductModel[];
+  orderId: number;
   userid: string;
-  // TODO: Use Date
   placedDate: string;
-  pickupDate: string;
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'REJECTED';
-  // TODO: Make mandatory once backend is ready
+  pickupDate?: string;
+  status: string;
   pickupSlot?: string;
 }
