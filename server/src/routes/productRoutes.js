@@ -17,7 +17,7 @@ const productSchema = require('../helpers/validate/productSchema');
  * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
-router.route(`/`).get(productController.getAll);
+router.route(`/`).get(validate(productSchema.getProductByName), productController.getAll);
 
 /**
  * GET: /api/products/:productId

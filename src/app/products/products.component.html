@@ -27,7 +27,7 @@
         </mat-form-field>
       </div>
       <div class="w-100 d-flex justify-content-end mb-4" [@slideToBottom] *ngIf="categoryControl.value?.length > 0">
-        <a class="reset-link clear-all" (click)="resetProducts(); getAllProducts()">CLEAR ALL</a>
+        <a class="reset-link clear-all" (click)="resetProducts()">CLEAR ALL</a>
       </div>
       <div class="row d-flex flex-column align-items-center" *ngIf="filteredProducts?.length === 0">
         <picture class="col-md-6">
@@ -35,7 +35,7 @@
         </picture>
         <div class="col-md-6 text-center no-results-text">No Products Found...</div>
         <div class="col-md-6 text-center">
-          <a class="reset-link" (click)="resetProducts(); getAllProducts()">Reset All Filters</a>
+          <a class="reset-link" (click)="resetProducts()">Reset All Filters</a>
         </div>
       </div>
       <div class="grid w-100">

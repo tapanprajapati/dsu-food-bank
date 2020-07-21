@@ -8,17 +8,18 @@ import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
-import { ProductModel } from '@core/model/product.model';
+
+import { GlobalErrorService } from '@core/services/global-error.service';
+
 import { ApiResponseModel } from '@core/model/api-response.model';
-import { GlobalErrorService } from '@app/@core/services/global-error.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   constructor(private _httpClient: HttpClient, private _globalErrorService: GlobalErrorService) {}
 
-  getAllProducts(): Observable<ApiResponseModel> {
+  getAllProducts(params: any): Observable<ApiResponseModel> {
     return this._httpClient
-      .get<ApiResponseModel>(this._getUrl())
+      .get<ApiResponseModel>(`${this._getUrl()}`, { params })
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
@@ -31,20 +32,6 @@ export class ProductService {
   getProductDetails(id: string): Observable<ApiResponseModel> {
     return this._httpClient
       .get<ApiResponseModel>(`${this._getUrl()}/${id}`)
-      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
-  }
-
-  // Check
-  filterProductsByName(productName: string): Observable<ProductModel[]> {
-    return this._httpClient
-      .get<ProductModel[]>(`${this._getUrl()}/${productName}`)
-      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
-  }
-
-  // Check
-  filterProductsByCategory(categories: string[]): Observable<ProductModel[]> {
-    return this._httpClient
-      .get<ProductModel[]>(`${this._getUrl()}`)
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 

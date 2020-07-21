@@ -10,7 +10,7 @@ function ProductController(service) {
   this.getProductById = this.getProductById.bind(this);
 }
 ProductController.prototype.getAll = async function getAll(req, res) {
-  let response = await this.service.getAll();
+  let response = await this.service.getAll(req.query);
   res.status(response.statusCode).send(response);
 };
 ProductController.prototype.getProductById = async function getProductById(req, res) {

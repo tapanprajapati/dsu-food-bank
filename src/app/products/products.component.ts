@@ -3,7 +3,7 @@
  *
  */
 
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -38,6 +38,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(
     private _productService: ProductService,
     private _router: Router,
+    private _activatedRoute: ActivatedRoute,
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService
   ) {}
@@ -45,15 +46,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._showLoader(true);
     this.resetProducts();
-    this.getAllProducts();
+    this._observeQueryParams();
     this.getAllCategories();
   }
 
   ngOnDestroy() {}
 
-  getAllProducts() {
+  getProducts(queryParams: any) {
     this._productService
-      .getAllProducts()
+      .getAllProducts(queryParams)
       .pipe(untilDestroyed(this))
       .subscribe(
         (res: ApiResponseModel) => {
@@ -91,24 +92,38 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   filterProductsByName(productName: string) {
-    // this.filteredProducts = this._productService.filterProductsByName(productName);
+    this._router.navigate(['/products'], {
+      queryParams: { search: productName },
+      queryParamsHandling: 'merge',
+    });
   }
 
   categorySelectionToggled(isOpened: boolean) {
     const selectedCategories = this.categoryControl.value;
     if (!isOpened && this.categoryControl.value?.length > 0) {
-      // this.filteredProducts = this._filterProductsByCategory(selectedCategories);
+      this._router.navigate(['/products'], {
+        queryParams: {
+          filter:
+            selectedCategories?.length > 1
+              ? encodeURIComponent(selectedCategories.join(','))
+              : selectedCategories.toString(),
+        },
+        queryParamsHandling: 'merge',
+      });
     }
   }
 
   resetProducts() {
+    this._router.navigate(['/products']);
     this.searchedProduct = '';
     this.categoryControl.reset();
   }
 
-  // private _filterProductsByCategory(categories: string[]): ProductModel[] {
-  //   // return this._productService.filterProductsByCategory(categories);
-  // }
+  private _observeQueryParams() {
+    this._activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
+      this.getProducts(params);
+    });
+  }
 
   private _showLoader(val: boolean) {
     this.isLoading = val;

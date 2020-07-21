@@ -20,8 +20,9 @@ function ProductService() {}
 /**
  * Services interacting with database and returning the results back to the controller
  */
-ProductService.prototype.getAll = async function getAll() {
-  const getAllProductsQuery = queries.getProducts;
+ProductService.prototype.getAll = async function getAll(queryParams) {
+  let getAllProductsQuery = generateProductAccessQuery(queryParams);
+
   console.log(`The Query for fetching all products - ${getAllProductsQuery}`);
 
   try {
@@ -63,5 +64,25 @@ ProductService.prototype.getProductById = async function getProductById(id) {
     };
   }
 };
+
+function generateProductAccessQuery(queryParams) {
+  let getAllProductsQuery;
+  if (JSON.stringify(queryParams) != '{}') {
+    if (queryParams.search && queryParams.filter) {
+      getAllProductsQuery = mysql.format(queries.getProductsByNameAndCategory, [
+        `%${queryParams.search}%`,
+        decodeURIComponent(queryParams.filter),
+      ]);
+    } else if (queryParams.search) {
+      getAllProductsQuery = mysql.format(queries.getProductsByName, `%${queryParams.search}%`);
+    } else if (queryParams.filter) {
+      getAllProductsQuery = mysql.format(queries.getProductsByCategory, decodeURIComponent(queryParams.filter));
+    }
+  } else {
+    getAllProductsQuery = queries.getProducts;
+  }
+
+  return getAllProductsQuery;
+}
 
 module.exports = ProductService;

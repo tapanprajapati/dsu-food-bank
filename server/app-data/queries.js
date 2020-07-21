@@ -19,5 +19,29 @@ module.exports = {
     dalfoodbank.Category as C
     ON I.CategoryId = C.CategoryId
     WHERE ItemId = ?`,
+  getProductsByName: `SELECT *
+    FROM
+    dalfoodbank.Item as I
+      LEFT JOIN
+    dalfoodbank.Category as C
+    ON I.CategoryId = C.CategoryId
+    WHERE ItemName LIKE ?
+    ORDER BY I.ItemId`,
+  getProductsByCategory: `SELECT *
+    FROM
+    dalfoodbank.Item as I
+      LEFT JOIN
+    dalfoodbank.Category as C
+    ON I.CategoryId = C.CategoryId
+    WHERE I.CategoryId IN (?)
+    ORDER BY I.ItemId`,
+  getProductsByNameAndCategory: `SELECT *
+    FROM
+    dalfoodbank.Item as I
+      LEFT JOIN
+    dalfoodbank.Category as C
+    ON I.CategoryId = C.CategoryId
+    WHERE ItemName LIKE ? AND I.CategoryId IN (?)
+    ORDER BY I.ItemId`,
   signIn: '',
 };

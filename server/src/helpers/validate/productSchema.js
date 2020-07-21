@@ -12,4 +12,11 @@ module.exports = {
       productId: Joi.number().required(),
     }),
   },
+  // GET: /api/products?search
+  getProductByName: {
+    query: Joi.object({
+      search: Joi.string(),
+      filter: Joi.string(),
+    }),
+  },
 };
