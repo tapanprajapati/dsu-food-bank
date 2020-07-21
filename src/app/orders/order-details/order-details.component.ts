@@ -12,7 +12,7 @@ import { untilDestroyed } from '@app/@core';
 })
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   orderId: number;
-  order: OrderDetailModel[];
+  order: OrderDetailModel;
   orderStatus = ['PLACED', 'APPROVED', 'PROCESSING', 'RECEIVED'];
 
   constructor(private _route: ActivatedRoute, private _orderService: OrderService) {}
@@ -31,7 +31,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   private _getOrderDetails(orderId: number) {
     this._orderService.getOrderDetails(orderId).subscribe((res) => {
       console.log(res);
-      this.order = res['result'] as OrderDetailModel[];
+      this.order = res['orderDetail'] as OrderDetailModel;
       console.log(this.order);
     });
   }

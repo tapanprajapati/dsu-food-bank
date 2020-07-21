@@ -2,11 +2,16 @@ import { ProductModel } from '@core/model/product.model';
 
 export interface OrderDetailModel {
   orderId: number;
-  item: ProductModel[];
+  item: item[];
   OrderDate: Date;
   DeliveredDate: Date;
   status: string;
   PickUpSlot: Date;
+}
+interface item {
+  name: string;
+  quantity: string;
+  CategoryName: string;
 }
 export interface OrderModel {
   orderId: number;

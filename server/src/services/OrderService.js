@@ -7,6 +7,7 @@ const mysql = require('mysql');
 const Database = require('config/database');
 const queries = require('app-data/queries');
 const dbConfig = require('app-data/dbConfig');
+const { formatOrderDetail } = require('../helpers/formatters/formatter');
 
 /**
  * Creating a new database instance
@@ -42,10 +43,13 @@ OrderService.prototype.getByOrderId = async function getByOrderId(params) {
   console.log(`The Query for finding the orders - ${getOrderId}`);
   try {
     let result = await database.query(getOrderId);
+    console.log(result);
+    const orderDetail = formatOrderDetail(result);
+    console.log(orderDetail);
     return {
       success: true,
       statusCode: 200,
-      result,
+      orderDetail,
     };
   } catch (error) {
     return {
