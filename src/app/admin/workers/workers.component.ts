@@ -1,7 +1,10 @@
+import { WorkersService } from './shared/workers.service';
 import { element } from 'protractor';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { WorkersResponse, Workers } from '../../@core/model/workers.model';
+import { Worker, workers } from 'cluster';
 
 @Component({
   selector: 'app-admin-workers',
@@ -9,31 +12,29 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./workers.component.scss'],
 })
 export class AdminWorkersComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'firstname', 'lastname', 'role'];
-  dataSource = new MatTableDataSource<EmployeeDetails>(ELEMENT_DATA);
+  // displayedColumns: string[] = ['BannerId', 'FirstName', 'LastName', 'Email', 'RoleId', 'RoleName'];
+  // dataSource = new MatTableDataSource<EmployeeDetails>(ELEMENT_DATA);
+
+  workers: Workers[] = [];
+  columns: string[] = ['BannerId', 'FirstName', 'LastName', 'Email', 'RoleId', 'RoleName'];
+  index = ['BannerId', 'FirstName', 'LastName', 'Email', 'RoleId', 'RoleName'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor() {}
+  constructor(public service: WorkersService) {}
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    //this.ordersDataSource.paginator = this.paginator;
+    this.getData();
+  }
+
+  getData() {
+    this.service.getWorkersList().subscribe(
+      (response: WorkersResponse) => {
+        this.workers = response?.items;
+        console.log(response);
+      },
+      (error) => console.log(error)
+    );
   }
 }
-
-export interface EmployeeDetails {
-  firstname: string;
-  lastname: string;
-  position: number;
-  role: string;
-}
-
-// Data for table
-const ELEMENT_DATA: EmployeeDetails[] = [
-  { position: 1, firstname: 'Asmita', lastname: 'Chaudhari', role: 'Volunteer' },
-  { position: 2, firstname: 'Malav', lastname: 'Jani', role: 'Employee' },
-  { position: 3, firstname: 'Parth', lastname: 'Parmar', role: 'Volnteer' },
-  { position: 4, firstname: 'Tapan', lastname: 'Prajapati', role: 'Employee' },
-  { position: 5, firstname: 'Samkit', lastname: 'Shah', role: 'Employee' },
-  { position: 6, firstname: 'Siddharth', lastname: 'Kapania', role: 'Employee' },
-];
