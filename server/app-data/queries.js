@@ -4,6 +4,11 @@
  * Centralized queries required for various endpoints
  */
 module.exports = {
+  createProduct:
+    'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
+  updateProduct:
+    'UPDATE `dalfoodbank`.`Item` SET `ItemName` = ?,`ItemDescription` = ?,`CategoryId` = ?,`AvailableQuantity` = ?,`ItemLimit` = ? WHERE `ItemId` = ?;',
+
   getProducts: `SELECT * 
     FROM 
     dalfoodbank.Item as I
@@ -43,5 +48,6 @@ module.exports = {
     ON I.CategoryId = C.CategoryId
     WHERE ItemName LIKE ? AND I.CategoryId IN (?)
     ORDER BY I.ItemId`,
+  deleteProduct: `DELETE FROM dalfoodbank.Item WHERE ItemId = ?;`,
   signIn: '',
 };

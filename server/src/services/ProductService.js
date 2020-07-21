@@ -65,6 +65,76 @@ ProductService.prototype.getProductById = async function getProductById(id) {
   }
 };
 
+ProductService.prototype.create = async function create(data) {
+  const getCreateProductQuery = mysql.format(queries.createProduct, [
+    data.name,
+    data.desc,
+    data.categoryId,
+    data.availableQty,
+    data.limit,
+  ]);
+  console.log(`The Query for creating product - ${getCreateProductQuery}`);
+  try {
+    let result = await database.query(getCreateProductQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+ProductService.prototype.update = async function update(data, id) {
+  const getUpdateProductQuery = mysql.format(queries.updateProduct, [
+    data.name,
+    data.desc,
+    data.categoryId,
+    data.availableQty,
+    data.limit,
+    id,
+  ]);
+  console.log(`The Query for updating product - ${getUpdateProductQuery}`);
+  try {
+    let result = await database.query(getUpdateProductQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+ProductService.prototype.deleteProduct = async function deleteProduct(id) {
+  const getdeleteProductQuery = mysql.format(queries.deleteProduct, [id]);
+  console.log(`The Query for deleting product - ${getdeleteProductQuery}`);
+  try {
+    let result = await database.query(getdeleteProductQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 function generateProductAccessQuery(queryParams) {
   let getAllProductsQuery;
   if (JSON.stringify(queryParams) != '{}') {
