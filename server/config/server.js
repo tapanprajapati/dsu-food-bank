@@ -11,7 +11,7 @@ const { ValidationError } = require('express-validation');
 
 const productRoutes = require('src/routes/productRoutes');
 const userRoutes = require('src/routes/userRoutes');
-
+const checkoutRoutes = require('src/routes/checkoutRoutes');
 /**
  * Express server initialization
  */
@@ -35,7 +35,7 @@ server.get('/', (req, res) => res.sendStatus(200));
  */
 server.use('/api/products', productRoutes);
 server.use('/api', userRoutes);
-
+server.use('/api/checkout', checkoutRoutes);
 /**
  * Handling unexpected and validation errors
  */

@@ -53,4 +53,55 @@ UserService.prototype.authenticate = async function authenticate(data) {
   }
 };
 
+UserService.prototype.createUser = async function createUser(data) {
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  const plain_password = data.password;
+  const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
+  const createUserquery = mysql.format(queries.createUser, [
+    data.bannerId,
+    data.firstName,
+    data.lastName,
+    cipher_password,
+    data.email,
+  ]);
+  const createRolequery = mysql.format(queries.createRole, [data.bannerId, data.role]);
+  console.log(`The Query for creating a User entry - ${createUserquery}`);
+  console.log(`The Query for creating a Role entry - ${createRolequery}`);
+  try {
+    let items = await database.query(createUserquery);
+    let items1 = await database.query(createRolequery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+      items1,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+UserService.prototype.getRoles = async function getRoles() {
+  const getRolesquery = queries.getRoles;
+  console.log(`The Query for returning all roles information - ${getRolesquery}`);
+  try {
+    let items = await database.query(getRolesquery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
 module.exports = UserService;

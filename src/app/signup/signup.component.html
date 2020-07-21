@@ -23,12 +23,11 @@
                 autocomplete="off"
                 required
               />
-              <mat-error *ngIf="bannerId.hasError('required') && !bannerId.hasError('maxlength')"
+              <mat-error *ngIf="bannerId.hasError('required') && !bannerId.hasError('pattern')"
                 >BannerId is required.</mat-error
               >
-              <mat-error *ngIf="!bannerId.hasError('required') && bannerId.hasError('maxlength')"
-                >BannerId should not be more than
-                {{ bannerId?.errors?.maxlength?.requiredLength }} characters.</mat-error
+              <mat-error *ngIf="!bannerId.hasError('required') && bannerId.hasError('pattern')"
+                >Enter valid Banner Id. eg.B00123456</mat-error
               >
             </mat-form-field>
             <mat-form-field class="w-100">

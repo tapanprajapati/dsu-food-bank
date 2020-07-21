@@ -30,5 +30,6 @@ const auth = require('src/helpers/auth');
  * 4. Incorrect password: { "authenticate": { "success": false, "statusCode": 404, "message": "incorrect password" } }
  */
 router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
-
+router.route('/signup').post(userController.createUser);
+router.route('/getRoles').get(userController.getRoles);
 module.exports = router;

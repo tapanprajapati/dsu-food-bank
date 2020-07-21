@@ -1,3 +1,4 @@
+import { CheckoutComponent } from './checkout/checkout.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -5,7 +6,6 @@ import { HomeComponent } from '@app/home/home.component';
 import { SignUpComponent } from '@app/signup/signup.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
 import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.component';
-
 import { AuthenticationGuard } from '@app/auth';
 
 import { APP_TITLES } from '@core/const/app.const';
@@ -18,6 +18,7 @@ const routes: Routes = [
     data: { title: APP_TITLES?.home },
   },
   { path: 'signup', component: SignUpComponent, data: { title: APP_TITLES?.signup } },
+  { path: 'checkout', component: CheckoutComponent, data: { title: APP_TITLES?.signup } },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: APP_TITLES?.forgot_pwd } },
   { path: 'donate', loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule) },
   { path: 'profile', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) },

@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private _createSignupForm() {
     this.signupForm = this.formBuilder.group(
       {
-        bannerId: ['', [Validators.required, Validators.maxLength(9)]],
+        bannerId: ['', [Validators.required, Validators.pattern('^(B){1}([0-9]){8}$')]],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],

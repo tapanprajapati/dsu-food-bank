@@ -8,6 +8,7 @@ function ProductController(service) {
   this.service = service;
   this.getAll = this.getAll.bind(this);
 }
+
 ProductController.prototype.getAll = async function getAll(req, res) {
   let response = await this.service.getAll();
   res.status(response.statusCode).send(response);

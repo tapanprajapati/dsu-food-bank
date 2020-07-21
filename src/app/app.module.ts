@@ -20,6 +20,7 @@ import { SignUpComponent } from '@app/signup/signup.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
 import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { NewOrderCheckoutComponent } from './new-order-checkout/new-order-checkout.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     SignUpComponent,
     ForgotPasswordComponent,
     CheckoutComponent,
+    NewOrderCheckoutComponent,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
