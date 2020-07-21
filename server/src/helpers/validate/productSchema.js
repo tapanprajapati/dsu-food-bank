@@ -5,7 +5,15 @@
  */
 const { Joi } = require('express-validation');
 
-const createOrderSchema = Joi.object({
+const createProductSchema = Joi.object({
+  name: Joi.string().required(),
+  desc: Joi.string().required(),
+  categoryId: Joi.number().required(),
+  availableQty: Joi.number().required(),
+  limit: Joi.number().required(),
+});
+
+const updateProductSchema = Joi.object({
   name: Joi.string().required(),
   desc: Joi.string().required(),
   categoryId: Joi.number().required(),
@@ -14,8 +22,14 @@ const createOrderSchema = Joi.object({
 });
 
 module.exports = {
-  //POST: /api/products/create
+  //POST: /api/products/
   createProduct: {
-    body: createOrderSchema,
+    body: createProductSchema,
+  },
+
+  //PUT: /api/products
+  updateProduct: {
+    body: updateProductSchema,
+    params: Joi.object({ id: Joi.number().required() }),
   },
 };

@@ -18,7 +18,7 @@ const productSchema = require('../helpers/validate/productSchema');
  * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
-router.route(`/`).get(productController.getAll);
+router.route(`/`).get(productController.getAll).post(validate(productSchema.createProduct), productController.create);
 
 /**
  * GET: /api/products/:itemId endpoint to get records for provided itemId
@@ -28,12 +28,6 @@ router.route(`/`).get(productController.getAll);
  */
 router.route(`/:itemId`).get(productController.getSpecific);
 
-/**
- * GET: /api/products/create endpoint create new product
- * Possible outcomes:
- * Successfully fetches record { "success": true, "statusCode": 200, "result" }
- * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
- */
-router.route(`/create`).post(productController.create);
+router.route(`/:id`).put(validate(productSchema.updateProduct), productController.update);
 
 module.exports = router;

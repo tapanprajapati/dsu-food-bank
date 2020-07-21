@@ -9,6 +9,8 @@ module.exports = {
     'SELECT * FROM dalfoodbank.Item join(dalfoodbank.Category) using(CategoryId) where ItemId=? order by ItemId',
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
+  updateProduct:
+    'UPDATE `dalfoodbank`.`Item` SET `ItemName` = ?,`ItemDescription` = ?,`CategoryId` = ?,`AvailableQuantity` = ?,`ItemLimit` = ? WHERE `ItemId` = ?;',
 
   getCategories: 'SELECT * FROM dalfoodbank.Category',
 };

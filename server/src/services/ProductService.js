@@ -81,4 +81,30 @@ ProductService.prototype.create = async function create(data) {
   }
 };
 
+ProductService.prototype.update = async function update(data, id) {
+  const getUpdateProductQuery = mysql.format(queries.updateProduct, [
+    data.name,
+    data.desc,
+    data.categoryId,
+    data.availableQty,
+    data.limit,
+    id,
+  ]);
+  console.log(`The Query for updating product - ${getUpdateProductQuery}`);
+  try {
+    let result = await database.query(getUpdateProductQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 module.exports = ProductService;
