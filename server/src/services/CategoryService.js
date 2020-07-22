@@ -4,6 +4,7 @@
  * Service layer for the category resource communicating with the database and transforming the response for front-end
  */
 
+const mysql = require('mysql');
 const Database = require('config/database');
 const queries = require('app-data/queries');
 const dbConfig = require('app-data/dbConfig');
@@ -29,6 +30,44 @@ CategoryService.prototype.getAll = async function getAll() {
       success: true,
       statusCode: 200,
       items: categories,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+CategoryService.prototype.create = async function create(data) {
+  const addCategoryQuery = mysql.format(queries.addCategory, [data.name]);
+  console.log(`The Query for creating category - ${addCategoryQuery}`);
+  try {
+    let result = await database.query(addCategoryQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+CategoryService.prototype.update = async function update(param, data) {
+  const updateCategoryQuery = mysql.format(queries.updateCategory, [data.name, param.id]);
+  console.log(`The Query for creating category - ${updateCategoryQuery}`);
+  try {
+    let result = await database.query(updateCategoryQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
     };
   } catch (error) {
     return {

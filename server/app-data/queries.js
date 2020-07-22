@@ -23,6 +23,8 @@ module.exports = {
     ON I.CategoryId = C.CategoryId
     ORDER BY I.ItemId`,
   getCategories: `SELECT * FROM dalfoodbank.Category`,
+  addCategory: 'INSERT INTO `dalfoodbank`.`Category` (`CategoryName`) VALUES (?);',
+  updateCategory: 'UPDATE `dalfoodbank`.`Category` SET `CategoryName` = ? WHERE `CategoryId` = ?;',
   getProductById: `SELECT *
     FROM 
     dalfoodbank.Item as I 
