@@ -1,4 +1,5 @@
-import { OrderDetailModel, OrderModel } from './../../@core/model/order.model';
+import { ProductService } from './../../products/product.service';
+import { OrderDetailModel, OrderModel, item } from './../../@core/model/order.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -15,7 +16,11 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   order: OrderDetailModel;
   orderStatus = ['PLACED', 'APPROVED', 'PROCESSING', 'RECEIVED'];
 
-  constructor(private _route: ActivatedRoute, private _orderService: OrderService) {}
+  constructor(
+    private _route: ActivatedRoute,
+    private _orderService: OrderService,
+    private _productService: ProductService
+  ) {}
 
   ngOnInit() {
     this._observeOrderId();
@@ -30,9 +35,14 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
   private _getOrderDetails(orderId: number) {
     this._orderService.getOrderDetails(orderId).subscribe((res) => {
-      console.log(res);
       this.order = res['orderDetail'] as OrderDetailModel;
+      this._fetchProductImages(this.order.item);
       console.log(this.order);
+    });
+  }
+  private _fetchProductImages(products: item[]) {
+    products.forEach((product) => {
+      product.imagePath = this._productService.fetchProductImage(product.ItemId);
     });
   }
 }
