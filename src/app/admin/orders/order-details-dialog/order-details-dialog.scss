@@ -7,8 +7,8 @@
   @extend %app-img;
 }
 .order-item-img {
-  width: 6vw;
-  height: 6vw;
+  width: 7vw;
+  height: 5vw;
 }
 .orders-link {
   @extend %app-link;
@@ -31,6 +31,8 @@
   flex-direction: row;
 
   .order-data {
+    display: flex;
+    flex-direction: column;
     width: 40%;
   }
 

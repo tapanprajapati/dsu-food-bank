@@ -7,8 +7,9 @@ import { GlobalErrorService } from '@app/@core/services/global-error.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { untilDestroyed } from '@app/@core/services/until-destroyed';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
-import { OrderModel, OrderDetailModel } from '@app/@core/model/order.model';
+import { OrderModel, OrderDetailModel, item } from '@app/@core/model/order.model';
 import { FormControl } from '@angular/forms';
+import { ProductService } from '@app/products/product.service';
 
 @Component({
   selector: 'app-admin-order-detail-dialog',
@@ -23,6 +24,7 @@ export class AdminOrderDetailsDialogComponent implements OnInit, OnDestroy {
   constructor(
     private _adminOrderService: AdminOrderService,
     private _globalErrorService: GlobalErrorService,
+    private _productService: ProductService,
     private dialogRef: MatDialogRef<AdminOrderDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: number
   ) {
@@ -36,6 +38,7 @@ export class AdminOrderDetailsDialogComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: ApiResponseModel) => {
           this.order = res.items as OrderDetailModel;
+          this.fetchItemsImage(this.order.item);
           this.orderStatusControl.setValue(this.order.status);
           this._showLoader(false);
         },
@@ -44,6 +47,12 @@ export class AdminOrderDetailsDialogComponent implements OnInit, OnDestroy {
           this._showLoader(false);
         }
       );
+  }
+
+  fetchItemsImage(items: item[]) {
+    items.forEach((item) => {
+      item.imagePath = this._productService.fetchProductImage(item.ItemId);
+    });
   }
 
   changeOrderStatus(isOpen: boolean) {
