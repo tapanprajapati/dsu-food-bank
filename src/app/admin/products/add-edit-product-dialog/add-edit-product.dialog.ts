@@ -1,13 +1,12 @@
 import { ProductModel } from '@core/model/product.model';
 import { AdminProductService } from './../../services/admin-product.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { GlobalErrorService } from '@app/@core/services/global-error.service';
 import { untilDestroyed } from '@app/@core';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
 import { CategoryModel } from '@app/@core/model/category.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmedValidator } from '@app/signup/confirmed.validator';
 
 @Component({
   selector: 'app-admin-add-edit-product',
@@ -83,6 +82,7 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
           },
           (err) => {
             this._globalErrorService.reactToAppError(err);
+            this.dialogRef.close(false);
           }
         );
     } else {
@@ -96,9 +96,14 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
           },
           (err) => {
             this._globalErrorService.reactToAppError(err);
+            this.dialogRef.close(false);
           }
         );
     }
+  }
+
+  public close() {
+    this.dialogRef.close(null);
   }
 
   private showLoader(value: boolean) {

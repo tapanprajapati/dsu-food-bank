@@ -58,15 +58,19 @@
         </mat-form-field>
       </form>
     </div>
-    <button
-      class="app-primary-btn"
-      [disabled]="!productFormGroup.valid"
-      style="margin: auto;"
-      (click)="save()"
-      mat-button
-    >
-      {{ buttonName }}
-    </button>
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <button
+        class="app-primary-btn"
+        [disabled]="!productFormGroup.valid"
+        style="margin: auto;"
+        (click)="save()"
+        mat-button
+      >
+        {{ buttonName }}
+      </button>
+      <button class="app-primary-btn" style="margin: auto;" (click)="close()" mat-button>Close</button>
+    </div>
   </div>
 </section>
 <app-loader [isLoading]="isLoading" [size]="4"></app-loader>
