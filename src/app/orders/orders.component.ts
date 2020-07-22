@@ -40,11 +40,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private _getAllOrders() {
     this._orderService.getAllOrders().subscribe((res) => {
       this._orders = res['items'] as OrderModel[];
-      console.log(res);
-      console.log(this._orders);
+
       this._initializeDataGrid();
     });
   }
+
   private _initializeDataGrid() {
     this.ordersDataSource = new MatTableDataSource<OrderModel>(this._orders);
     this.ordersDataSource.paginator = this.paginator;

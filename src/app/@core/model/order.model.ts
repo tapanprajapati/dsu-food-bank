@@ -1,5 +1,5 @@
 import { ProductModel } from '@core/model/product.model';
-
+import { Observable } from 'rxjs';
 export interface OrderDetailModel {
   orderId: number;
   item: item[];
@@ -8,10 +8,12 @@ export interface OrderDetailModel {
   status: string;
   PickUpSlot: Date;
 }
-interface item {
+export interface item {
   name: string;
+  imagePath?: Observable<string | null>;
   quantity: string;
   CategoryName: string;
+  ItemId: number;
 }
 export interface OrderModel {
   orderId: number;
