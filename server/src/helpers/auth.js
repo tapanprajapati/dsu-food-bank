@@ -12,9 +12,11 @@ const generateJwtToken = (userPayload, secret, expiryDuration) => {
 
 const sendJwtToken = (req, res) => {
   const statusCode = res.authenticate.statusCode;
+  const bannerId = req.body.bannerId;
+  const roleId = res.authenticate.user.roleid;
   let token;
   if (statusCode === 200) {
-    token = generateJwtToken({ id: req.body.userId }, jwtSecret, jwtDuration);
+    token = generateJwtToken({ bannerId, roleId }, jwtSecret, jwtDuration);
   }
 
   res.status(statusCode).send({
@@ -28,4 +30,16 @@ const authenticateRoute = expressJwt({
   algorithms: [jwtAlgorithm],
 });
 
-module.exports = { sendJwtToken, authenticateRoute };
+const isAuthorized = (incomingRole, existingRole) => {
+  return incomingRole === existingRole;
+};
+
+const sendUnauthorizedResponse = (res) => {
+  return res.status(401).send({
+    success: false,
+    statusCode: 401,
+    message: `You are not authorized to access the route`,
+  });
+};
+
+module.exports = { sendJwtToken, authenticateRoute, isAuthorized, sendUnauthorizedResponse };
