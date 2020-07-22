@@ -6,8 +6,7 @@
 module.exports = {
   getProducts: 'SELECT * FROM dalfoodbank.Item',
   getCategories: 'SELECT * FROM dalfoodbank.Category',
-  createUser: 'INSERT INTO dalfoodbank.User(BannerId,FirstName,LastName,Password,Email) VALUES (?,?,?,?,?)',
-  createRole: 'INSERT INTO dalfoodbank.UserRole (BannerId,Roleid) VALUES (?,?)',
+  createUser: 'INSERT INTO dalfoodbank.User(BannerId,FirstName,LastName,Password,Email,RoleId) VALUES (?,?,?,?,?,?)',
   getRoles: 'SELECT * FROM dalfoodbank.Role',
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
