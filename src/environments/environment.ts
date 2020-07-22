@@ -17,6 +17,15 @@ export const environment = {
   serverUrl: 'http://localhost/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR'],
+  firebase: {
+    apiKey: 'AIzaSyCgdoKYC9dCPnnPifjJXwIGdNZ4Ny5XcHU',
+    authDomain: 'dalfoodbank.firebaseapp.com',
+    databaseURL: 'https://dalfoodbank.firebaseio.com',
+    projectId: 'dalfoodbank',
+    storageBucket: 'dalfoodbank.appspot.com',
+    messagingSenderId: '739396724961',
+    appId: '1:739396724961:web:df489daa719c0d8e99efa0',
+  },
 };
 
 /*

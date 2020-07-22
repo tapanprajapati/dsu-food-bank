@@ -52,6 +52,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           if (res.items.length === 1) {
             this.product = res.items[0] as ProductModel;
             this._setProductTitle(this.product);
+            this._fetchProductImage(this.product.id);
           } else {
             this._navigationService.navigateTo404();
           }
@@ -78,5 +79,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   private _setLoader(val: boolean) {
     this.isLoading = val;
+  }
+
+  private _fetchProductImage(productId: number) {
+    this.product.imagePath = this._productService.fetchProductImage(productId);
   }
 }

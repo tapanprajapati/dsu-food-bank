@@ -59,6 +59,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: ApiResponseModel) => {
           this.filteredProducts = res.items as ProductModel[];
+          this._fetchProductImages(this.filteredProducts);
           this._showLoader(false);
         },
         (err) => {
@@ -122,6 +123,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private _observeQueryParams() {
     this._activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
       this.getProducts(params);
+    });
+  }
+
+  private _fetchProductImages(products: ProductModel[]) {
+    products.forEach((product) => {
+      product.imagePath = this._productService.fetchProductImage(product.id);
     });
   }
 
