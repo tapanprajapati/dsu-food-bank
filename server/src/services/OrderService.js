@@ -60,4 +60,24 @@ OrderService.prototype.getByOrderId = async function getByOrderId(params) {
   }
 };
 
+OrderService.prototype.updateOrderStatusById = async function updateOrderStatusById(params, data) {
+  const updateOrderStatus = mysql.format(queries.orderStatusUpdate, [data.status, params.orderId]);
+  console.log(`The Query for updating order status - ${updateOrderStatus}`);
+  try {
+    let result = await database.query(updateOrderStatus);
+    console.log(result);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 module.exports = OrderService;

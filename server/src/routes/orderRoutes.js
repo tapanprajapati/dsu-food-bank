@@ -10,6 +10,7 @@ const OrderService = require('src/services/OrderService');
 const OrderController = require('src/controllers/OrderController');
 const orderController = new OrderController(new OrderService());
 const { authenticateRoute } = require('src/helpers/auth');
+const orderSchema = require('../helpers/validate/orderSchema');
 
 /**
  * GET: /api/products endpoint to get records for provided userId and jobname
@@ -18,6 +19,9 @@ const { authenticateRoute } = require('src/helpers/auth');
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
 router.route(`/`).get(orderController.getAll);
-router.route(`/:orderId`).get(orderController.getByOrderId);
+router
+  .route(`/:orderId`)
+  .get(orderController.getByOrderId)
+  .put(validate(orderSchema.updateOrder), orderController.updateOrderStatusById);
 
 module.exports = router;
