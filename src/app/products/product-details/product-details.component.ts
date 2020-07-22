@@ -65,7 +65,39 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: ProductModel) {
-    this._cartService.addToCart(product);
+    const isCartAccessible = this._cartService.isCartAccessible(product);
+    if (isCartAccessible) {
+      this._cartService
+        .isProductAvailableInCart(product.id)
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (res: ApiResponseModel) => {
+            if (res.result) {
+              // TODO: Product already exist in the cart
+              // Show an appropriate message
+              console.log('Product already exist');
+            } else {
+              this._cartService
+                .addToCart(product)
+                .pipe(untilDestroyed(this))
+                .subscribe(
+                  (cartRes: ApiResponseModel) => {
+                    if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      // TODO: Show message that product has been added successfully
+                      console.log('Product successfully added!!');
+                    } // TODO: else block???
+                  },
+                  (cartErr) => {
+                    this._globalErrorService.reactToAppError(cartErr);
+                  }
+                );
+            }
+          },
+          (err) => {
+            this._globalErrorService.reactToAppError(err);
+          }
+        );
+    }
   }
 
   private _fetchProductId() {
@@ -73,6 +105,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.productId = params.id;
     });
   }
+
   private _setProductTitle(product: ProductModel) {
     this._titleService.setTitle(`${product.name} - ${product.category.name} - ${APP_NAME}`);
   }

@@ -89,7 +89,37 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   addToCart(product: ProductModel, event: Event) {
     event.stopPropagation();
-    this._cartService.addToCart(product);
+    const isCartAccessible = this._cartService.isCartAccessible(product);
+    if (isCartAccessible) {
+      this._cartService
+        .isProductAvailableInCart(product.id)
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (res: ApiResponseModel) => {
+            if (res.result) {
+              // TODO: Product already exist in the cart
+              // Show an appropriate message
+            } else {
+              this._cartService
+                .addToCart(product)
+                .pipe(untilDestroyed(this))
+                .subscribe(
+                  (cartRes: ApiResponseModel) => {
+                    if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      // TODO: Show message that product has been added successfully
+                    } // TODO: else block???
+                  },
+                  (cartErr) => {
+                    this._globalErrorService.reactToAppError(cartErr);
+                  }
+                );
+            }
+          },
+          (err) => {
+            this._globalErrorService.reactToAppError(err);
+          }
+        );
+    }
   }
 
   filterProductsByName(productName: string) {

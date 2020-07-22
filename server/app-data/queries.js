@@ -49,5 +49,14 @@ module.exports = {
     WHERE ItemName LIKE ? AND I.CategoryId IN (?)
     ORDER BY I.ItemId`,
   deleteProduct: `DELETE FROM dalfoodbank.Item WHERE ItemId = ?;`,
-  signIn: '',
+  signIn: `SELECT * from dalfoodbank.User where BannerId = ? AND Password = ?`,
+  getCartProducts: `SELECT *
+    FROM dalfoodbank.Cart as C LEFT JOIN dalfoodbank.Item as I
+    ON C.ItemId = I.ItemId
+    LEFT JOIN dalfoodbank.Category as Ca
+    ON I.CategoryId = Ca.CategoryId
+    where C.BannerId= ? AND C.Status='true'`,
+  addProductToCart: `INSERT INTO dalfoodbank.Cart Values (?, ?, ?, ?)`,
+  deleteProductFromCart: `DELETE FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
+  isProductAvailableInCart: `SELECT * FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
 };

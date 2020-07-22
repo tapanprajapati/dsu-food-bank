@@ -1,5 +1,3 @@
-const { debug } = require('console');
-
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *

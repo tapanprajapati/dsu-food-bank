@@ -12,4 +12,4 @@ const routes: Routes = [{ path: '', component: CartComponent, data: { title: APP
   exports: [RouterModule],
   providers: [],
 })
-export class CartRoutingModel {}
+export class CartRoutingModule {}
