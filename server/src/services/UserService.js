@@ -89,8 +89,8 @@ UserService.prototype.createUser = async function createUser(data) {
     let mailOptions = {
       from: 'SAMKIT SHAH', // sender address
       to: data.email, // list of receivers
-      subject: 'Node Contact Request', // Subject line
-      text: 'Hello world?', // plain text body
+      subject: 'Account created successfully.', // Subject line
+      text: 'Account created successfully.', // plain text body
       html: `<div style="background-color: #F5F7FA; padding: 50px; min-width: 360px;">
     <div style="max-width: 600px; margin: 0 auto; padding: 60px 75px 50px; background-color: white;">
       <img style="display: block; max-width: 200px; height: auto;"
