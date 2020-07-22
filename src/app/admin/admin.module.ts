@@ -15,6 +15,7 @@ import { AdminOrderService } from './services/admin-order.service';
 import { SharedModule } from '@app/@shared/shared.module';
 import { AdminOrderDetailsDialogComponent } from './orders/order-details-dialog/order-details-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminAddEditProductDialog } from './products/add-edit-product-dialog/add-edit-product.dialog';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AdminProductsComponent,
     AdminWorkersComponent,
     AdminOrderDetailsDialogComponent,
+    AdminAddEditProductDialog,
   ],
   providers: [AdminOrderService],
 })

@@ -33,9 +33,7 @@ export class AdminOrdersComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) {}
 
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+  ngOnDestroy(): void {}
 
   ngOnInit() {
     this.getOrders();

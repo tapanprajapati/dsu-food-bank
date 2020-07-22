@@ -1,18 +1,58 @@
-import { ProductModel } from '@core/model/product.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { GlobalErrorService } from '@app/@core/services/global-error.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { ApiResponseModel } from '@app/@core/model/api-response.model';
+import { catchError } from 'rxjs/operators';
+import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminProductService {
-  readonly URL = 'http://localhost:80/api/products/';
-  constructor(private http: HttpClient) {}
+  constructor(
+    private _httpClient: HttpClient,
+    private _globalErrorService: GlobalErrorService,
+    private _storage: AngularFireStorage
+  ) {}
 
-  getAllProducts(): Observable<ProductModel[]> {
-    return this.http.get<ProductModel[]>(this.URL);
+  getAllProducts(params: any): Observable<ApiResponseModel> {
+    return this._httpClient
+      .get<ApiResponseModel>(`${this._getUrl()}`, { params })
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
-  //   getOrderDetails(orderId: number) {
-  //     return this.http.get<OrderDetailModel[]>(this.URL + orderId);
-  //   }
+  updateProductById(id: number, params: any): Observable<ApiResponseModel> {
+    return this._httpClient
+      .put<ApiResponseModel>(`${this._getUrl()}${id}`, params)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  addProduct(params: any): Observable<ApiResponseModel> {
+    return this._httpClient
+      .post<ApiResponseModel>(`${this._getUrl()}`, params)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  getAllCategories(): Observable<ApiResponseModel> {
+    return this._httpClient
+      .get<ApiResponseModel>(`${environment.serverUrl}categories/`)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  getProductDetails(id: string): Observable<ApiResponseModel> {
+    return this._httpClient
+      .get<ApiResponseModel>(`${this._getUrl()}/${id}`)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  fetchProductImage(productId: number): Observable<string | null> {
+    return this._storage
+      .ref(`images/${productId}`)
+      .getDownloadURL()
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  private _getUrl() {
+    return `${environment.serverUrl}products/`;
+  }
 }
