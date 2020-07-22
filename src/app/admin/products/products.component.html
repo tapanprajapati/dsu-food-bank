@@ -42,22 +42,8 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
         <td mat-cell *matCellDef="let product">
-          <!-- <mat-icon
-              class="delete-product-button"
-              color="primary"
-              aria-hidden="false"
-              aria-label="delete icon"
-              (click)="edit(product)"
-              >create</mat-icon
-            >
-            <mat-icon
-              class="delete-product-button"
-              color="warn"
-              aria-hidden="false"
-              aria-label="delete icon"
-              (click)="delete(product)"
-              >delete</mat-icon
-            > -->
+          <button mat-raised-button class="app-primary-btn" (click)="edit(product)">Edit</button>
+          <button mat-raised-button class="app-primary-btn" (click)="delete(product)">Delete</button>
         </td>
       </ng-container>
 
