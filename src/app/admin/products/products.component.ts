@@ -151,8 +151,41 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     });
   }
   public updateCategory() {
+    const dialogConfig = this._matDialogConfig;
+
     console.log(this.CategoryFormGroup.controls.id.value);
     console.log(this.CategoryFormGroup.controls.name.value);
+    const id = this.CategoryFormGroup.controls.id.value;
+    const CatName = this.CategoryFormGroup.controls.name.value;
+    if (id == null) {
+      this._ProductService.addCategory({ name: CatName }).subscribe(
+        (res) => {
+          console.log(res);
+          dialogConfig.data = { header: 'Success!', content: 'Category added successfully.' };
+          this._getAllCategories();
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+          this.resetForm();
+        },
+        (err) => {
+          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+        }
+      );
+    } else if (id != null) {
+      this._ProductService.updateCategoryById(id, { name: CatName }).subscribe(
+        (res) => {
+          console.log(res);
+          dialogConfig.data = { header: 'Success!', content: 'Category updated successfully.' };
+          this._getAllCategories();
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+          this.resetForm();
+        },
+        (err) => {
+          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+        }
+      );
+    }
   }
   public editCategory(category: CategoryModel) {
     this.buttonName = 'Edit';
@@ -161,7 +194,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
   private resetForm() {
     this.buttonName = 'Add';
-    this.CategoryFormGroup.controls.id.setValue(null);
-    this.CategoryFormGroup.controls.name.setValue(null);
+    this.CategoryFormGroup.controls.id.reset(null);
+    this.CategoryFormGroup.controls.name.reset(' ');
   }
 }

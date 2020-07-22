@@ -43,11 +43,13 @@ export class AdminProductService {
       .get<ApiResponseModel>(`${environment.serverUrl}categories/`)
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
+
   addCategory(params: any): Observable<ApiResponseModel> {
     return this._httpClient
       .post<ApiResponseModel>(`${environment.serverUrl}categories/`, params)
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
+
   updateCategoryById(id: number, params: any): Observable<ApiResponseModel> {
     return this._httpClient
       .put<ApiResponseModel>(`${environment.serverUrl}categories/${id}`, params)

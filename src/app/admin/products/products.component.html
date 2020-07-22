@@ -62,22 +62,27 @@
       <div class="table-responsive d-flex flex-column mt-2">
         <div class="container mt-5 mb-5">
           <div class="row">
-            <div class="col-md-4">
-              <form class="col-lg-9 col-md-12" [formGroup]="CategoryFormGroup">
-                <mat-form-field hidden>
-                  <input matInput type="number" [formControl]="id" />
-                </mat-form-field>
-                <mat-form-field>
-                  <input matInput type="text" placeholder="Name" autocomplete="off" [formControl]="name" required />
-                  <mat-error *ngIf="name.hasError('required')">
-                    Please Enter Category Name
-                  </mat-error>
-                </mat-form-field>
-                <button class="app-primary-btn" (click)="updateCategory()" style="margin: auto;" mat-button>
-                  {{ buttonName }}
-                </button>
-              </form>
-            </div>
+            <form class="col-lg-9 col-md-12" [formGroup]="CategoryFormGroup">
+              <mat-form-field hidden>
+                <input matInput type="number" [formControl]="id" />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Category Name"
+                  autocomplete="off"
+                  [formControl]="name"
+                  required
+                />
+                <mat-error *ngIf="name.hasError('required')">
+                  Please Enter Category Name
+                </mat-error>
+              </mat-form-field>
+              <button class="app-primary-btn" (click)="updateCategory()" style="margin: auto;" mat-button>
+                {{ buttonName }}
+              </button>
+            </form>
           </div>
         </div>
         <table mat-table [dataSource]="categorySource" matSort #categorySort class="w-100">
