@@ -12,10 +12,28 @@ import { AdminWorkersComponent } from './workers/workers.component';
 import { AdminProductsComponent } from './products/products.component';
 
 import { AdminOrderService } from './services/admin-order.service';
+import { SharedModule } from '@app/@shared/shared.module';
+import { AdminOrderDetailsDialogComponent } from './orders/order-details-dialog/order-details-dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, FlexLayoutModule, MaterialModule, AdminRoutingModule],
-  declarations: [AdminComponent, AdminOrdersComponent, AdminProductsComponent, AdminWorkersComponent],
+  imports: [
+    SharedModule,
+    CommonModule,
+    TranslateModule,
+    FlexLayoutModule,
+    MaterialModule,
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [
+    AdminComponent,
+    AdminOrdersComponent,
+    AdminProductsComponent,
+    AdminWorkersComponent,
+    AdminOrderDetailsDialogComponent,
+  ],
   providers: [AdminOrderService],
 })
 export class AdminModule {}

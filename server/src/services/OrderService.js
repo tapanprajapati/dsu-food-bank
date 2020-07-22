@@ -49,7 +49,7 @@ OrderService.prototype.getByOrderId = async function getByOrderId(params) {
     return {
       success: true,
       statusCode: 200,
-      orderDetail,
+      items: orderDetail,
     };
   } catch (error) {
     return {

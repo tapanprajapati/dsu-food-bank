@@ -1,110 +1,36 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { GlobalErrorService } from '@app/@core/services/global-error.service';
+import { Observable } from 'rxjs';
+import { ApiResponseModel } from '@app/@core/model/api-response.model';
+import { catchError } from 'rxjs/operators';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminOrderService {
-  orders = ORDERS;
+  constructor(private _httpClient: HttpClient, private _globalErrorService: GlobalErrorService) {}
 
-  constructor() {}
-
-  getOrders(): Order[] {
-    return this.orders;
+  getAllOrders(): Observable<ApiResponseModel> {
+    return this._httpClient
+      .get<ApiResponseModel>(`${this._getUrl()}`)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
-  filterByStatus(status: string): Order[] {
-    return this.orders.filter((order) => order.status === status);
+  getOrderDetails(orderId: number): Observable<ApiResponseModel> {
+    return this._httpClient
+      .get<ApiResponseModel>(`${this._getUrl()}/${orderId}`)
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  setOrderStatus(orderId: number, status: string): Observable<ApiResponseModel> {
+    return this._httpClient
+      .put<ApiResponseModel>(`${this._getUrl()}/${orderId}`, { status: status })
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
+  private _getUrl() {
+    return `${environment.serverUrl}orders/`;
   }
 }
-
-export interface Order {
-  id: number;
-  userid: string;
-  placed_date: string;
-  pickup_date: string;
-  status: string;
-}
-const PENDING = 'PENDING';
-const PROCESSING = 'PROCESSING';
-const COMPLETED = 'COMPLETED';
-const REJECTED = 'REJECTED';
-
-export const ORDERS: Order[] = [
-  {
-    id: 7542,
-    userid: 'B00785474',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7543,
-    userid: 'B00851654',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 20, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7544,
-    userid: 'B00959512',
-    placed_date: 'June 12, 2020',
-    pickup_date: 'June 15, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7545,
-    userid: 'B00863254',
-    placed_date: 'June 15, 2020',
-    pickup_date: 'June 18, 2020',
-    status: REJECTED,
-  },
-  {
-    id: 7546,
-    userid: 'B00887744',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PROCESSING,
-  },
-  {
-    id: 7547,
-    userid: 'B0083214',
-    placed_date: 'June 17, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PROCESSING,
-  },
-  {
-    id: 7548,
-    userid: 'B00785474',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 19, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7549,
-    userid: 'B00802010',
-    placed_date: 'June 11, 2020',
-    pickup_date: 'June 15, 2020',
-    status: COMPLETED,
-  },
-  {
-    id: 7550,
-    userid: 'B00828282',
-    placed_date: 'June 14, 2020',
-    pickup_date: 'June 18, 2020',
-    status: COMPLETED,
-  },
-  {
-    id: 7551,
-    userid: 'B00838383',
-    placed_date: 'June 12, 2020',
-    pickup_date: 'June 20, 2020',
-    status: REJECTED,
-  },
-  {
-    id: 7552,
-    userid: 'B00704125',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PENDING,
-  },
-];
