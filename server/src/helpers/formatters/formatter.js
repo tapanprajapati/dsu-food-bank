@@ -27,6 +27,7 @@ const formatOrderDetail = (Orders) => {
       name: Order.ItemName,
       quantity: Order.ItemQuantity,
       CategoryName: Order.CategoryName,
+      ItemId: Order.ItemId,
     };
   });
   return {
