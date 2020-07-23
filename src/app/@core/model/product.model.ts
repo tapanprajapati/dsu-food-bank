@@ -3,6 +3,7 @@
  *
  */
 import { CategoryModel } from '@core/model/category.model';
+import { Observable } from 'rxjs';
 
 export interface ProductModel {
   id: number;
@@ -10,6 +11,6 @@ export interface ProductModel {
   description: string;
   limit: number;
   availableQuantity: number;
-  imagePath: string;
+  imagePath: Observable<string | null>;
   category: CategoryModel;
 }

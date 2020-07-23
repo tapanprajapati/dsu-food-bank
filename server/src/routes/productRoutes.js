@@ -12,17 +12,11 @@ const productController = new ProductController(new ProductService());
 const { authenticateRoute } = require('src/helpers/auth');
 const productSchema = require('../helpers/validate/productSchema');
 
-/**
- * GET: /api/products endpoint to get records for provided userId and jobname
- * Possible outcomes:
- * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
- * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
- */
-router.route(`/`).get(productController.getAll).post(validate(productSchema.createProduct), productController.create);
+router
+  .route(`/`)
+  .get(validate(productSchema.getProductByNameOrFilter), productController.getAll)
+  .post(validate(productSchema.createProduct), productController.create);
 
-/**
- * GET: /api/products/:productId
- */
 router
   .route(`/:productId`)
   .get(validate(productSchema.getProductById), productController.getProductById)

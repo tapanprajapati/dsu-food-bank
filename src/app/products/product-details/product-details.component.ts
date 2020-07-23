@@ -52,6 +52,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           if (res.items.length === 1) {
             this.product = res.items[0] as ProductModel;
             this._setProductTitle(this.product);
+            this._fetchProductImage(this.product.id);
           } else {
             this._navigationService.navigateTo404();
           }
@@ -64,7 +65,39 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: ProductModel) {
-    this._cartService.addToCart(product);
+    const isCartAccessible = this._cartService.isCartAccessible(product);
+    if (isCartAccessible) {
+      this._cartService
+        .isProductAvailableInCart(product.id)
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (res: ApiResponseModel) => {
+            if (res.result) {
+              // TODO: Product already exist in the cart
+              // Show an appropriate message
+              console.log('Product already exist');
+            } else {
+              this._cartService
+                .addToCart(product)
+                .pipe(untilDestroyed(this))
+                .subscribe(
+                  (cartRes: ApiResponseModel) => {
+                    if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      // TODO: Show message that product has been added successfully
+                      console.log('Product successfully added!!');
+                    } // TODO: else block???
+                  },
+                  (cartErr) => {
+                    this._globalErrorService.reactToAppError(cartErr);
+                  }
+                );
+            }
+          },
+          (err) => {
+            this._globalErrorService.reactToAppError(err);
+          }
+        );
+    }
   }
 
   private _fetchProductId() {
@@ -72,11 +105,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.productId = params.id;
     });
   }
+
   private _setProductTitle(product: ProductModel) {
     this._titleService.setTitle(`${product.name} - ${product.category.name} - ${APP_NAME}`);
   }
 
   private _setLoader(val: boolean) {
     this.isLoading = val;
+  }
+
+  private _fetchProductImage(productId: number) {
+    this.product.imagePath = this._productService.fetchProductImage(productId);
   }
 }

@@ -14,16 +14,20 @@ import { AdminWorkersComponent } from './workers/workers.component';
 import { AdminProductsComponent } from './products/products.component';
 
 import { AdminOrderService } from './services/admin-order.service';
+import { SharedModule } from '@app/@shared/shared.module';
+import { AdminOrderDetailsDialogComponent } from './orders/order-details-dialog/order-details-dialog.component';
+import { AdminAddEditProductDialog } from './products/add-edit-product-dialog/add-edit-product.dialog';
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     TranslateModule,
     FlexLayoutModule,
     MaterialModule,
     AdminRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     AdminComponent,
@@ -31,6 +35,8 @@ import { AdminOrderService } from './services/admin-order.service';
     AdminProductsComponent,
     AdminWorkersComponent,
     WorkerDeleteDialogComponent,
+    AdminOrderDetailsDialogComponent,
+    AdminAddEditProductDialog,
   ],
   providers: [AdminOrderService],
 })

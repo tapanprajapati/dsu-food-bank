@@ -6,20 +6,20 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SignupService {
-  _url = 'http://localhost:3000/create';
+  _url = 'http://localhost:80/';
 
   private _roles = [
     {
       id: 1,
-      name: 'Supplier',
+      name: 'Admin',
     },
     {
       id: 2,
-      name: 'Student',
+      name: 'Volunteer',
     },
     {
       id: 3,
-      name: 'Volunteer',
+      name: 'Student',
     },
   ];
   private _matDialogConfig: MatDialogConfig = {
@@ -34,7 +34,7 @@ export class SignupService {
 
   addUser(user: UserModel) {
     try {
-      return this._http.post<any>(this._url, user);
+      return this._http.post<any>(this._url + 'api/signup', user);
     } catch (e) {
       throw new Error();
     }

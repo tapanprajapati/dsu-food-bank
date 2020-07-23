@@ -3,7 +3,7 @@
  *
  */
 
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -19,6 +19,7 @@ import { ProductService } from './product.service';
 import { CartService } from '@app/cart/cart.service';
 
 import { faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { combineAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products',
@@ -38,6 +39,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(
     private _productService: ProductService,
     private _router: Router,
+    private _activatedRoute: ActivatedRoute,
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService
   ) {}
@@ -45,19 +47,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._showLoader(true);
     this.resetProducts();
-    this.getAllProducts();
+    this._observeQueryParams();
     this.getAllCategories();
   }
 
   ngOnDestroy() {}
 
-  getAllProducts() {
+  getProducts(queryParams: any) {
     this._productService
-      .getAllProducts()
+      .getAllProducts(queryParams)
       .pipe(untilDestroyed(this))
       .subscribe(
         (res: ApiResponseModel) => {
           this.filteredProducts = res.items as ProductModel[];
+          this._fetchProductImages(this.filteredProducts);
           this._showLoader(false);
         },
         (err) => {
@@ -87,28 +90,78 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   addToCart(product: ProductModel, event: Event) {
     event.stopPropagation();
-    this._cartService.addToCart(product);
+    const isCartAccessible = this._cartService.isCartAccessible(product);
+    if (isCartAccessible) {
+      this._cartService
+        .isProductAvailableInCart(product.id)
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (res: ApiResponseModel) => {
+            if (res.result) {
+              // TODO: Product already exist in the cart
+              // Show an appropriate message
+            } else {
+              this._cartService
+                .addToCart(product)
+                .pipe(untilDestroyed(this))
+                .subscribe(
+                  (cartRes: ApiResponseModel) => {
+                    if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      // TODO: Show message that product has been added successfully
+                    } // TODO: else block???
+                  },
+                  (cartErr) => {
+                    this._globalErrorService.reactToAppError(cartErr);
+                  }
+                );
+            }
+          },
+          (err) => {
+            this._globalErrorService.reactToAppError(err);
+          }
+        );
+    }
   }
 
   filterProductsByName(productName: string) {
-    // this.filteredProducts = this._productService.filterProductsByName(productName);
+    this._router.navigate(['/products'], {
+      queryParams: { search: productName },
+      queryParamsHandling: 'merge',
+    });
   }
 
   categorySelectionToggled(isOpened: boolean) {
     const selectedCategories = this.categoryControl.value;
     if (!isOpened && this.categoryControl.value?.length > 0) {
-      // this.filteredProducts = this._filterProductsByCategory(selectedCategories);
+      this._router.navigate(['/products'], {
+        queryParams: {
+          filter:
+            selectedCategories?.length > 1
+              ? encodeURIComponent(selectedCategories.join(','))
+              : selectedCategories.toString(),
+        },
+        queryParamsHandling: 'merge',
+      });
     }
   }
 
   resetProducts() {
+    this._router.navigate(['/products']);
     this.searchedProduct = '';
     this.categoryControl.reset();
   }
 
-  // private _filterProductsByCategory(categories: string[]): ProductModel[] {
-  //   // return this._productService.filterProductsByCategory(categories);
-  // }
+  private _observeQueryParams() {
+    this._activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params) => {
+      this.getProducts(params);
+    });
+  }
+
+  private _fetchProductImages(products: ProductModel[]) {
+    products.forEach((product) => {
+      product.imagePath = this._productService.fetchProductImage(product.id);
+    });
+  }
 
   private _showLoader(val: boolean) {
     this.isLoading = val;

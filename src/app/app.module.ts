@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { MaterialModule } from '@app/material.module';
@@ -20,6 +22,9 @@ import { SignUpComponent } from '@app/signup/signup.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
 import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { NewOrderCheckoutComponent } from './new-order-checkout/new-order-checkout.component';
+
+import { environment } from './../environments/environment.prod';
 
 @NgModule({
   imports: [
@@ -33,9 +38,11 @@ import { CheckoutComponent } from './checkout/checkout.component';
     AuthModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule, // must be imported as the last module as it contains the fallback route
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
     MatSortModule,
     MatTableModule,
+    AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [
     AppComponent,
@@ -44,6 +51,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     SignUpComponent,
     ForgotPasswordComponent,
     CheckoutComponent,
+    NewOrderCheckoutComponent,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
