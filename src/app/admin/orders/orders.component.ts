@@ -17,7 +17,7 @@ import { AdminOrderDetailsDialogComponent } from './order-details-dialog/order-d
   styleUrls: ['./orders.component.scss'],
 })
 export class AdminOrdersComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'bannerid', 'orderdate', 'pickupdate', 'status', 'view'];
+  displayedColumns: string[] = ['orderId', 'BannerId', 'OrderDate', 'PickUpSlot', 'Status', 'view'];
   dataSource: MatTableDataSource<OrderModel>;
   orders: OrderModel[] = [];
   isLoading: boolean = true;

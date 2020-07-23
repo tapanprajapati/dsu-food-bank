@@ -1,35 +1,35 @@
 <div class="container-fluid mat-elevation-z8">
   <div class="table-responsive d-flex flex-column mt-2">
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
-      <ng-container matColumnDef="id">
+      <ng-container matColumnDef="orderId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
         <td mat-cell *matCellDef="let order">
           {{ order.orderId }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="bannerid">
+      <ng-container matColumnDef="BannerId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>User ID</th>
         <td mat-cell *matCellDef="let order">
           {{ order.BannerId }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="orderdate">
+      <ng-container matColumnDef="OrderDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Placed On</th>
         <td mat-cell *matCellDef="let order">
           {{ order.OrderDate }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="pickupdate">
+      <ng-container matColumnDef="PickUpSlot">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Pickup Date</th>
         <td mat-cell *matCellDef="let order">
           {{ order.PickUpSlot }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="status">
+      <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
         <td mat-cell *matCellDef="let order">
           <div class="{{ order.status | lowercase }}">

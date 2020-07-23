@@ -40,7 +40,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   @ViewChild('categoryPaginator') categoryPaginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatSort, { static: true }) categorySort: MatSort;
+  @ViewChild('categorySort') categorySort: MatSort;
   constructor(
     public dialog: MatDialog,
     private _ProductService: AdminProductService,
