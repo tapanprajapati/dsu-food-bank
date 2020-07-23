@@ -19,6 +19,9 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
   public categories: CategoryModel[];
   public productFormGroup: FormGroup;
   public buttonName = 'Add';
+  public imageUrl: string;
+  public imageFile: any;
+  public saveButtonStatus = false;
 
   constructor(
     public dialog: MatDialog,
@@ -65,7 +68,38 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
   }
 
   private fetchProductImage(product: ProductModel) {
-    product.imagePath = this._ProductService.fetchProductImage(product.id);
+    this._ProductService.fetchProductImage(product.id).subscribe((url) => {
+      this.imageUrl = url;
+    });
+  }
+
+  public preview(event: any) {
+    this.imageFile = event.target.files[0];
+
+    // File Preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result as string;
+      this.saveButtonStatus = true;
+    };
+    reader.readAsDataURL(this.imageFile);
+  }
+
+  public saveImage() {
+    if (this.imageFile == null) {
+      this._ProductService.deleteImage(this.product.id);
+    } else {
+      this.showLoader(true);
+      this._ProductService
+        .uploadImage(this.product.id, this.imageFile)
+        .percentageChanges()
+        .subscribe((data) => {
+          if (data == 100) {
+            this.showLoader(false);
+          }
+        });
+    }
+    this.saveButtonStatus = false;
   }
 
   public save() {
