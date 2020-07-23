@@ -60,30 +60,43 @@
     </mat-tab>
     <mat-tab label="Categories">
       <div class="table-responsive d-flex flex-column mt-2">
-        <div class="container mt-5 mb-5">
-          <div class="row">
-            <form class="col-lg-9 col-md-12" [formGroup]="CategoryFormGroup">
-              <mat-form-field hidden>
-                <input matInput type="number" [formControl]="id" />
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Category Name"
-                  autocomplete="off"
-                  [formControl]="name"
-                  required
-                />
-                <mat-error *ngIf="name.hasError('required')">
-                  Please Enter Category Name
-                </mat-error>
-              </mat-form-field>
-              <button class="app-primary-btn" (click)="updateCategory()" style="margin: auto;" mat-button>
-                {{ buttonName }}
-              </button>
-            </form>
-          </div>
+        <div class="row">
+          <form class="col-lg-9 col-md-12" [formGroup]="CategoryFormGroup">
+            <mat-form-field hidden>
+              <input matInput type="number" [formControl]="id" />
+            </mat-form-field>
+            <mat-form-field style="margin-right: 20px;">
+              <input
+                matInput
+                type="text"
+                placeholder="Category Name"
+                autocomplete="off"
+                [formControl]="name"
+                required
+              />
+              <mat-error *ngIf="name.hasError('required')">
+                Please Enter Category Name
+              </mat-error>
+            </mat-form-field>
+            <button
+              class="app-primary-btn"
+              (click)="updateCategory()"
+              style="margin: auto;"
+              [disabled]="!CategoryFormGroup.valid"
+              mat-button
+            >
+              {{ buttonName }}
+            </button>
+            <button
+              class="app-primary-btn"
+              (click)="resetForm()"
+              style="margin: auto;"
+              [hidden]="buttonName == 'Add'"
+              mat-button
+            >
+              Reset
+            </button>
+          </form>
         </div>
         <table mat-table [dataSource]="categorySource" matSort #categorySort class="w-100">
           <ng-container matColumnDef="id">

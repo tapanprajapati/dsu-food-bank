@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { ProductService } from './../../products/product.service';
 import { MatDialogWrapperComponent } from '@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 import { ProductModel } from '@core/model/product.model';
@@ -167,7 +167,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
           this.resetForm();
         },
         (err) => {
-          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
         }
       );
@@ -181,7 +181,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
           this.resetForm();
         },
         (err) => {
-          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
         }
       );
@@ -192,9 +192,8 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.CategoryFormGroup.controls.id.setValue(category.id);
     this.CategoryFormGroup.controls.name.setValue(category.name);
   }
-  private resetForm() {
+  public resetForm(formDirective?: FormGroupDirective) {
     this.buttonName = 'Add';
-    this.CategoryFormGroup.controls.id.reset(null);
-    this.CategoryFormGroup.controls.name.reset(' ');
+    this.CategoryFormGroup.reset();
   }
 }
