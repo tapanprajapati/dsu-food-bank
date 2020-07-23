@@ -30,6 +30,12 @@ export class AdminOrderService {
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
+  setOrderDelivered(orderId: number): Observable<ApiResponseModel> {
+    return this._httpClient
+      .put<ApiResponseModel>(`${this._getUrl()}/setDelivered/${orderId}`, {})
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
   private _getUrl() {
     return `${environment.serverUrl}orders/`;
   }

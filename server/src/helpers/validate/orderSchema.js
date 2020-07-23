@@ -13,4 +13,5 @@ const updateOrderSchema = {
 module.exports = {
   //PUT: /api/orders/:orderId
   updateOrder: updateOrderSchema,
+  setDelivered: { params: Joi.object({ orderId: Joi.number().required() }) },
 };

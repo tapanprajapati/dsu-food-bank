@@ -70,6 +70,18 @@ export class AdminOrderDetailsDialogComponent implements OnInit, OnDestroy {
           this._globalErrorService.reactToAppError(err);
         }
       );
+    if (status == 'delivered') {
+      this._adminOrderService.setOrderDelivered(this.order.orderId).subscribe(
+        (res: ApiResponseModel) => {
+          if (res.success) {
+            this.order.DeliveredDate = new Date();
+          }
+        },
+        (err) => {
+          this._globalErrorService.reactToAppError(err);
+        }
+      );
+    }
   }
 
   ngOnDestroy(): void {}

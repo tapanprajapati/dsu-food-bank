@@ -29,7 +29,7 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
     private _globalErrorService: GlobalErrorService,
     private dialogRef: MatDialogRef<AdminAddEditProductDialog>,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private data: number
+    @Inject(MAT_DIALOG_DATA) public data: number
   ) {}
   ngOnDestroy(): void {}
 
@@ -85,13 +85,13 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
     reader.readAsDataURL(this.imageFile);
   }
 
-  public saveImage() {
+  public saveImage(id: number) {
     if (this.imageFile == null) {
-      this._ProductService.deleteImage(this.product.id);
+      this._ProductService.deleteImage(id);
     } else {
       this.showLoader(true);
       this._ProductService
-        .uploadImage(this.product.id, this.imageFile)
+        .uploadImage(id, this.imageFile)
         .percentageChanges()
         .subscribe((data) => {
           if (data == 100) {
@@ -110,7 +110,18 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
         .addProduct(this.getObjectForAPI())
         .pipe(untilDestroyed(this))
         .subscribe(
-          (res: ApiResponseModel) => {
+          (res: any) => {
+            // console.log(res)
+            this.product = {
+              id: res.result.insertId,
+              availableQuantity: 0,
+              category: { id: 0, name: '' },
+              description: '',
+              imagePath: null,
+              limit: 0,
+              name: '',
+            };
+            this.saveImage(res.result.insertId);
             this.showLoader(false);
             this.dialogRef.close(true);
           },

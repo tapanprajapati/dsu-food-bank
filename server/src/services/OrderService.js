@@ -80,4 +80,24 @@ OrderService.prototype.updateOrderStatusById = async function updateOrderStatusB
   }
 };
 
+OrderService.prototype.setOrderDate = async function setOrderDate(params) {
+  const setOrderDateQuery = mysql.format(queries.setOrderDeliveredDate, [params.orderId]);
+  console.log(`The Query for updating order status - ${setOrderDateQuery}`);
+  try {
+    let result = await database.query(setOrderDateQuery);
+    console.log(result);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 module.exports = OrderService;

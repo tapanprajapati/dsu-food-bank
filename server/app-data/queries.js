@@ -10,6 +10,7 @@ module.exports = {
     'SELECT Order.OrderId,Item.ItemName,OrderDetails.ItemQuantity,Order.OrderDate,Order.DeliveredDate,Order.status,Order.PickUpSlot,Category.CategoryName,OrderDetails.ItemId FROM dalfoodbank.OrderDetails,dalfoodbank.Order,dalfoodbank.Item,dalfoodbank.Category where Order.OrderId=OrderDetails.OrderId and OrderDetails.ItemId=Item.ItemId and Item.CategoryId=Category.CategoryId and Order.OrderId=?;',
 
   orderStatusUpdate: 'UPDATE `dalfoodbank`.`Order` SET `Status` = ? WHERE `OrderId` = ?;',
+  setOrderDeliveredDate: 'UPDATE `dalfoodbank`.`Order` SET `DeliveredDate` = current_date() WHERE `OrderId` = ?;',
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
   updateProduct:

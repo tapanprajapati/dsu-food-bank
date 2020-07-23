@@ -24,4 +24,6 @@ router
   .get(orderController.getByOrderId)
   .put(validate(orderSchema.updateOrder), orderController.updateOrderStatusById);
 
+router.route(`/setDelivered/:orderId`).put(validate(orderSchema.setDelivered), orderController.setOrderDate);
+
 module.exports = router;
