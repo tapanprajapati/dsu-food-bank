@@ -32,5 +32,6 @@ export class GlobalErrorService {
     if (err instanceof NotFoundError) {
       this._navigationService.navigateTo404();
     }
+    // Todo: redirect to appropriate pages 400, 500 or App error
   }
 }

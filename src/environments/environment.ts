@@ -14,7 +14,7 @@ export const environment = {
   production: false,
   hmr: true,
   version: env.npm_package_version + '-dev',
-  serverUrl: 'http://dalfoodbank-env.eba-khbmxtba.us-east-1.elasticbeanstalk.com/api/',
+  serverUrl: 'http://localhost/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR'],
   firebase: {
