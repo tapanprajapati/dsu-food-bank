@@ -5,21 +5,21 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class SignupService {
+export class CheckoutService {
   _url = 'http://localhost:80/';
 
   private _roles = [
     {
       id: 1,
-      name: 'Admin',
+      name: 'Supplier',
     },
     {
       id: 2,
-      name: 'Volunteer',
+      name: 'Student',
     },
     {
       id: 3,
-      name: 'Student',
+      name: 'Volunteer',
     },
   ];
   private _matDialogConfig: MatDialogConfig = {

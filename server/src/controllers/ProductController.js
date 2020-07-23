@@ -1,5 +1,3 @@
-const { debug } = require('console');
-
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
@@ -14,6 +12,7 @@ function ProductController(service) {
   this.update = this.update.bind(this);
   this.deleteProduct = this.deleteProduct.bind(this);
 }
+
 ProductController.prototype.getAll = async function getAll(req, res) {
   let response = await this.service.getAll(req.query);
   res.status(response.statusCode).send(response);

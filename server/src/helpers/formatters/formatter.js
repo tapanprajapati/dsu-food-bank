@@ -49,4 +49,17 @@ const formatCatgories = (categories) => {
   });
 };
 
-module.exports = { formatProducts, formatCatgories, formatOrderDetail };
+const formatUsers = (users) => {
+  return users.map((user) => {
+    return {
+      bannerId: user.BannerId,
+      firstname: user.FirstName,
+      lastname: user.LastName,
+      password: user.Password,
+      email: user.Email,
+      roleid: user.RoleId,
+    };
+  });
+};
+
+module.exports = { formatProducts, formatCatgories, formatUsers, formatOrderDetail };
