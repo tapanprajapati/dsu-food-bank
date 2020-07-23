@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProductService } from './../../products/product.service';
 import { MatDialogWrapperComponent } from '@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 import { ProductModel } from '@core/model/product.model';
@@ -192,8 +192,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.CategoryFormGroup.controls.id.setValue(category.id);
     this.CategoryFormGroup.controls.name.setValue(category.name);
   }
-  public resetForm(formDirective?: FormGroupDirective) {
+  public resetForm() {
     this.buttonName = 'Add';
-    this.CategoryFormGroup.reset();
+    this.CategoryFormGroup.controls.id.reset(null);
+    this.CategoryFormGroup.controls.name.reset(' ');
   }
 }
