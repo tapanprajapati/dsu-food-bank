@@ -69,6 +69,14 @@ export class AdminProductService {
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
+  deleteImage(productId: number) {
+    return this._storage.ref(`images/${productId}`).delete();
+  }
+
+  uploadImage(productId: number, imageFile: any) {
+    return this._storage.ref(`images/${productId}`).put(imageFile);
+  }
+
   private _getUrl() {
     return `${environment.serverUrl}products/`;
   }
