@@ -6,10 +6,21 @@
 module.exports = {
   getProducts: 'SELECT * FROM dalfoodbank.Item',
   getCategories: 'SELECT * FROM dalfoodbank.Category',
-  getEmployee:
-    'select user.BannerId,user.FirstName,user.LastName,user.Email,userrole.RoleId, role.RoleName from User as user , UserRole as userrole, Role as role where userrole.BannerId = user.BannerId and role.RoleId= userrole.RoleId and  userrole.RoleId != 3',
-  deleteUserRole: 'delete from UserRole where BannerId = ? and RoleId = ?',
-  addUserRole: 'Insert into UserRole (BannerId, RoleId) values (?, ?)',
+  getEmployee: `SELECT 
+    user.BannerId,
+    user.FirstName,
+    user.LastName,
+    user.Email,
+    user.RoleId,
+    role.RoleName
+FROM
+    User AS user,
+    Role AS role
+WHERE
+    role.RoleId = user.RoleId
+        AND user.RoleId != 3`,
+  deleteUserRole: 'update User SET RoleId = 3 where BannerId = ? and RoleId = ?',
+  addUserRole: 'update User SET RoleId = ? where FirstName = ?',
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
   updateProduct:
@@ -32,4 +43,6 @@ module.exports = {
     WHERE ItemId = ?`,
   deleteProduct: `DELETE FROM dalfoodbank.Item WHERE ItemId = ?;`,
   signIn: '',
+  getRole: 'SELECT * FROM dalfoodbank.Role',
+  getStudent: 'select * from User where RoleId = 3',
 };

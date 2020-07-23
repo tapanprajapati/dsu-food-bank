@@ -37,10 +37,48 @@ EmployeeService.prototype.getAll = async function getAll() {
   }
 };
 
-EmployeeService.prototype.addUserRole = async function addUserRole(data) {
-  const newUserquery = mysql.format(queries.addUserRole, [data.BannerId, data.RoleId]);
+EmployeeService.prototype.getRole = async function getRole() {
+  const getAllRoleQuery = queries.getRole;
+  console.log(`The Query for fetching all Roll Details - ${getAllRoleQuery}`);
+  try {
+    let result = await database.query(getAllRoleQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items: result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
 
-  console.log(`The Query for creating a job entry - ${newUserquery}`);
+EmployeeService.prototype.getStudent = async function getStudent() {
+  const getStudentQuery = queries.getStudent;
+  console.log(`The Query for fetching all Students Details - ${getStudentQuery}`);
+  try {
+    let result = await database.query(getStudentQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items: result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+EmployeeService.prototype.addUserRole = async function addUserRole(data) {
+  const newUserquery = mysql.format(queries.addUserRole, [data.RoleId, data.FirstName]);
+
+  console.log(`The Query for creating a User Role  - ${newUserquery}`);
 
   try {
     let items = await database.query(newUserquery);
@@ -60,7 +98,7 @@ EmployeeService.prototype.addUserRole = async function addUserRole(data) {
 
 EmployeeService.prototype.deleteUserRole = async function deleteUserRole(params) {
   const deleteUserRoleQuery = mysql.format(queries.deleteUserRole, [params.BannerId, params.RoleId]);
-  console.log(`The Query for delete a employee information - ${deleteUserRoleQuery}`);
+  console.log(`The Query for deleting a employee information - ${deleteUserRoleQuery}`);
   try {
     let items = await database.query(deleteUserRoleQuery);
     if (items.affectedRows == 0) {

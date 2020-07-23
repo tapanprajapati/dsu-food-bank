@@ -1,5 +1,3 @@
-import { emit } from 'process';
-
 export class Workers {
   BannerId: string;
   FirstName: string;
@@ -26,20 +24,20 @@ export interface WorkersResponse {
   error?: any;
 }
 
-export class UserRoles {
-  BannerId: string;
+export class Roles {
   RoleId: number;
+  RoleName: string;
 
-  constructor(BannerId: string, RoleId: number) {
-    this.BannerId = BannerId;
+  constructor(RoleId: number, RoleName: string) {
     this.RoleId = RoleId;
+    this.RoleName = RoleName;
   }
 }
 
-export interface UserRolesResponse {
+export interface RolesResponse {
   success: boolean;
   statusCode: number;
   message?: string;
-  items?: UserRoles[];
+  items?: Roles[];
   error?: any;
 }

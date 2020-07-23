@@ -1,3 +1,36 @@
+<div class="container-fluid">
+  <div class="row mb-2">
+    <h3>ADD USER</h3>
+  </div>
+  <div class="row">
+    <form #form="ngForm" (submit)="add(form)">
+      <mat-form-field class="form-group">
+        <mat-label>First Name</mat-label>
+        <mat-select class="form-control" [(value)]="data.FirstName" single required>
+          <mat-option
+            *ngFor="let student of students"
+            [value]="student.FirstName"
+            name="FirstName"
+            [(ngModel)]="data.FirstName"
+          >
+            {{ student.FirstName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-group m-3">
+        <mat-label>User Role</mat-label>
+        <mat-select class="form-control" [(value)]="data.RoleId" single required>
+          <mat-option *ngFor="let role of roles" [value]="role.RoleId" [(ngModel)]="data.RoleId" name="RoleId">
+            {{ role.RoleName }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button class="app-primary-btn" [disabled]="!form.valid" mat-button>ADD</button>
+    </form>
+  </div>
+</div>
+
 <div class="container-fluid mat-elevation-z8">
   <div class="table-responsive d-flex flex-column mt-2">
     <table class="table table-hover">
@@ -13,10 +46,11 @@
         <td>{{ worker.Email }}</td>
         <td>{{ worker.RoleId }}</td>
         <td>{{ worker.RoleName }}</td>
+        <td>
+          <button mat-raised-button class="app-primary-btn" (click)="delete(worker)">Remove</button>
+        </td>
       </tr>
+      <tr></tr>
     </table>
-
-    <!--Paginator-->
-    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
   </div>
 </div>

@@ -41,6 +41,8 @@ server.use('/api', userRoutes);
 server.use('/api/employee', employeeRoutes);
 server.use('/api/employee/:BannerId/:RoleId', employeeRoutes);
 server.use('api/employee/add', employeeRoutes);
+server.use('api/employee/role', employeeRoutes);
+server.use('api/employee/student', employeeRoutes);
 
 /**
  * Handling unexpected and validation errors
