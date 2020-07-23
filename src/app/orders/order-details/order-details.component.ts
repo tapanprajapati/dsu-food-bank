@@ -35,7 +35,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
   private _getOrderDetails(orderId: number) {
     this._orderService.getOrderDetails(orderId).subscribe((res) => {
-      this.order = res['orderDetail'] as OrderDetailModel;
+      this.order = res['items'] as OrderDetailModel;
       this._fetchProductImages(this.order.item);
       console.log(this.order);
     });

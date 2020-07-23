@@ -9,4 +9,5 @@ export interface ApiResponseModel {
   items?: any;
   message?: string;
   error?: string;
+  result?: any;
 }

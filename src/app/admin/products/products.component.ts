@@ -167,7 +167,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
           this.resetForm();
         },
         (err) => {
-          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
         }
       );
@@ -181,7 +181,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
           this.resetForm();
         },
         (err) => {
-          dialogConfig.data = { header: 'OOPS!', content: 'Something wwnt wrong' };
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
         }
       );
@@ -192,7 +192,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.CategoryFormGroup.controls.id.setValue(category.id);
     this.CategoryFormGroup.controls.name.setValue(category.name);
   }
-  private resetForm() {
+  public resetForm() {
     this.buttonName = 'Add';
     this.CategoryFormGroup.controls.id.reset(null);
     this.CategoryFormGroup.controls.name.reset(' ');

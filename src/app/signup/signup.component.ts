@@ -46,11 +46,15 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
           },
           (error) => {
-            if (error.status === 500) {
-              const dialogConfig = this._matDialogConfig;
-              dialogConfig.data = { header: 'Failure!', content: 'Please try again.' };
-              this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+            console.log(error.status);
+            console.log(error.statusCode);
+            const dialogConfig = this._matDialogConfig;
+            if (error.error.message) {
+              dialogConfig.data = { header: 'Failure!', content: error.error.message };
+            } else {
+              dialogConfig.data = { header: 'Resource Error!', content: 'Please try after some time.' };
             }
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
           }
         );
       }
@@ -89,7 +93,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private _createSignupForm() {
     this.signupForm = this.formBuilder.group(
       {
-        bannerId: ['', [Validators.required, Validators.maxLength(9)]],
+        bannerId: ['', [Validators.required, Validators.pattern('^(B){1}([0-9]){8}$')]],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],

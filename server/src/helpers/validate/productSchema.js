@@ -39,8 +39,8 @@ module.exports = {
       productId: Joi.number().required(),
     }),
   },
-  // GET: /api/products?search
-  getProductByName: {
+  // GET: /api/products?search=fg&filter=1,2
+  getProductByNameOrFilter: {
     query: Joi.object({
       search: Joi.string(),
       filter: Joi.string(),

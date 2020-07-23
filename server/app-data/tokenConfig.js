@@ -4,6 +4,6 @@
  */
 module.exports = {
   jwtSecret: 'vidaclave',
-  jwtDuration: '6 hours',
+  jwtDuration: '1h',
   jwtAlgorithm: 'HS256',
 };

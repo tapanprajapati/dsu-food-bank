@@ -10,15 +10,16 @@ const CartService = require('src/services/CartService');
 const CartController = require('src/controllers/CartController');
 const cartController = new CartController(new CartService());
 const { authenticateRoute } = require('src/helpers/auth');
+const cartSchema = require('../helpers/validate/cartSchema');
 
-/**
- * GET: /api/cart endpoint to get records for provided userId and jobname
- * Possible outcomes:
- * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
- * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
- */
-router.route(`/`).get(cartController.getAll).route('/').post(cartController.addProductToCart);
+router
+  .route(`/`)
+  .get(authenticateRoute, cartController.getAll)
+  .post(authenticateRoute, validate(cartSchema.addProductToCart), cartController.addProductToCart);
 
-router.route(`/:productId`).delete(cartController.deleteProductFromCart);
+router
+  .route(`/:productId`)
+  .get(authenticateRoute, validate(cartSchema.isProductAvailableInCart), cartController.isProductAvailableInCart)
+  .delete(authenticateRoute, validate(cartSchema.deleteProductFromCart), cartController.deleteProductFromCart);
 
 module.exports = router;

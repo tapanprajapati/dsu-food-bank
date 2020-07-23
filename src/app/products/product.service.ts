@@ -1,4 +1,3 @@
-import { ProductModel } from '@core/model/product.model';
 /**
  * @author Parth Parmar <parth.parmar@default.ca>
  *
