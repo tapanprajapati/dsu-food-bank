@@ -10,8 +10,8 @@
           <mat-option
             *ngFor="let student of students"
             [value]="student.FirstName"
-            name="FirstName"
             [(ngModel)]="data.FirstName"
+            name="FirstName"
           >
             {{ student.FirstName }}
           </mat-option>

@@ -6,6 +6,7 @@ import { Workers, WorkersResponse } from '../../@core/model/workers.model';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,11 @@ import { Injectable } from '@angular/core';
 export class WorkersService {
   formData: Workers;
   form: Workers;
-  public JobsList: Workers[];
+  //public JobsList: Workers[];
 
-  readonly URL = 'http://localhost:80/api';
+  readonly URL =
+    //`${this._getUrl()}`;
+    'http://localhost:80/api';
 
   constructor(private http: HttpClient) {}
 
@@ -41,5 +44,9 @@ export class WorkersService {
 
   getStudent() {
     return this.http.get<ApiResponseModel>(this.URL + '/employee/student');
+  }
+
+  private _getUrl() {
+    return `${environment.serverUrl}products/`;
   }
 }
