@@ -139,20 +139,38 @@ function generateProductAccessQuery(queryParams) {
   let getAllProductsQuery;
   if (JSON.stringify(queryParams) != '{}') {
     if (queryParams.search && queryParams.filter) {
-      getAllProductsQuery = mysql.format(queries.getProductsByNameAndCategory, [
-        `%${queryParams.search}%`,
-        decodeURIComponent(queryParams.filter),
-      ]);
+      getAllProductsQuery = mysql.format(queries.getProductsByNameAndCategory, `%${queryParams.search}%`);
+      getAllProductsQuery = formFilterParamsQuery(decodeURIComponent(queryParams.filter), getAllProductsQuery);
     } else if (queryParams.search) {
       getAllProductsQuery = mysql.format(queries.getProductsByName, `%${queryParams.search}%`);
     } else if (queryParams.filter) {
-      getAllProductsQuery = mysql.format(queries.getProductsByCategory, decodeURIComponent(queryParams.filter));
+      getAllProductsQuery = formFilterParamsQuery(
+        decodeURIComponent(queryParams.filter),
+        queries.getProductsByCategory
+      );
     }
   } else {
     getAllProductsQuery = queries.getProducts;
   }
 
   return getAllProductsQuery;
+}
+
+function formFilterParamsQuery(filterParams, query) {
+  const categoryParams = filterParams.split(',').map((param) => {
+    return Number(param);
+  });
+
+  for (let i = 0; i < categoryParams.length; i++) {
+    query += categoryParams[i];
+    if (i !== categoryParams.length - 1) {
+      query += ',';
+    }
+    if (i === categoryParams.length - 1) {
+      query += ') ORDER BY I.ItemId';
+    }
+  }
+  return query;
 }
 
 module.exports = ProductService;

@@ -66,16 +66,14 @@ WHERE
       LEFT JOIN
     dalfoodbank.Category as C
     ON I.CategoryId = C.CategoryId
-    WHERE I.CategoryId IN (?)
-    ORDER BY I.ItemId`,
+    WHERE I.CategoryId IN (`,
   getProductsByNameAndCategory: `SELECT *
     FROM
     dalfoodbank.Item as I
       LEFT JOIN
     dalfoodbank.Category as C
     ON I.CategoryId = C.CategoryId
-    WHERE ItemName LIKE ? AND I.CategoryId IN (?)
-    ORDER BY I.ItemId`,
+    WHERE ItemName LIKE ? AND I.CategoryId IN (`,
   deleteProduct: `DELETE FROM dalfoodbank.Item WHERE ItemId = ?;`,
   //signIn: '',
   getRole: 'SELECT * FROM dalfoodbank.Role',
