@@ -18,7 +18,12 @@ const routes: Routes = [
     data: { title: APP_TITLES?.home },
   },
   { path: 'signup', component: SignUpComponent, data: { title: APP_TITLES?.signup } },
-  { path: 'checkout', component: CheckoutComponent, data: { title: APP_TITLES?.signup } },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    data: { title: APP_TITLES?.signup },
+    canActivate: [AuthenticationGuard],
+  },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: APP_TITLES?.forgot_pwd } },
   { path: 'donate', loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule) },
   { path: 'profile', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) },

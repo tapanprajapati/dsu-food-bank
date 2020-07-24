@@ -20,6 +20,7 @@ CartController.prototype.getAll = async function getAll(req, res) {
   }
 
   let response = await this.service.getAll(req.user.bannerId);
+  console.log('getAll in cart controller' + response);
   res.status(response.statusCode).send(response);
 };
 CartController.prototype.addProductToCart = async function addProductToCart(req, res) {

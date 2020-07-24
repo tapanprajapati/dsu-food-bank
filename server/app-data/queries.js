@@ -12,7 +12,9 @@ module.exports = {
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
   updateProduct:
     'UPDATE `dalfoodbank`.`Item` SET `ItemName` = ?,`ItemDescription` = ?,`CategoryId` = ?,`AvailableQuantity` = ?,`ItemLimit` = ? WHERE `ItemId` = ?;',
-
+  createOrder: `INSERT INTO dalfoodbank.Order (BannerId,OrderDate,Status,PickUpSlot) VALUES (?,?,?,?)`,
+  createOrderdetails: `INSERT INTO dalfoodbank.OrderDetails (OrderId,ItemId,ItemQuantity) VALUES (?,?,?)`,
+  fetchOrderId: `SELECT OrderId FROM dalfoodbank.Order where BannerId= ? ORDER BY OrderId DESC LIMIT 1;`,
   getProducts: `SELECT * 
     FROM 
     dalfoodbank.Item as I

@@ -94,7 +94,7 @@ export class CartService implements OnDestroy {
   private _getAuthorizationHeader(): HttpHeaders {
     return new HttpHeaders({
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5uZXJJZCI6IkIwMDg1MzkxMyIsInJvbGVJZCI6MywiaWF0IjoxNTk1NDAxOTQ4LCJleHAiOjE1OTU0MDU1NDh9.IvFTPFc8K8sYrxuoUwvsmoXDyQkTn8cQM36A5g5oe7c',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5uZXJJZCI6IkIwMDg1MzkxMyIsInJvbGVJZCI6MywiaWF0IjoxNTk1NjIwNjY1LCJleHAiOjE1OTU2MjQyNjV9.nhiiL5E36OtMzFTm0gAPoX22N1Y6oBF2uzE-d6WvO2o',
     });
   }
 }

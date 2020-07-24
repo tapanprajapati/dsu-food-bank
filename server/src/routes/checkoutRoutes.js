@@ -17,5 +17,6 @@ const { authenticateRoute } = require('src/helpers/auth');
  * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
+router.route('').post(checkoutController.createOrder);
 
 module.exports = router;

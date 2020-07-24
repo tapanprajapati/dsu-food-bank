@@ -1,5 +1,6 @@
 import { untilDestroyed } from '@core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CartService } from '@app/cart/cart.service';
 import { ProductService } from '@app/products/product.service';
@@ -23,11 +24,13 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this._loadShoppingCart();
+    console.log('Load Shopping cart');
   }
 
   ngOnDestroy() {}
@@ -49,7 +52,6 @@ export class CartComponent implements OnInit, OnDestroy {
         }
       );
   }
-
   private _getCartProducts() {
     this._cartService
       .getCartProducts()
@@ -61,9 +63,11 @@ export class CartComponent implements OnInit, OnDestroy {
           this._setLoader(false);
         },
         (err) => {
+          console.log('Error:' + err);
           this._globalErrorService.reactToAppError(err);
         }
       );
+    console.log('Cart:' + this.cartItems);
   }
 
   private _fetchCartProductImages(cartProducts: ProductModel[]) {
