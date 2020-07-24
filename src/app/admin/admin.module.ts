@@ -16,7 +16,8 @@ import { AdminProductsComponent } from './products/products.component';
 import { AdminOrderService } from './services/admin-order.service';
 import { SharedModule } from '@app/@shared/shared.module';
 import { AdminOrderDetailsDialogComponent } from './orders/order-details-dialog/order-details-dialog.component';
-import { AdminAddEditProductDialog } from './products/add-edit-product-dialog/add-edit-product.dialog';
+import { AdminAddEditProductDialog } from './products/add-edit-product-dialog copy/add-edit-product.dialog';
+import { AdminDeleteProductDialog } from './products/delete-product-dialog/delete-product-dialog';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { AdminAddEditProductDialog } from './products/add-edit-product-dialog/ad
     WorkerDeleteDialogComponent,
     AdminOrderDetailsDialogComponent,
     AdminAddEditProductDialog,
+    AdminDeleteProductDialog,
   ],
   providers: [AdminOrderService],
 })

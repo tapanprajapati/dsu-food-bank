@@ -1,5 +1,8 @@
+/*
+ * @author Tapan Prajapati <Tapan.Prajapati@dal.ca>
+ */
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProductService } from './../../products/product.service';
 import { MatDialogWrapperComponent } from '@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
 import { ProductModel } from '@core/model/product.model';
 import { AdminProductService } from './../services/admin-product.service';
@@ -12,10 +15,8 @@ import { CategoryModel } from '@app/@core/model/category.model';
 import { untilDestroyed } from '@app/@core';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
 import { GlobalErrorService } from '@app/@core/services/global-error.service';
-import { AdminAddEditProductDialog } from './add-edit-product-dialog/add-edit-product.dialog';
-import { Button } from 'protractor';
-// import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
-// import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { AdminAddEditProductDialog } from './add-edit-product-dialog copy/add-edit-product.dialog';
+import { AdminDeleteProductDialog } from './delete-product-dialog/delete-product-dialog';
 
 @Component({
   selector: 'app-admin-products',
@@ -89,9 +90,33 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
   }
 
-  delete(id: number) {
-    this._ProductService.deleteProductById(id).subscribe((res) => {
-      this._getAllProducts();
+  delete(product: ProductModel) {
+    const dialogRef = this.dialog.open(AdminDeleteProductDialog, {
+      width: 'max-content',
+      height: 'max-content',
+      data: product,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this._ProductService.deleteProductById(product.id).subscribe(
+          (res) => {
+            if (res.success) {
+              this._getAllProducts();
+            }
+          },
+          (err) => {
+            if (err.error.error.error.errno) {
+              let dialogConfig = this._matDialogConfig;
+              dialogConfig.data = {
+                header: 'Cannot Delete Product!',
+                content: `${product.name} is either in someone's cart or on order`,
+              };
+              const errorDialog = this.dialog.open(MatDialogWrapperComponent, dialogConfig);
+            }
+          }
+        );
+      }
     });
   }
 
