@@ -1,5 +1,7 @@
-<section class="products container mt-5 mb-5">
-  <h1>Checking out</h1>
+<!-- /**
+* @author Samkit Shah <samkit@dal.ca>
+*/ -->
+<section>
   <div class="row justify-content-center">
     <div fxHide.lt-md class="col-md-7">
       <mat-card class="signup-card mt-4 mb-4 mat-elevation-z16">
@@ -7,10 +9,43 @@
           <mat-card-title>{{ 'List of products' | uppercase }}</mat-card-title>
         </mat-card-header>
         <mat-divider></mat-divider>
-        <ul class="list-group mb-3">
+
+        <div
+          class="d-flex mb-4 pb-4 cart-item-border"
+          *ngFor="let cartItem of cartItems"
+          fxLayout.lt-md="column"
+          fxLayout.gt-md="row"
+        >
+          <img
+            class="cart-item-img"
+            width="150"
+            height="100"
+            src="{{ cartItem?.imagePath | async }}"
+            alt="cart item image"
+          />
+          <div class="card-body">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="h-100">
+              <div>
+                <div class="font-weight-bold">{{ cartItem?.name }}</div>
+                <small>{{ cartItem?.category?.name }}</small>
+              </div>
+              <div>
+                <div>Quantity</div>
+                <small>{{ cartItem?.limit }}</small>
+              </div>
+              <div>
+                <button mat-button class="app-danger-btn cart-remove" (click)="deleteProductFromCart(cartItem)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <ul class="list-group mb-3">
           <li
             class="list-group-item d-flex justify-content-between lh-condensed"
-            *ngFor="let product of filteredProducts"
+            *ngFor="let product of cartItems"
           >
             <div>
               <img src="./../../assets/media/product-item.png" [alt]="product.name" width="150" height="100" />
@@ -21,7 +56,7 @@
             </div>
           </li>
           <hr />
-        </ul>
+        </ul> -->
       </mat-card>
     </div>
     <div class="col-md-5 col-sm-12 d-flex flex-column justify-content-center">

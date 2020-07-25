@@ -27,7 +27,7 @@ WHERE
     "SELECT orderId,BannerId,DATE_FORMAT(Order.OrderDate,'%M %d %Y') as 'OrderDate',DATE_FORMAT(Order.DeliveredDate,'%M %d %Y') as 'DeliveredDate',UCASE(Status) as 'Status',DATE_FORMAT(Order.PickUpSlot,'%M %d %Y, %h:%m:%S %p') as PickUpSlot FROM dalfoodbank.Order;", //need to update with bannerId in where clause
   getOrder:
     'SELECT Order.OrderId,Item.ItemName,OrderDetails.ItemQuantity,Order.OrderDate,Order.DeliveredDate,Order.status,Order.PickUpSlot,Category.CategoryName,OrderDetails.ItemId FROM dalfoodbank.OrderDetails,dalfoodbank.Order,dalfoodbank.Item,dalfoodbank.Category where Order.OrderId=OrderDetails.OrderId and OrderDetails.ItemId=Item.ItemId and Item.CategoryId=Category.CategoryId and Order.OrderId=?;',
-
+  deletecart: 'DELETE FROM dalfoodbank.Cart where BannerId=?',
   orderStatusUpdate: 'UPDATE `dalfoodbank`.`Order` SET `Status` = ? WHERE `OrderId` = ?;',
   setOrderDeliveredDate: 'UPDATE `dalfoodbank`.`Order` SET `DeliveredDate` = current_date() WHERE `OrderId` = ?;',
   getCategories: 'SELECT * FROM dalfoodbank.Category',
@@ -37,7 +37,9 @@ WHERE
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
   updateProduct:
     'UPDATE `dalfoodbank`.`Item` SET `ItemName` = ?,`ItemDescription` = ?,`CategoryId` = ?,`AvailableQuantity` = ?,`ItemLimit` = ? WHERE `ItemId` = ?;',
-
+  createOrder: `INSERT INTO dalfoodbank.Order (BannerId,OrderDate,Status,PickUpSlot) VALUES (?,?,?,?)`,
+  createOrderdetails: `INSERT INTO dalfoodbank.OrderDetails (OrderId,ItemId,ItemQuantity) VALUES (?,?,?)`,
+  fetchOrderId: `SELECT OrderId FROM dalfoodbank.Order where BannerId= ? ORDER BY OrderId DESC LIMIT 1;`,
   getProducts: `SELECT * 
     FROM 
     dalfoodbank.Item as I
