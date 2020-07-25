@@ -16,7 +16,6 @@ import { ApiResponseModel } from '@core/model/api-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService implements OnDestroy {
-  private _cartItems: ProductModel[] = [];
   private _isLoggedIn: boolean;
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',
@@ -92,9 +91,6 @@ export class CartService implements OnDestroy {
   }
 
   private _getAuthorizationHeader(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5uZXJJZCI6IkIwMDg1MzkxMyIsInJvbGVJZCI6MywiaWF0IjoxNTk1NDAxOTQ4LCJleHAiOjE1OTU0MDU1NDh9.IvFTPFc8K8sYrxuoUwvsmoXDyQkTn8cQM36A5g5oe7c',
-    });
+    return this._authenticationService.getAuthorizationHeader();
   }
 }
