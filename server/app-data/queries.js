@@ -1,6 +1,8 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
  * Centralized queries required for various endpoints
  */
 module.exports = {

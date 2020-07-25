@@ -1,3 +1,7 @@
+/**
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
+ */
 import { ContactService } from './contact.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
