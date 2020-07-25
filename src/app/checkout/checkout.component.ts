@@ -49,14 +49,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {}
 
+  // This function will be called when the user click on the checkout button.
   checkout() {
     try {
       console.log(this.checkoutForm.controls);
       if (this.checkoutForm.valid) {
-        // const dialogConfig = this._matDialogConfig;
-        // dialogConfig.data = { header: 'Success!', content: 'Order Placed successfully.' };
-        // this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-        // this._router.navigate(['/login']);
         this._checkoutService.createOrder(this.checkoutForm.value).subscribe(
           (res) => {
             const dialogConfig = this._matDialogConfig;

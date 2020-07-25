@@ -27,18 +27,12 @@ EmployeeController.prototype.getStudent = async function getStudent(req, res) {
   res.status(response.statusCode).send(response);
 };
 
-EmployeeController.prototype.deleteUserRole = async function deleteUserRole(
-  req,
-  res
-) {
+EmployeeController.prototype.deleteUserRole = async function deleteUserRole(req, res) {
   let response = await this.service.deleteUserRole(req.params);
   res.status(response.statusCode).send(response);
 };
 
-EmployeeController.prototype.addUserRole = async function addUserRole(
-  req,
-  res
-) {
+EmployeeController.prototype.addUserRole = async function addUserRole(req, res) {
   let response = await this.service.addUserRole(req.body);
   res.status(response.statusCode).send(response);
 };

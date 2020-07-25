@@ -23,46 +23,28 @@ CartController.prototype.getAll = async function getAll(req, res) {
   console.log('getAll in cart controller' + response);
   res.status(response.statusCode).send(response);
 };
-CartController.prototype.addProductToCart = async function addProductToCart(
-  req,
-  res
-) {
+CartController.prototype.addProductToCart = async function addProductToCart(req, res) {
   if (!isAuthorized(req.user.roleId, 3)) {
     return sendUnauthorizedResponse(res);
   }
 
-  let response = await this.service.addProductToCart(
-    req.body,
-    req.user.bannerId
-  );
+  let response = await this.service.addProductToCart(req.body, req.user.bannerId);
   res.status(response.statusCode).send(response);
 };
-CartController.prototype.deleteProductFromCart = async function deleteProductFromCart(
-  req,
-  res
-) {
+CartController.prototype.deleteProductFromCart = async function deleteProductFromCart(req, res) {
   if (!isAuthorized(req.user.roleId, 3)) {
     return sendUnauthorizedResponse(res);
   }
 
-  let response = await this.service.deleteProductFromCart(
-    req.params.productId,
-    req.user.bannerId
-  );
+  let response = await this.service.deleteProductFromCart(req.params.productId, req.user.bannerId);
   res.status(response.statusCode).send(response);
 };
-CartController.prototype.isProductAvailableInCart = async function isProductAvailableInCart(
-  req,
-  res
-) {
+CartController.prototype.isProductAvailableInCart = async function isProductAvailableInCart(req, res) {
   if (!isAuthorized(req.user.roleId, 3)) {
     return sendUnauthorizedResponse(res);
   }
 
-  let response = await this.service.isProductAvailableInCart(
-    req.params.productId,
-    req.user.bannerId
-  );
+  let response = await this.service.isProductAvailableInCart(req.params.productId, req.user.bannerId);
   res.status(response.statusCode).send(response);
 };
 

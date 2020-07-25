@@ -18,9 +18,7 @@ function ContactUsService() {
    * Services interacting with database and returning the results back to the controller
    */
 
-  ContactUsService.prototype.postContactUsMessage = async function postContactUsMessage(
-    data
-  ) {
+  ContactUsService.prototype.postContactUsMessage = async function postContactUsMessage(data) {
     const newContactUsquery = mysql.format(queries.postContactUsMessage, [
       data.BannerId,
       data.FirstName,

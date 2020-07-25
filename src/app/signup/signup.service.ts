@@ -26,6 +26,7 @@ export class SignupService {
     return this._roles;
   }
 
+  // Send POST Request to the server
   addUser(user: UserModel) {
     try {
       return this._http.post<any>(`${environment.serverUrl}signup/`, user);
