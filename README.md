@@ -30,13 +30,11 @@ maintaining social distancing for students by scheduling proper pickup time for 
 
 This assignment was all about connecting front end developed in earlier stage of assignment with back end. This includes creating web API and handling the database. In earlier assignment I have briefly described the functioning of front-end and back-end using MySQL.
 
-Purpose of this assignment was to implement back-end functionality for any one feature mentioned in earlier submissions and in Project Proposal.
-
-I have implemented back-end functionality for **Products Management for Admin**. A brief description of this feature with back-end is explained below.
+For this assignment I have developed and managed all the functionality related to **Orders at User Side**
 
 ---
 
-## **[Admin - Products Management](https://dsu-food-bank.herokuapp.com/admin/products)**:
+## **[User - Order Management](http://dsu-food-bank.herokuapp.com/orders)**:
 
 ### Overview
 
