@@ -37,7 +37,6 @@ export class CartComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._loadShoppingCart();
-    console.log('Load Shopping cart');
   }
 
   ngOnDestroy() {}
@@ -49,7 +48,6 @@ export class CartComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: ApiResponseModel) => {
           if (res.success && res.result.affectedRows === 1) {
-            console.log('Product Deleted Successfully!');
             const dialogConfig = this._matDialogConfig;
             dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
             this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
@@ -72,11 +70,9 @@ export class CartComponent implements OnInit, OnDestroy {
           this._setLoader(false);
         },
         (err) => {
-          console.log('Error:' + err);
           this._globalErrorService.reactToAppError(err);
         }
       );
-    console.log('Cart:' + this.cartItems);
   }
 
   private _fetchCartProductImages(cartProducts: ProductModel[]) {

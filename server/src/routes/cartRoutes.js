@@ -1,5 +1,9 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
+ * Defining layers for different cart routes. It follows below track:
+ * 1) Authenticating route
+ * 2) Validating the schema for params or body or queryParams
+ * 3) calling appropriate controller for the route
  *
  */
 const express = require('express');
@@ -15,11 +19,23 @@ const cartSchema = require('../helpers/validate/cartSchema');
 router
   .route(`/`)
   .get(authenticateRoute, cartController.getAll)
-  .post(authenticateRoute, validate(cartSchema.addProductToCart), cartController.addProductToCart);
+  .post(
+    authenticateRoute,
+    validate(cartSchema.addProductToCart),
+    cartController.addProductToCart
+  );
 
 router
   .route(`/:productId`)
-  .get(authenticateRoute, validate(cartSchema.isProductAvailableInCart), cartController.isProductAvailableInCart)
-  .delete(authenticateRoute, validate(cartSchema.deleteProductFromCart), cartController.deleteProductFromCart);
+  .get(
+    authenticateRoute,
+    validate(cartSchema.isProductAvailableInCart),
+    cartController.isProductAvailableInCart
+  )
+  .delete(
+    authenticateRoute,
+    validate(cartSchema.deleteProductFromCart),
+    cartController.deleteProductFromCart
+  );
 
 module.exports = router;

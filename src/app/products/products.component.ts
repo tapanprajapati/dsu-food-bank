@@ -19,7 +19,6 @@ import { ProductService } from './product.service';
 import { CartService } from '@app/cart/cart.service';
 
 import { faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { combineAll } from 'rxjs/operators';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatDialogWrapperComponent } from '@app/@shared';
 

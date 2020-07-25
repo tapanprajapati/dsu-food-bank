@@ -1,5 +1,9 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
+ * Defining layers for different category routes. It follows below track:
+ * 1) Authenticating route
+ * 2) Validating the schema for params or body or queryParams
+ * 3) calling appropriate controller for the route
  *
  */
 const express = require('express');
@@ -17,8 +21,13 @@ const categorySchema = require('../helpers/validate/categorySchema');
  * Successfully fetches all records { "success": true, "statusCode": 200, "items": [] }
  * SQL OR unexpected errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
-router.route(`/`).get(categoryController.getAll).post(validate(categorySchema.addCategory), categoryController.create);
+router
+  .route(`/`)
+  .get(categoryController.getAll)
+  .post(validate(categorySchema.addCategory), categoryController.create);
 
-router.route(`/:id`).put(validate(categorySchema.updateCategory), categoryController.update);
+router
+  .route(`/:id`)
+  .put(validate(categorySchema.updateCategory), categoryController.update);
 
 module.exports = router;

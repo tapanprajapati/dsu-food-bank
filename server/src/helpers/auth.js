@@ -1,10 +1,18 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
+ * Authentication utilities for generating, sending, and validating token.
+ * Checking authorization for different roles and sending appropriate response
+ *
  */
+
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const { jwtSecret, jwtDuration, jwtAlgorithm } = require('app-data/tokenConfig');
+const {
+  jwtSecret,
+  jwtDuration,
+  jwtAlgorithm,
+} = require('app-data/tokenConfig');
 
 const generateJwtToken = (userPayload, secret, expiryDuration) => {
   return jwt.sign(userPayload, secret, { expiresIn: expiryDuration });
@@ -42,4 +50,9 @@ const sendUnauthorizedResponse = (res) => {
   });
 };
 
-module.exports = { sendJwtToken, authenticateRoute, isAuthorized, sendUnauthorizedResponse };
+module.exports = {
+  sendJwtToken,
+  authenticateRoute,
+  isAuthorized,
+  sendUnauthorizedResponse,
+};
