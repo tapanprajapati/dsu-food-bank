@@ -14,7 +14,8 @@ import { ApiResponseModel } from '@core/model/api-response.model';
 @Injectable({ providedIn: 'root' })
 export class ContactService {
   formData: ContactUsModel;
-  _url = 'http://localhost:80/';
+  _url = `${this._getUrl()}`;
+  //'http://localhost:80/';
 
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',
