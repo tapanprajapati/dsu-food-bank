@@ -16,7 +16,6 @@ import { ApiResponseModel } from '@core/model/api-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService implements OnDestroy {
-  private _cartItems: ProductModel[] = [];
   private _isLoggedIn: boolean;
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',

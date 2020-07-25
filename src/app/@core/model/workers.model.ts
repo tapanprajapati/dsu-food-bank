@@ -1,3 +1,8 @@
+/**
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
+ */
+
 export class Workers {
   BannerId: string;
   FirstName: string;

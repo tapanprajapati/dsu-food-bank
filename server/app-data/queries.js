@@ -1,6 +1,8 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
  * Centralized queries required for various endpoints
  */
 module.exports = {
@@ -90,4 +92,5 @@ WHERE
   addProductToCart: `INSERT INTO dalfoodbank.Cart Values (?, ?, ?, ?)`,
   deleteProductFromCart: `DELETE FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
   isProductAvailableInCart: `SELECT * FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
+  postContactUsMessage: `insert into ContactUs (BannerId, FirstName, Email, Message) values(?, ?, ?, ?)`,
 };

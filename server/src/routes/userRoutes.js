@@ -29,8 +29,6 @@ const auth = require('src/helpers/auth');
  * 4. Incorrect password: { "authenticate": { "success": false, "statusCode": 404, "message": "incorrect password" } }
  */
 router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
-
-// Route to create a new user. This will handle the POST request from the front end.
 router.route('/signup').post(userController.createUser);
 
 // Route to get the roles from the database. This will handle the GET request from the front end.

@@ -1,5 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
  *
  * Controller class handling Employee resource and delegating business work to the service layer
  * @param {instance of a EmployeeService class} service

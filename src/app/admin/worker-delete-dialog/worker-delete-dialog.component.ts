@@ -1,3 +1,8 @@
+/**
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
+ */
+
 import { WorkersService } from '../services/workers.service';
 import { Workers } from '../../@core/model/workers.model';
 import { Router } from '@angular/router';

@@ -1,3 +1,8 @@
+/**
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
+ */
+
 import { ApiResponseModel } from '@core/model/api-response.model';
 
 import { RolesResponse } from './../../@core/model/workers.model';
@@ -6,6 +11,7 @@ import { Workers, WorkersResponse } from '../../@core/model/workers.model';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,33 +19,38 @@ import { Injectable } from '@angular/core';
 export class WorkersService {
   formData: Workers;
   form: Workers;
-  public JobsList: Workers[];
+  //public JobsList: Workers[];
 
-  readonly URL = 'http://localhost:80/api';
+  readonly URL = `${this._getUrl()}`;
+  //'http://localhost:80/api';
 
   constructor(private http: HttpClient) {}
 
   getWorkersList() {
-    return this.http.get<WorkersResponse>(this.URL + '/employee');
+    return this.http.get<WorkersResponse>(this.URL + 'employee');
   }
 
   deleteUserRole(formData: Workers) {
     return this.http.put<ApiResponseModel>(
-      this.URL + '/employee/' + formData.BannerId + '/' + formData.RoleId,
+      this.URL + 'employee/' + formData.BannerId + '/' + formData.RoleId,
       formData.BannerId
     );
   }
 
   addUserRole(formData: Workers) {
-    return this.http.put<ApiResponseModel>(this.URL + '/employee/add', formData);
+    return this.http.put<ApiResponseModel>(this.URL + 'employee/add', formData);
     //return a;
   }
 
   getRole() {
-    return this.http.get<RolesResponse>(this.URL + '/employee/role');
+    return this.http.get<RolesResponse>(this.URL + 'employee/role');
   }
 
   getStudent() {
-    return this.http.get<ApiResponseModel>(this.URL + '/employee/student');
+    return this.http.get<ApiResponseModel>(this.URL + 'employee/student');
+  }
+
+  private _getUrl() {
+    return `${environment.serverUrl}`;
   }
 }
