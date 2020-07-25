@@ -1,9 +1,7 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
- * Controller class handling user resource and delegating business work to the service layer
- * @param {instance of a CheckoutService class} service
+ * @author Samkit Shah <samkit@dal.ca>
  */
+
 function checkoutController(service) {
   this.service = service;
   this.createOrder = this.createOrder.bind(this);

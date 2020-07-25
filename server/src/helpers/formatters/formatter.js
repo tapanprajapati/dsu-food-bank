@@ -21,6 +21,25 @@ const formatProducts = (products) => {
   });
 };
 
+const formatOrderDetail = (Orders) => {
+  const items = Orders.map((Order) => {
+    return {
+      name: Order.ItemName,
+      quantity: Order.ItemQuantity,
+      CategoryName: Order.CategoryName,
+      ItemId: Order.ItemId,
+    };
+  });
+  return {
+    orderId: Orders[0].OrderId,
+    item: items,
+    OrderDate: Orders[0].OrderDate,
+    DeliveredDate: Orders[0].DeliveredDate,
+    status: Orders[0].status,
+    PickUpSlot: Orders[0].PickUpSlot,
+  };
+};
+
 const formatCatgories = (categories) => {
   return categories.map((category) => {
     return {
@@ -43,4 +62,4 @@ const formatUsers = (users) => {
   });
 };
 
-module.exports = { formatProducts, formatCatgories, formatUsers };
+module.exports = { formatProducts, formatCatgories, formatUsers, formatOrderDetail };

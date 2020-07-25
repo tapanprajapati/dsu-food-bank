@@ -36,7 +36,7 @@ export class ProductService {
 
   getProductDetails(id: string): Observable<ApiResponseModel> {
     return this._httpClient
-      .get<ApiResponseModel>(`${this._getUrl()}/${id}`)
+      .get<ApiResponseModel>(`${this._getUrl()}${id}`)
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
@@ -51,6 +51,3 @@ export class ProductService {
     return `${environment.serverUrl}products/`;
   }
 }
-
-// REF: https://www.lipsum.com/
-// REF: https://walmart.ca

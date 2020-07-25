@@ -1,3 +1,5 @@
+import { WorkerDeleteDialogComponent } from './worker-delete-dialog/worker-delete-dialog.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,10 +14,30 @@ import { AdminWorkersComponent } from './workers/workers.component';
 import { AdminProductsComponent } from './products/products.component';
 
 import { AdminOrderService } from './services/admin-order.service';
+import { SharedModule } from '@app/@shared/shared.module';
+import { AdminOrderDetailsDialogComponent } from './orders/order-details-dialog/order-details-dialog.component';
+import { AdminAddEditProductDialog } from './products/add-edit-product-dialog/add-edit-product.dialog';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, FlexLayoutModule, MaterialModule, AdminRoutingModule],
-  declarations: [AdminComponent, AdminOrdersComponent, AdminProductsComponent, AdminWorkersComponent],
+  imports: [
+    SharedModule,
+    CommonModule,
+    TranslateModule,
+    FlexLayoutModule,
+    MaterialModule,
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [
+    AdminComponent,
+    AdminOrdersComponent,
+    AdminProductsComponent,
+    AdminWorkersComponent,
+    WorkerDeleteDialogComponent,
+    AdminOrderDetailsDialogComponent,
+    AdminAddEditProductDialog,
+  ],
   providers: [AdminOrderService],
 })
 export class AdminModule {}

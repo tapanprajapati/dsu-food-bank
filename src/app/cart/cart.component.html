@@ -1,3 +1,6 @@
+<!-- 
+ @author Samkit Shah <samkit@dal.ca>
+ -->
 <section class="shopping-cart container mt-5 mb-5">
   <h1>Shopping Cart</h1>
   <div class="row mt-4">
@@ -32,7 +35,9 @@
   </div>
   <mat-divider></mat-divider>
   <div class="row d-flex justify-content-between mt-3 pl-5 pr-5">
-    <button mat-button class="app-link"><fa-icon [icon]="faLongArrowAltLeft"></fa-icon> Continue Shopping</button>
+    <button mat-button class="app-link" [routerLink]="['/products']">
+      <fa-icon [icon]="faLongArrowAltLeft"> </fa-icon> Continue Shopping
+    </button>
     <button mat-button class="app-primary-btn" [routerLink]="['/checkout']">Checkout</button>
   </div>
 </section>

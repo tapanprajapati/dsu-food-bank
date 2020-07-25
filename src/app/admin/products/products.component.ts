@@ -1,8 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ProductService } from './../../products/product.service';
+import { MatDialogWrapperComponent } from '@shared/mat-dialog-wrapper/mat-dialog-wrapper.component';
+import { ProductModel } from '@core/model/product.model';
+import { AdminProductService } from './../services/admin-product.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CategoryModel } from '@app/@core/model/category.model';
+import { untilDestroyed } from '@app/@core';
+import { ApiResponseModel } from '@app/@core/model/api-response.model';
+import { GlobalErrorService } from '@app/@core/services/global-error.service';
+import { AdminAddEditProductDialog } from './add-edit-product-dialog/add-edit-product.dialog';
+import { Button } from 'protractor';
 // import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 // import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
@@ -11,235 +22,179 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
 })
-export class AdminProductsComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'category', 'total', 'limit', 'on_order', 'delete'];
-  dataSource = new MatTableDataSource<Product>(PRODUCTS);
+export class AdminProductsComponent implements OnInit, OnDestroy {
+  private _Products: ProductModel[];
+  private _Categories: CategoryModel[];
+  public CategoryFormGroup: FormGroup;
+  displayedColumns: string[] = ['id', 'name', 'category', 'availableQuantity', 'limit', 'delete'];
+  categoryColumns: string[] = ['id', 'name', 'edit'];
+  dataSource: MatTableDataSource<ProductModel>;
+  categorySource: MatTableDataSource<CategoryModel>;
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
+  public buttonName = 'Add';
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('productsPaginator') paginator: MatPaginator;
+  @ViewChild('categoryPaginator') categoryPaginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  constructor(public dialog: MatDialog) {}
+  @ViewChild('categorySort') categorySort: MatSort;
+  constructor(
+    public dialog: MatDialog,
+    private _ProductService: AdminProductService,
+    private _globalErrorService: GlobalErrorService,
+    public Successdialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {}
+  ngOnDestroy(): void {}
 
   ngOnInit() {
+    this._getAllProducts();
+    this._getAllCategories();
+    this._createForm();
+  }
+  private _getAllProducts() {
+    this._ProductService.getAllProducts(null).subscribe((res) => {
+      this._Products = res['items'] as ProductModel[];
+      this._initializeDataGrid();
+    });
+  }
+
+  private _getAllCategories() {
+    this._ProductService
+      .getAllCategories()
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (res: ApiResponseModel) => {
+          this._Categories = res.items as CategoryModel[];
+          this.setCategoryTable(this._Categories);
+        },
+        (err) => {
+          this._globalErrorService.reactToAppError(err);
+        }
+      );
+  }
+
+  private setCategoryTable(categories: CategoryModel[]) {
+    this.categorySource = new MatTableDataSource<CategoryModel>(categories);
+    this.categorySource.paginator = this.categoryPaginator;
+    this.categorySource.sort = this.categorySort;
+  }
+
+  private _initializeDataGrid() {
+    this.dataSource = new MatTableDataSource<ProductModel>(this._Products);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  delete(product: Product) {
-    // const dialogRef = this.dialog.open(DeleteDialogComponent, {
-    //   width: '250px',
-    //   data: product,
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) {
-    //     this.dataSource.data.splice(this.dataSource.data.indexOf(product), 1);
-    //     this.dataSource.data = this.dataSource.data;
-    //   }
-    //   console.log(result);
-    // });
+  delete(id: number) {
+    this._ProductService.deleteProductById(id).subscribe((res) => {
+      this._getAllProducts();
+    });
   }
 
-  edit(product: Product) {
-    // const dialogRef = this.dialog.open(EditDialogComponent, {
-    //   width: '250px',
-    //   data: product,
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) {
-    //   }
-    //   // console.log(result);
-    // });
+  edit(id: number) {
+    const dialogRef = this.dialog.open(AdminAddEditProductDialog, {
+      width: '90vw',
+      height: 'max-content',
+      data: id,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      const dialogConfig = this._matDialogConfig;
+      if (result) {
+        console.log(result);
+        dialogConfig.data = { header: 'Success!', content: 'Product edited successfully.' };
+        this._getAllProducts();
+        this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+      } else if (result == null) {
+      } else {
+        dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
+        this._getAllProducts();
+        this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+      }
+    });
   }
-}
 
-const PENDING = 'PENDING';
-const PROCESSING = 'PROCESSING';
-const COMPLETED = 'COMPLETED';
-const REJECTED = 'REJECTED';
+  openAddDialog() {
+    const dialogRef = this.dialog.open(AdminAddEditProductDialog, {
+      width: '90vw',
+      height: 'max-content',
+    });
 
-export const PRODUCTS: Product[] = [
-  {
-    name: 'Milk',
-    category: 'Dairy',
-    quantity: 10,
-    limit: 1,
-    on_order: 7,
-  },
-  {
-    name: 'Potatos',
-    category: 'Vegetable',
-    quantity: 78,
-    limit: 4,
-    on_order: 18,
-  },
-  {
-    name: 'Onions',
-    category: 'Vegetable',
-    quantity: 44,
-    limit: 4,
-    on_order: 8,
-  },
-  {
-    name: 'Pasta',
-    category: 'Snack',
-    quantity: 10,
-    limit: 1,
-    on_order: 7,
-  },
-  {
-    name: 'Toilet Paper',
-    category: 'Household',
-    quantity: 80,
-    limit: 2,
-    on_order: 74,
-  },
-  {
-    name: 'Spring Water',
-    category: 'Drink',
-    quantity: 40,
-    limit: 2,
-    on_order: 14,
-  },
-  {
-    name: 'Chicken Soup',
-    category: 'Non-veg',
-    quantity: 44,
-    limit: 1,
-    on_order: 8,
-  },
-  {
-    name: 'Wonderbar',
-    category: 'Chocolate',
-    quantity: 50,
-    limit: 2,
-    on_order: 9,
-  },
-  {
-    name: 'Noodle',
-    category: 'Snack',
-    quantity: 19,
-    limit: 1,
-    on_order: 5,
-  },
-];
+    dialogRef.afterClosed().subscribe((result) => {
+      const dialogConfig = this._matDialogConfig;
+      if (result) {
+        dialogConfig.data = { header: 'Success!', content: 'Product added successfully.' };
+        this._getAllProducts();
+        this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+      } else if (result == null) {
+      } else {
+        dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
+        this._getAllProducts();
+        this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+      }
+    });
+  }
+  get name() {
+    return this.CategoryFormGroup.controls.name;
+  }
+  get id() {
+    return this.CategoryFormGroup.controls.id;
+  }
+  private _createForm() {
+    this.CategoryFormGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      id: [],
+    });
+  }
+  public updateCategory() {
+    const dialogConfig = this._matDialogConfig;
 
-export const ORDERS: Order[] = [
-  {
-    id: 7542,
-    userid: 'B00785474',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7543,
-    userid: 'B00851654',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 20, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7544,
-    userid: 'B00959512',
-    placed_date: 'June 12, 2020',
-    pickup_date: 'June 15, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7545,
-    userid: 'B00863254',
-    placed_date: 'June 15, 2020',
-    pickup_date: 'June 18, 2020',
-    status: REJECTED,
-  },
-  {
-    id: 7546,
-    userid: 'B00887744',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PROCESSING,
-  },
-  {
-    id: 7547,
-    userid: 'B0083214',
-    placed_date: 'June 17, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PROCESSING,
-  },
-  {
-    id: 7548,
-    userid: 'B00785474',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 19, 2020',
-    status: PENDING,
-  },
-  {
-    id: 7549,
-    userid: 'B00802010',
-    placed_date: 'June 11, 2020',
-    pickup_date: 'June 15, 2020',
-    status: COMPLETED,
-  },
-  {
-    id: 7550,
-    userid: 'B00828282',
-    placed_date: 'June 14, 2020',
-    pickup_date: 'June 18, 2020',
-    status: COMPLETED,
-  },
-  {
-    id: 7551,
-    userid: 'B00838383',
-    placed_date: 'June 12, 2020',
-    pickup_date: 'June 20, 2020',
-    status: REJECTED,
-  },
-  {
-    id: 7552,
-    userid: 'B00704125',
-    placed_date: 'June 16, 2020',
-    pickup_date: 'June 18, 2020',
-    status: PENDING,
-  },
-];
-
-export const USER: User = {
-  firstname: 'John',
-  lastname: 'Snow',
-  bannerid: 'B00000001',
-  password: 'ABCD',
-  emailid: 'john.snow@dal.ca',
-  totalorders: 7,
-  birthdate: '24th August, 1998',
-};
-
-export interface Product {
-  name: string;
-  category: string;
-  quantity: number;
-  limit: number;
-  on_order: number;
-}
-
-export interface Order {
-  id: number;
-  userid: string;
-  placed_date: string;
-  pickup_date: string;
-  status: string;
-}
-
-export interface User {
-  firstname: string;
-  lastname: string;
-  birthdate: string;
-  bannerid: string;
-  emailid: string;
-  password: string;
-  totalorders: number;
-}
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
+    console.log(this.CategoryFormGroup.controls.id.value);
+    console.log(this.CategoryFormGroup.controls.name.value);
+    const id = this.CategoryFormGroup.controls.id.value;
+    const CatName = this.CategoryFormGroup.controls.name.value;
+    if (id == null) {
+      this._ProductService.addCategory({ name: CatName }).subscribe(
+        (res) => {
+          console.log(res);
+          dialogConfig.data = { header: 'Success!', content: 'Category added successfully.' };
+          this._getAllCategories();
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+          this.resetForm();
+        },
+        (err) => {
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+        }
+      );
+    } else if (id != null) {
+      this._ProductService.updateCategoryById(id, { name: CatName }).subscribe(
+        (res) => {
+          console.log(res);
+          dialogConfig.data = { header: 'Success!', content: 'Category updated successfully.' };
+          this._getAllCategories();
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+          this.resetForm();
+        },
+        (err) => {
+          dialogConfig.data = { header: 'OOPS!', content: 'Something went wrong' };
+          this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
+        }
+      );
+    }
+  }
+  public editCategory(category: CategoryModel) {
+    this.buttonName = 'Edit';
+    this.CategoryFormGroup.controls.id.setValue(category.id);
+    this.CategoryFormGroup.controls.name.setValue(category.name);
+  }
+  public resetForm() {
+    this.buttonName = 'Add';
+    this.CategoryFormGroup.controls.id.reset(null);
+    this.CategoryFormGroup.controls.name.reset(' ');
+  }
 }

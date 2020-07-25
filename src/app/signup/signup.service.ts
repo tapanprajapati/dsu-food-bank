@@ -1,3 +1,6 @@
+/**
+ * @author Samkit Shah <samkit@dal.ca>
+ */
 import { Injectable, OnDestroy } from '@angular/core';
 import { UserModel } from './../@core/model/user.model';
 import { RoleModel } from './../@core/model/role.model';
@@ -8,14 +11,6 @@ import { environment } from '@env/environment';
 @Injectable({ providedIn: 'root' })
 export class SignupService {
   private _roles = [
-    {
-      id: 1,
-      name: 'Admin',
-    },
-    {
-      id: 2,
-      name: 'Volunteer',
-    },
     {
       id: 3,
       name: 'Student',

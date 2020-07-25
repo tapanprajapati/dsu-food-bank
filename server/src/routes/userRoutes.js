@@ -1,6 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
+ * @author Samkit Shah <samkit@dal.ca>
  */
 
 const express = require('express');

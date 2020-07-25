@@ -1,3 +1,6 @@
+/**
+ * @author Samkit Shah <samkit@dal.ca>
+ */
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from '../products/product.service';
@@ -50,26 +53,26 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     try {
       console.log(this.checkoutForm.controls);
       if (this.checkoutForm.valid) {
-        const dialogConfig = this._matDialogConfig;
-        dialogConfig.data = { header: 'Success!', content: 'Order Placed successfully.' };
-        this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-        this._router.navigate(['/login']);
-
-        // this._checkoutService.createOrder(this.checkoutForm.value).subscribe(
-        //   (res) => {
-        //     const dialogConfig = this._matDialogConfig;
-        //     dialogConfig.data = { header: 'Success!', content: 'Order Placed successfully.' };
-        //     this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-        //     this._router.navigate(['/login']);
-        //   },
-        //   (error) => {
-        //     if (error.status === 500) {
-        //       const dialogConfig = this._matDialogConfig;
-        //       dialogConfig.data = { header: 'Failure!', content: 'Order failed.' };
-        //       this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-        //     }
-        //   }
-        // );
+        // const dialogConfig = this._matDialogConfig;
+        // dialogConfig.data = { header: 'Success!', content: 'Order Placed successfully.' };
+        // this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+        // this._router.navigate(['/login']);
+        this._checkoutService.createOrder(this.checkoutForm.value).subscribe(
+          (res) => {
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'Order Placed successfully.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+            this._router.navigate(['/products']);
+          },
+          (error) => {
+            if (error.status === 500) {
+              const dialogConfig = this._matDialogConfig;
+              dialogConfig.data = { header: 'Failure!', content: 'Order failed.' };
+              this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+              this._router.navigate(['/products']);
+            }
+          }
+        );
       }
     } catch (e) {
       const dialogConfig = this._matDialogConfig;
@@ -119,7 +122,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         (res: ApiResponseModel) => {
           if (res.success && res.result.affectedRows === 1) {
             console.log('Product Deleted Successfully!');
-            // TODO: show appropriate success message
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
             this._loadShoppingCart();
           } // TODO: handle else block
         },

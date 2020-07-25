@@ -1,12 +1,25 @@
-import { ProductModel } from './product.model';
-
+import { ProductModel } from '@core/model/product.model';
+import { Observable } from 'rxjs';
+export interface OrderDetailModel {
+  orderId: number;
+  item: item[];
+  OrderDate: Date;
+  DeliveredDate: Date;
+  status: string;
+  PickUpSlot: Date;
+}
+export interface item {
+  name: string;
+  imagePath?: Observable<string | null>;
+  quantity: string;
+  CategoryName: string;
+  ItemId: number;
+}
 export interface OrderModel {
-  id: number;
-  // TODO: Replace with ProductModel once backend is ready
-  items: ProductModel[];
+  orderId: number;
   userid: string;
-  pickupDate: Date;
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'REJECTED';
-  // TODO: Make mandatory once backend is ready
-  pickupSlot: string;
+  placedDate: string;
+  pickupDate?: string;
+  status: string;
+  pickupSlot?: string;
 }
