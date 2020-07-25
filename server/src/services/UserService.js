@@ -1,7 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
- * Service layer for the user resource communicating with the database and transforming the response for front-end
+ * @author Samkit Shah <samkit@dal.ca>
  */
 const mysql = require('mysql');
 const Database = require('config/database');
@@ -21,7 +19,10 @@ function UserService() {}
  * Services interacting with database and returning the results back to the controller
  */
 UserService.prototype.authenticate = async function authenticate(credentials) {
-  const signInQuery = mysql.format(queries.signIn, [credentials.bannerId, credentials.password]);
+  const signInQuery = mysql.format(queries.signIn, [
+    credentials.bannerId,
+    credentials.password,
+  ]);
   console.log(`The Query for finding user entry - ${signInQuery}`);
   try {
     let result = await database.query(signInQuery);
@@ -170,7 +171,9 @@ UserService.prototype.createUser = async function createUser(data) {
 
 UserService.prototype.getRoles = async function getRoles() {
   const getRolesquery = queries.getRoles;
-  console.log(`The Query for returning all roles information - ${getRolesquery}`);
+  console.log(
+    `The Query for returning all roles information - ${getRolesquery}`
+  );
   try {
     let items = await database.query(getRolesquery);
     return {

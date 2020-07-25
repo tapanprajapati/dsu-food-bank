@@ -1,3 +1,5 @@
+<!-- @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca> -->
+
 <div class="container-fluid">
   <div class="row mb-2">
     <h3>ADD USER</h3>
@@ -10,8 +12,8 @@
           <mat-option
             *ngFor="let student of students"
             [value]="student.FirstName"
-            name="FirstName"
             [(ngModel)]="data.FirstName"
+            name="FirstName"
           >
             {{ student.FirstName }}
           </mat-option>

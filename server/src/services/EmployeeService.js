@@ -1,5 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
  *
  */
 
@@ -20,7 +20,9 @@ function EmployeeService() {}
  */
 EmployeeService.prototype.getAll = async function getAll() {
   const getAllEmployeeQuery = queries.getEmployee;
-  console.log(`The Query for fetching all Employee Details - ${getAllEmployeeQuery}`);
+  console.log(
+    `The Query for fetching all Employee Details - ${getAllEmployeeQuery}`
+  );
   try {
     let result = await database.query(getAllEmployeeQuery);
     return {
@@ -58,7 +60,9 @@ EmployeeService.prototype.getRole = async function getRole() {
 
 EmployeeService.prototype.getStudent = async function getStudent() {
   const getStudentQuery = queries.getStudent;
-  console.log(`The Query for fetching all Students Details - ${getStudentQuery}`);
+  console.log(
+    `The Query for fetching all Students Details - ${getStudentQuery}`
+  );
   try {
     let result = await database.query(getStudentQuery);
     return {
@@ -76,7 +80,10 @@ EmployeeService.prototype.getStudent = async function getStudent() {
 };
 
 EmployeeService.prototype.addUserRole = async function addUserRole(data) {
-  const newUserquery = mysql.format(queries.addUserRole, [data.RoleId, data.FirstName]);
+  const newUserquery = mysql.format(queries.addUserRole, [
+    data.RoleId,
+    data.FirstName,
+  ]);
 
   console.log(`The Query for creating a User Role  - ${newUserquery}`);
 
@@ -96,9 +103,16 @@ EmployeeService.prototype.addUserRole = async function addUserRole(data) {
   }
 };
 
-EmployeeService.prototype.deleteUserRole = async function deleteUserRole(params) {
-  const deleteUserRoleQuery = mysql.format(queries.deleteUserRole, [params.BannerId, params.RoleId]);
-  console.log(`The Query for deleting a employee information - ${deleteUserRoleQuery}`);
+EmployeeService.prototype.deleteUserRole = async function deleteUserRole(
+  params
+) {
+  const deleteUserRoleQuery = mysql.format(queries.deleteUserRole, [
+    params.BannerId,
+    params.RoleId,
+  ]);
+  console.log(
+    `The Query for deleting a employee information - ${deleteUserRoleQuery}`
+  );
   try {
     let items = await database.query(deleteUserRoleQuery);
     if (items.affectedRows == 0) {

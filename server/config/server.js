@@ -16,6 +16,7 @@ const userRoutes = require('src/routes/userRoutes');
 const employeeRoutes = require('src/routes/employeeRoutes');
 const checkoutRoutes = require('src/routes/checkoutRoutes');
 const cartRoutes = require('src/routes/cartRoutes');
+const contactUsRoutes = require('src/routes/ContactUsRoutes');
 
 /**
  * Express server initialization
@@ -48,7 +49,7 @@ server.use('/api/employee/:BannerId/:RoleId', employeeRoutes);
 server.use('api/employee/add', employeeRoutes);
 server.use('api/employee/role', employeeRoutes);
 server.use('api/employee/student', employeeRoutes);
-
+server.use('/api/contactUs', contactUsRoutes);
 server.use('/api/checkout', checkoutRoutes);
 /**
  * Handling unexpected and validation errors

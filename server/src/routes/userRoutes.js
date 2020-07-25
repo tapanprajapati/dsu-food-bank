@@ -1,6 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
+ * @author Samkit Shah <samkit@dal.ca>
  */
 
 const express = require('express');
@@ -29,7 +28,13 @@ const auth = require('src/helpers/auth');
  * 3. User not found: { "authenticate": { "success": false, "statusCode": 404, "message": "User not found." } }
  * 4. Incorrect password: { "authenticate": { "success": false, "statusCode": 404, "message": "incorrect password" } }
  */
-router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
+router
+  .route(`/authenticate`)
+  .post(
+    validate(userSchema.authenticate),
+    userController.authenticate,
+    auth.sendJwtToken
+  );
 router.route('/signup').post(userController.createUser);
 router.route('/getRoles').get(userController.getRoles);
 module.exports = router;

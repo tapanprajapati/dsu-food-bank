@@ -1,6 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
+ * @author Samkit Shah <samkit@dal.ca>
  * Controller class handling user resource and delegating business work to the service layer
  * @param {instance of a UserService class} service
  */
@@ -11,7 +10,11 @@ function UserController(service) {
   this.getRoles = this.getRoles.bind(this);
 }
 
-UserController.prototype.authenticate = async function authenticate(req, res, next) {
+UserController.prototype.authenticate = async function authenticate(
+  req,
+  res,
+  next
+) {
   if (!req.body) {
     return next();
   }

@@ -13,6 +13,8 @@ import { APP_NAME } from '@core/const/app.const';
 import { ProductModel } from '@core/model/product.model';
 import { CartService } from '@app/cart/cart.service';
 import { ProductService } from './../product.service';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared';
 
 @Component({
   selector: 'app-product-details',
@@ -23,6 +25,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   product: ProductModel;
   private productId: string;
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
 
   constructor(
     private _productService: ProductService,
@@ -30,6 +36,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     private _globalErrorService: GlobalErrorService,
     private _navigationService: NavigationService,
     private _titleService: Title,
+    private _matDialog: MatDialog,
     private _cartService: CartService
   ) {
     this._fetchProductId();
@@ -73,6 +80,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         .subscribe(
           (res: ApiResponseModel) => {
             if (res.result) {
+              const dialogConfig = this._matDialogConfig;
+              dialogConfig.data = { header: 'Failure!', content: 'Already exist in the cart.' };
+              this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
               // TODO: Product already exist in the cart
               // Show an appropriate message
               console.log('Product already exist');
@@ -83,6 +93,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                 .subscribe(
                   (cartRes: ApiResponseModel) => {
                     if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      const dialogConfig = this._matDialogConfig;
+                      dialogConfig.data = { header: 'Success!', content: 'Added to cart.' };
+                      this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
                       // TODO: Show message that product has been added successfully
                       console.log('Product successfully added!!');
                     } // TODO: else block???

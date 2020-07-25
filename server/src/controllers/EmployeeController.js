@@ -1,5 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
  *
  * Controller class handling Employee resource and delegating business work to the service layer
  * @param {instance of a EmployeeService class} service
@@ -27,12 +27,18 @@ EmployeeController.prototype.getStudent = async function getStudent(req, res) {
   res.status(response.statusCode).send(response);
 };
 
-EmployeeController.prototype.deleteUserRole = async function deleteUserRole(req, res) {
+EmployeeController.prototype.deleteUserRole = async function deleteUserRole(
+  req,
+  res
+) {
   let response = await this.service.deleteUserRole(req.params);
   res.status(response.statusCode).send(response);
 };
 
-EmployeeController.prototype.addUserRole = async function addUserRole(req, res) {
+EmployeeController.prototype.addUserRole = async function addUserRole(
+  req,
+  res
+) {
   let response = await this.service.addUserRole(req.body);
   res.status(response.statusCode).send(response);
 };
