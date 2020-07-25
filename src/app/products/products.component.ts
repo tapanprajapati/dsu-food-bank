@@ -20,6 +20,8 @@ import { CartService } from '@app/cart/cart.service';
 
 import { faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { combineAll } from 'rxjs/operators';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared';
 
 @Component({
   selector: 'app-products',
@@ -35,11 +37,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
   faFilter = faFilter;
   faSearch = faSearch;
   isLoading: boolean;
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
 
   constructor(
     private _productService: ProductService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
+    private _matDialog: MatDialog,
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService
   ) {}
@@ -98,6 +105,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
         .subscribe(
           (res: ApiResponseModel) => {
             if (res.result) {
+              const dialogConfig = this._matDialogConfig;
+              dialogConfig.data = { header: 'Failure!', content: 'Already exist in the cart.' };
+              this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
               // TODO: Product already exist in the cart
               // Show an appropriate message
             } else {
@@ -107,6 +117,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 .subscribe(
                   (cartRes: ApiResponseModel) => {
                     if (cartRes.success && cartRes.result.affectedRows === 1) {
+                      const dialogConfig = this._matDialogConfig;
+                      dialogConfig.data = { header: 'Success!', content: 'Added to cart.' };
+                      this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
                       // TODO: Show message that product has been added successfully
                     } // TODO: else block???
                   },

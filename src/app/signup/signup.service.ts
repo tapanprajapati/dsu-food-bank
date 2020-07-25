@@ -1,22 +1,16 @@
+/**
+ * @author Samkit Shah <samkit@dal.ca>
+ */
 import { Injectable, OnDestroy } from '@angular/core';
 import { UserModel } from './../@core/model/user.model';
 import { RoleModel } from './../@core/model/role.model';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SignupService {
-  _url = 'http://localhost:80/';
-
   private _roles = [
-    {
-      id: 1,
-      name: 'Admin',
-    },
-    {
-      id: 2,
-      name: 'Volunteer',
-    },
     {
       id: 3,
       name: 'Student',
@@ -34,7 +28,7 @@ export class SignupService {
 
   addUser(user: UserModel) {
     try {
-      return this._http.post<any>(this._url + 'api/signup', user);
+      return this._http.post<any>(`${environment.serverUrl}signup/`, user);
     } catch (e) {
       throw new Error();
     }
