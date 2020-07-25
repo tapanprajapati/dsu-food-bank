@@ -1,9 +1,14 @@
+/**
+ *   @author Siddharth Kapania <sid.kapania@dal.ca>
+ */
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Logger, untilDestroyed } from '@core';
 import { AuthenticationService } from './authentication.service';
+import { first } from 'rxjs/operators';
 
 const log = new Logger('Login');
 
@@ -15,6 +20,8 @@ const log = new Logger('Login');
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   isLoading = false;
+  public error: string;
+  token = '';
 
   constructor(
     private router: Router,
@@ -29,12 +36,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  login() {
+  onSubmit() {
     if (this.loginForm.valid) {
-      this.authenticationService.setIsLoggedIn(true);
-      this.loginForm.reset();
-      this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
+      this.authenticationService.login(this.loginForm.value).subscribe((res) => {
+        this.router.navigate(['/products']);
+        localStorage.setItem('access_key', res.token);
+        localStorage.setItem('role_id', res.authenticate.user.roleid);
+        const myData = localStorage.getItem('access_key');
+        const myData2 = localStorage.getItem('role_id');
+        console.log(myData);
+        console.log(myData2);
+      });
     }
+    this.loginForm.reset();
   }
 
   get bannerId() {
