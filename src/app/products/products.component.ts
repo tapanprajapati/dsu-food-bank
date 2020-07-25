@@ -21,6 +21,8 @@ import { CartService } from '@app/cart/cart.service';
 import { faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { MatDialogWrapperComponent } from '@app/@shared';
+import { AuthenticationService } from '@app/auth';
+import { UserModel } from '@core/model/user.model';
 
 @Component({
   selector: 'app-products',
