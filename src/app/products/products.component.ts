@@ -20,6 +20,8 @@ import { CartService } from '@app/cart/cart.service';
 
 import { faFilter, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { combineAll } from 'rxjs/operators';
+import { AuthenticationService } from '@app/auth';
+import { UserModel } from '@core/model/user.model';
 
 @Component({
   selector: 'app-products',

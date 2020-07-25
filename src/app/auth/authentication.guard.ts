@@ -10,13 +10,10 @@ const log = new Logger('AuthenticationGuard');
   providedIn: 'root',
 })
 export class AuthenticationGuard implements CanActivate, OnDestroy {
-  private _isLoggedIn: boolean;
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
-    this._observeAuthenticationFlag();
-  }
+  constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this._isLoggedIn) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (localStorage.getItem('access_key')) {
       return true;
     }
 
@@ -26,10 +23,4 @@ export class AuthenticationGuard implements CanActivate, OnDestroy {
   }
 
   ngOnDestroy() {}
-
-  private _observeAuthenticationFlag() {
-    this.authenticationService.isLoggedIn.pipe(untilDestroyed(this)).subscribe((val) => {
-      this._isLoggedIn = val;
-    });
-  }
 }

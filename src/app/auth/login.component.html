@@ -12,7 +12,7 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content class="p-4 pt-4 pb-4">
-          <form class="col-lg-9 col-md-12 app-form" [formGroup]="loginForm" (ngSubmit)="login()">
+          <form class="col-lg-9 col-md-12 app-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="w-100">
               <mat-label>Dalhousie Banner ID</mat-label>
               <input matInput type="text" placeholder="Enter Banner ID" [formControl]="bannerId" autocomplete="off" />
@@ -45,6 +45,6 @@
   </div>
 </section>
 
-<!-- 
-  Login Image - REF: https://dribbble.com/shots/6413153-DNA-FOOD 
+<!--
+  Login Image - REF: https://dribbble.com/shots/6413153-DNA-FOOD
 -->

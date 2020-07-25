@@ -6,7 +6,7 @@
 module.exports = {
   getProducts: 'SELECT * FROM dalfoodbank.Item',
   getCategories: 'SELECT * FROM dalfoodbank.Category',
-  getEmployee: `SELECT 
+  getEmployee: `SELECT
     user.BannerId,
     user.FirstName,
     user.LastName,
@@ -36,19 +36,19 @@ WHERE
   updateProduct:
     'UPDATE `dalfoodbank`.`Item` SET `ItemName` = ?,`ItemDescription` = ?,`CategoryId` = ?,`AvailableQuantity` = ?,`ItemLimit` = ? WHERE `ItemId` = ?;',
 
-  getProducts: `SELECT * 
-    FROM 
+  getProducts: `SELECT *
+    FROM
     dalfoodbank.Item as I
-      LEFT JOIN 
+      LEFT JOIN
     dalfoodbank.Category as C
     ON I.CategoryId = C.CategoryId
     ORDER BY I.ItemId`,
   addCategory: 'INSERT INTO `dalfoodbank`.`Category` (`CategoryName`) VALUES (?);',
   updateCategory: 'UPDATE `dalfoodbank`.`Category` SET `CategoryName` = ? WHERE `CategoryId` = ?;',
   getProductById: `SELECT *
-    FROM 
-    dalfoodbank.Item as I 
-      LEFT JOIN 
+    FROM
+    dalfoodbank.Item as I
+      LEFT JOIN
     dalfoodbank.Category as C
     ON I.CategoryId = C.CategoryId
     WHERE ItemId = ?`,
@@ -78,7 +78,7 @@ WHERE
   //signIn: '',
   getRole: 'SELECT * FROM dalfoodbank.Role',
   getStudent: 'select * from User where RoleId = 3',
-  signIn: `SELECT * from dalfoodbank.User where BannerId = ? AND Password = ?`,
+  signIn: `SELECT * from dalfoodbank.User where BannerId = ?;`,
   getCartProducts: `SELECT *
     FROM dalfoodbank.Cart as C LEFT JOIN dalfoodbank.Item as I
     ON C.ItemId = I.ItemId
