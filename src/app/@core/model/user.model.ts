@@ -1,3 +1,6 @@
+/**
+ * @author Samkit Shah [samkit@dal.ca]
+ */
 import { RoleModel } from './role.model';
 export interface UserModel {
   bannerId: string;

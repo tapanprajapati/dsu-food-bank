@@ -32,6 +32,8 @@ export class CheckoutService {
     private _http: HttpClient,
     private _globalErrorService: GlobalErrorService
   ) {}
+
+  // This function will send POST request to the server
   createOrder(order: OrderModel) {
     try {
       return this._http.post<any>(`${environment.serverUrl}checkout/`, order);

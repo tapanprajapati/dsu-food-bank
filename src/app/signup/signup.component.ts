@@ -37,10 +37,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {}
 
+  // This function will be called when the form will be submitted.
   signup() {
     try {
       console.log(this.signupForm.controls);
       if (this.signupForm.valid) {
+        // Call service to add the user
         this.Signup_Service.addUser(this.signupForm.value).subscribe(
           (res) => {
             const dialogConfig = this._matDialogConfig;

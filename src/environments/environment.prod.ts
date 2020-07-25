@@ -10,7 +10,7 @@ export const environment = {
   production: true,
   hmr: false,
   version: env.npm_package_version,
-  serverUrl: 'http://dalfoodbank-env.eba-khbmxtba.us-east-1.elasticbeanstalk.com/api/',
+  serverUrl: 'https://api-dsu-food-bank.herokuapp.com/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR'],
   firebase: {

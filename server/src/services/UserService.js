@@ -56,11 +56,15 @@ UserService.prototype.authenticate = async function authenticate(credentials) {
   }
 };
 
+// This function will create a new user.
 UserService.prototype.createUser = async function createUser(data) {
+  // bcrypt to encrypt the password.
   const bcrypt = require('bcrypt');
   const saltRounds = 10;
   const plain_password = data.password;
   const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
+
+  // Query to create a new user.
   const createUserquery = mysql.format(queries.createUser, [
     data.bannerId,
     data.firstName,
@@ -70,9 +74,11 @@ UserService.prototype.createUser = async function createUser(data) {
     data.role,
   ]);
   console.log(`The Query for creating a User entry - ${createUserquery}`);
+
   try {
     let items = await database.query(createUserquery);
 
+    // This transporter will be used to send an email to user.
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
       host: 'smtp.googlemail.com',
@@ -86,6 +92,8 @@ UserService.prototype.createUser = async function createUser(data) {
         rejectUnauthorized: false,
       },
     });
+
+    // This is a format of the email.
     // setup email data with unicode symbols
     let mailOptions = {
       from: 'SAMKIT SHAH', // sender address
@@ -166,8 +174,11 @@ UserService.prototype.createUser = async function createUser(data) {
   }
 };
 
+// Method to get the roles from the database.
 UserService.prototype.getRoles = async function getRoles() {
   const getRolesquery = queries.getRoles;
+
+  // Query to fetch the roles from the database.
   console.log(`The Query for returning all roles information - ${getRolesquery}`);
   try {
     let items = await database.query(getRolesquery);
