@@ -1,3 +1,7 @@
+/**
+ * @author Malav Jani <ml805403@dal.ca>
+ *
+ */
 import { ProductService } from './../../products/product.service';
 import { OrderDetailModel, OrderModel, item } from './../../@core/model/order.model';
 import { ActivatedRoute } from '@angular/router';

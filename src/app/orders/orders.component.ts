@@ -1,3 +1,7 @@
+/**
+ * @author Malav Jani <ml805403@dal.ca>
+ *
+ */
 import { OrderModel } from './../@core/model/order.model';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,11 +17,9 @@ import { OrderService } from './order.service';
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   ordersDataSource: MatTableDataSource<OrderModel>;
-  // TODO: Make it dynamic, fetch it based on OrderModel schema
   orderColumns: string[] = ['orderId', 'OrderDate', 'DeliveredDate', 'Status', 'actions'];
   orderClm: string[] = ['orderId', 'OrderDate', 'DeliveredDate', 'Status'];
 
-  // TODO: Verify Sorting
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
