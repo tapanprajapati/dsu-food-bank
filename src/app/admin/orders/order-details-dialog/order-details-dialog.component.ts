@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+/*
+ * @author Tapan Prajapati <Tapan.Prajapati@dal.ca>
+ */
+
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { AdminOrderService } from '../../services/admin-order.service';
 import { GlobalErrorService } from '@app/@core/services/global-error.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { untilDestroyed } from '@app/@core/services/until-destroyed';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
-import { OrderModel, OrderDetailModel, item } from '@app/@core/model/order.model';
+import { OrderDetailModel, item } from '@app/@core/model/order.model';
 import { FormControl } from '@angular/forms';
 import { ProductService } from '@app/products/product.service';
 
