@@ -1,7 +1,5 @@
 /**
- * @author Parth Parmar <parth.parmar@dal.ca>
- *
- * Service layer for the user resource communicating with the database and transforming the response for front-end
+ * @author Samkit Shah <samkit@dal.ca>
  */
 const mysql = require('mysql');
 const Database = require('config/database');

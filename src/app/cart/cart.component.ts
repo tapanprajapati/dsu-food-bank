@@ -1,5 +1,6 @@
 import { untilDestroyed } from '@core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CartService } from '@app/cart/cart.service';
 import { ProductService } from '@app/products/product.service';
@@ -9,6 +10,8 @@ import { ProductModel } from '@core/model/product.model';
 import { ApiResponseModel } from '@core/model/api-response.model';
 
 import { faLongArrowAltLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -19,15 +22,22 @@ export class CartComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   faLongArrowAltLeft = faLongArrowAltLeft;
   faTimes = faTimes;
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
 
   constructor(
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _matDialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this._loadShoppingCart();
+    console.log('Load Shopping cart');
   }
 
   ngOnDestroy() {}
@@ -40,7 +50,9 @@ export class CartComponent implements OnInit, OnDestroy {
         (res: ApiResponseModel) => {
           if (res.success && res.result.affectedRows === 1) {
             console.log('Product Deleted Successfully!');
-            // TODO: show appropriate success message
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
             this._loadShoppingCart();
           } // TODO: handle else block
         },
@@ -49,7 +61,6 @@ export class CartComponent implements OnInit, OnDestroy {
         }
       );
   }
-
   private _getCartProducts() {
     this._cartService
       .getCartProducts()
@@ -61,9 +72,11 @@ export class CartComponent implements OnInit, OnDestroy {
           this._setLoader(false);
         },
         (err) => {
+          console.log('Error:' + err);
           this._globalErrorService.reactToAppError(err);
         }
       );
+    console.log('Cart:' + this.cartItems);
   }
 
   private _fetchCartProductImages(cartProducts: ProductModel[]) {

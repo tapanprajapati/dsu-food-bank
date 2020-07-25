@@ -1,3 +1,6 @@
+/**
+ * @author Samkit Shah <samkit@dal.ca>
+ */
 import { UserModel } from './../@core/model/user.model';
 import { RoleModel } from './../@core/model/role.model';
 import { SignupService } from './signup.service';

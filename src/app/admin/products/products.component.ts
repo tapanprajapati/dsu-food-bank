@@ -15,7 +15,7 @@ import { CategoryModel } from '@app/@core/model/category.model';
 import { untilDestroyed } from '@app/@core';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
 import { GlobalErrorService } from '@app/@core/services/global-error.service';
-import { AdminAddEditProductDialog } from './add-edit-product-dialog copy/add-edit-product.dialog';
+import { AdminAddEditProductDialog } from './add-edit-product-dialog/add-edit-product.dialog';
 import { AdminDeleteProductDialog } from './delete-product-dialog/delete-product-dialog';
 
 @Component({

@@ -1,3 +1,8 @@
+/**
+ * @author Asmita Chaudhari <Asmita.Chaudhari@dal.ca>
+ *
+ */
+
 import { ApiResponseModel } from '@core/model/api-response.model';
 import { WorkerDeleteDialogComponent } from './../worker-delete-dialog/worker-delete-dialog.component';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
