@@ -14,7 +14,7 @@ export const environment = {
   production: false,
   hmr: true,
   version: env.npm_package_version + '-dev',
-  serverUrl: 'http://localhost:80/api/',
+  serverUrl: 'https://api-dsu-food-bank.herokuapp.com/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR'],
   firebase: {

@@ -22,8 +22,15 @@ router.route(`/`).get(orderController.getAll);
 router
   .route(`/:orderId`)
   .get(orderController.getByOrderId)
-  .put(validate(orderSchema.updateOrder), orderController.updateOrderStatusById);
+  .put(
+    validate(orderSchema.updateOrder),
+    orderController.updateOrderStatusById
+  );
 
-router.route(`/setDelivered/:orderId`).put(validate(orderSchema.setDelivered), orderController.setOrderDate);
+router.route(`/user/:bannerId`).get(orderController.getByUser);
+
+router
+  .route(`/setDelivered/:orderId`)
+  .put(validate(orderSchema.setDelivered), orderController.setOrderDate);
 
 module.exports = router;

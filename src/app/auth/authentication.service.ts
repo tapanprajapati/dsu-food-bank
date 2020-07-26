@@ -54,12 +54,12 @@ export class AuthenticationService {
     return Number(localStorage.getItem('role_id'));
   }
 
-  set authUserBanner(bannerId: string) {
-    localStorage.setItem('bannerId', String(bannerId));
+  set authUserBannerId(bannerId: string) {
+    localStorage.setItem('banner_id', bannerId);
   }
 
-  get authUserBanner() {
-    return localStorage.getItem('bannerId');
+  get authUserBannerId() {
+    return localStorage.getItem('banner_id');
   }
 
   getAuthorizationHeader(): HttpHeaders {
