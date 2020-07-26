@@ -53,7 +53,11 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.authenticationService.authUserBannerId = res?.authenticate?.user?.bannerId;
               this.authenticationService.setIsLoggedIn(true);
 
-              this.router.navigate(['/home']);
+              if (this.authenticationService.authUserRole == 1 || this.authenticationService.authUserRole == 2) {
+                this.router.navigate(['/admin']);
+              } else {
+                this.router.navigate(['/home']);
+              }
             } else {
               const dialogConfig = this._matDialogConfig;
               dialogConfig.data = { header: 'Error!', content: 'Please enter correct username or password.' };
