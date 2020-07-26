@@ -30,5 +30,7 @@ const auth = require('src/helpers/auth');
  */
 router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
 router.route('/signup').post(userController.createUser);
+
+// Route to get the roles from the database. This will handle the GET request from the front end.
 router.route('/getRoles').get(userController.getRoles);
 module.exports = router;

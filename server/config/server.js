@@ -25,8 +25,7 @@ const server = express();
 
 /**
  * Application configuration
- * enable all cors requests
- * todo: https://www.npmjs.com/package/cors#configuring-cors-w-dynamic-origin
+ *
  */
 server.use(cors());
 server.use(bodyParser.json());
@@ -44,6 +43,7 @@ server.use('/api/products', productRoutes);
 server.use('/api/categories', categoryRoutes);
 server.use('/api/cart', cartRoutes);
 server.use('/api', userRoutes);
+// TODO: Remove unnecessary employee routes from here
 server.use('/api/employee', employeeRoutes);
 server.use('/api/employee/:BannerId/:RoleId', employeeRoutes);
 server.use('api/employee/add', employeeRoutes);

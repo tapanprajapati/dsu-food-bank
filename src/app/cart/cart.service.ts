@@ -16,7 +16,6 @@ import { ApiResponseModel } from '@core/model/api-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService implements OnDestroy {
-  private _cartItems: ProductModel[] = [];
   private _isLoggedIn: boolean;
   private _matDialogConfig: MatDialogConfig = {
     minWidth: '250px',
@@ -35,16 +34,6 @@ export class CartService implements OnDestroy {
 
   ngOnDestroy() {}
 
-  /**
-   * TODO:
-   * 1. Check whether user is logged in or not?
-   * 2. If not, ask user to login.
-   * 3. If logged in, add the product inside the cart
-   * 4. Logic to check whether user has already added the product.
-   * // const dialogConfig = this._matDialogConfig;
-   * // dialogConfig.data = { header: 'Success!', content: 'Product added successfully.' };
-   * // this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-   */
   isCartAccessible(product: ProductModel) {
     if (!this._isLoggedIn) {
       this._router.navigate(['/login'], { queryParams: { redirect: `products/${product.id}` }, replaceUrl: true });
@@ -92,9 +81,6 @@ export class CartService implements OnDestroy {
   }
 
   private _getAuthorizationHeader(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYW5uZXJJZCI6IkIwMDg1MzkxMyIsInJvbGVJZCI6MywiaWF0IjoxNTk1NjQ5OTYxLCJleHAiOjE1OTU2NTM1NjF9.01dqa7QNqEn1veB8ruqfKgfcXOcpIigQCo4RcA_xp14',
-    });
+    return this._authenticationService.getAuthorizationHeader();
   }
 }

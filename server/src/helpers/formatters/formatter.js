@@ -2,6 +2,7 @@
  * @author Parth Parmar <parth.parmar@dal.ca>
  *
  * Formatting the response objects for the front-end models
+ *
  */
 
 const formatProducts = (products) => {
@@ -62,4 +63,9 @@ const formatUsers = (users) => {
   });
 };
 
-module.exports = { formatProducts, formatCatgories, formatUsers, formatOrderDetail };
+module.exports = {
+  formatProducts,
+  formatCatgories,
+  formatUsers,
+  formatOrderDetail,
+};

@@ -16,6 +16,10 @@ const { authenticateRoute } = require('src/helpers/auth');
  * Successfully fetches all records { "success": true, "statusCode": 200, "result": [] }
  * SQL Errors: I.e., { "success": false, "statusCode": 500, "error": {} }
  */
+
+// Route to create a new order. This will handle the POST request from the Checkout component to
+// create new order.
+
 router.route('').post(checkoutController.createOrder);
 
 module.exports = router;

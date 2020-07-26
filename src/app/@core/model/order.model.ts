@@ -1,3 +1,7 @@
+/**
+ * @author Samkit Shah [samkit@dal.ca]
+ */
+
 import { ProductModel } from '@core/model/product.model';
 import { Observable } from 'rxjs';
 export interface OrderDetailModel {
