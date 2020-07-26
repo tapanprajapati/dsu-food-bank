@@ -1,3 +1,6 @@
+/**
+ * @author Parth Parmar <parth.parmar@dal.ca>
+ */
 import { untilDestroyed } from '@core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -9,6 +12,8 @@ import { ProductModel } from '@core/model/product.model';
 import { ApiResponseModel } from '@core/model/api-response.model';
 
 import { faLongArrowAltLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialogWrapperComponent } from '@app/@shared';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -19,11 +24,16 @@ export class CartComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   faLongArrowAltLeft = faLongArrowAltLeft;
   faTimes = faTimes;
+  private _matDialogConfig: MatDialogConfig = {
+    minWidth: '250px',
+    minHeight: '200px',
+  };
 
   constructor(
     private _cartService: CartService,
     private _globalErrorService: GlobalErrorService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -39,8 +49,9 @@ export class CartComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: ApiResponseModel) => {
           if (res.success && res.result.affectedRows === 1) {
-            console.log('Product Deleted Successfully!');
-            // TODO: show appropriate success message
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
             this._loadShoppingCart();
           } // TODO: handle else block
         },
@@ -49,7 +60,6 @@ export class CartComponent implements OnInit, OnDestroy {
         }
       );
   }
-
   private _getCartProducts() {
     this._cartService
       .getCartProducts()
