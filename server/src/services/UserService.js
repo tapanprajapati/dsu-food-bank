@@ -1,7 +1,12 @@
 /**
  * @author Samkit Shah <samkit@dal.ca>
+ * @author Parth Parmar <parth.parmar@dal.ca>
+ * @author Siddharth Kapania <sid.kapania@dal.ca>
+ *
+ * Service layer for the user resource communicating with the database and transforming the response for front-en
  */
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 const Database = require('config/database');
 const queries = require('app-data/queries');
 const dbConfig = require('app-data/dbConfig');
@@ -20,39 +25,34 @@ function UserService() {}
  */
 UserService.prototype.authenticate = async function authenticate(credentials) {
   const signInQuery = mysql.format(queries.signIn, [credentials.bannerId, credentials.password]);
-  console.log(`The Query for finding user entry - ${signInQuery}`);
-  try {
-    let result = await database.query(signInQuery);
-    const users = formatUsers(result);
 
-    if (users.length === 0) {
-      return {
-        success: false,
-        statusCode: 404,
-        message: 'user not found',
-      };
-    }
-    if (users.length === 1) {
-      if (users[0].password === credentials.password) {
-        return {
-          success: true,
-          statusCode: 200,
-          user: users[0], // Todo: remove password from the object
-        };
-      } else {
-        return {
-          success: false,
-          statusCode: 400,
-          message: 'incorrect password',
-        };
-      }
-    }
-  } catch (error) {
+  console.log(`The Query for finding user entry - ${signInQuery}`);
+
+  let result = await database.query(signInQuery);
+  const users = formatUsers(result);
+
+  if (users.length === 0) {
     return {
       success: false,
-      statusCode: 500,
-      error,
+      statusCode: 404,
+      message: 'user not found',
     };
+  }
+  if (users.length === 1) {
+    let checkpass = bcrypt.compareSync(credentials.password, users[0].password);
+    if (checkpass === true) {
+      return {
+        success: true,
+        statusCode: 200,
+        user: users[0], // Todo: remove password from the object
+      };
+    } else {
+      return {
+        success: false,
+        statusCode: 400,
+        message: 'incorrect password',
+      };
+    }
   }
 };
 
@@ -110,8 +110,8 @@ UserService.prototype.createUser = async function createUser(data) {
       <p style="padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">
         Thank you for signing up to be a member of the DSU Foodbank.</p>
       <p style="padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">
-          We are aware that food insecurity is a problem in the student community. Sometimes money doesn't come in, loans get delayed, or you've got other expenses that suddenly appear. 
-          Don't worry, whether you need long term assistance or just a few meals to get by, please come visit us. 
+          We are aware that food insecurity is a problem in the student community. Sometimes money doesn't come in, loans get delayed, or you've got other expenses that suddenly appear.
+          Don't worry, whether you need long term assistance or just a few meals to get by, please come visit us.
       </p>
       <p style="padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">
         You are now able to login to Foodbank and access all our resources.</p>
@@ -120,7 +120,7 @@ UserService.prototype.createUser = async function createUser(data) {
           href="https://dsu-food-bank.herokuapp.com/login" target="_blank">CLICK HERE TO LOGIN</a>
       </p>
       <p style="padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">
-        If you have any problem and need any help then you can call us on (902) 494‑2140.
+        If you have any problem and need any help then you can call us on (902) 494â€‘2140.
         For more information email dsufoodbank@dal.ca
       </p>
       <p style="padding-bottom: 0; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">

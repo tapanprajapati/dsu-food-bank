@@ -22,7 +22,7 @@ import { SignUpComponent } from '@app/signup/signup.component';
 import { NotFoundComponent } from '@app/not-found/not-found.component';
 import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { NewOrderCheckoutComponent } from './new-order-checkout/new-order-checkout.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { environment } from './../environments/environment.prod';
 
@@ -42,6 +42,7 @@ import { environment } from './../environments/environment.prod';
     AngularFireStorageModule,
     MatSortModule,
     MatTableModule,
+    JwtModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [
@@ -51,7 +52,6 @@ import { environment } from './../environments/environment.prod';
     SignUpComponent,
     ForgotPasswordComponent,
     CheckoutComponent,
-    NewOrderCheckoutComponent,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
