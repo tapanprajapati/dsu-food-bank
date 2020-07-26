@@ -1,5 +1,6 @@
 /**
  * @author Parth Parmar <parth.parmar@dal.ca>
+ * @author Tapan Prajapati <Tapan.Prajapati@dal.ca>
  *
  * Service layer for the product resource communicating with the database and transforming the response for front-end
  */
