@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 import { OrderDetailModel } from './../@core/model/order.model';
 import { Observable } from 'rxjs';
 import { OrderModel } from '@core/model/order.model';
@@ -7,7 +8,6 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { catchError } from 'rxjs/operators';
 import { GlobalErrorService } from '@core/services/global-error.service';
 import { AuthenticationService } from '@app/auth/authentication.service';
-import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
