@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 import { OrderDetailModel } from './../@core/model/order.model';
 import { Observable } from 'rxjs';
 import { OrderModel } from '@core/model/order.model';
@@ -6,21 +7,23 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { catchError } from 'rxjs/operators';
 import { GlobalErrorService } from '@core/services/global-error.service';
+import { AuthenticationService } from '@app/auth/authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private orders: OrderModel[];
   private _globalErrorService: GlobalErrorService;
   private _storage: AngularFireStorage;
-  readonly URL = 'http://localhost:80/api/orders/';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
 
   getAllOrders(): Observable<OrderModel[]> {
-    console.log(this.http.get<OrderModel[]>(this.URL));
-    return this.http.get<OrderModel[]>(this.URL);
+    return this.http.get<OrderModel[]>(this._getUrl() + 'user/' + this.authenticationService.authUserBannerId);
   }
 
   getOrderDetails(orderId: number) {
-    return this.http.get<OrderDetailModel[]>(this.URL + orderId);
+    return this.http.get<OrderDetailModel[]>(this._getUrl() + orderId);
+  }
+  private _getUrl() {
+    return `${environment.serverUrl}orders/`;
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { untilDestroyed } from '@core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
@@ -21,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   primaryNavItems: NavItemModel[];
   secondaryNavItems: NavItemModel[];
   isLoggedIn = false;
+  isAdmin = false;
 
   changedHeaderColor: boolean;
 
@@ -29,8 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private _navigation: NavigationService,
     private _media: MediaObserver,
-    private _authenticationService: AuthenticationService,
-    private _router: Router
+    private _authenticationService: AuthenticationService
   ) {}
 
   ngOnInit() {
@@ -38,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._getSecondaryNavigationItems();
     this._handleMobileMenu();
     this._handleLoginHandler();
+    this._handleAdminStatus();
   }
 
   ngOnDestroy() {}
@@ -48,17 +48,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._authenticationService.setIsLoggedIn(false);
-    this._authenticationService.clearLocalStorage();
-    this._router.navigate(['/login']);
+    this._authenticationService.logout();
   }
 
   private _getPrimaryNavigationItems() {
     this.primaryNavItems = this._navigation.getPrimaryNavigationItems();
   }
+
   private _getSecondaryNavigationItems() {
     this.secondaryNavItems = this._navigation.getSecondaryNavigationItems();
   }
+
   private _handleMobileMenu() {
     // Automatically close side menu on screens > sm breakpoint
     // REF: @ngx-rocket header responsive handler
@@ -72,9 +72,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => this.sidenav.close());
   }
+
   private _handleLoginHandler() {
     this._authenticationService.isLoggedIn.pipe(untilDestroyed(this)).subscribe((val) => {
       this.isLoggedIn = val;
+    });
+  }
+
+  private _handleAdminStatus() {
+    this._authenticationService.isAdmin.pipe(untilDestroyed(this)).subscribe((val) => {
+      this.isAdmin = val;
     });
   }
 }

@@ -2,6 +2,7 @@ function OrderController(service) {
   this.service = service;
   this.getAll = this.getAll.bind(this);
   this.getByOrderId = this.getByOrderId.bind(this);
+  this.getByUser = this.getByUser.bind(this);
   this.updateOrderStatusById = this.updateOrderStatusById.bind(this);
   this.setOrderDate = this.setOrderDate.bind(this);
 }
@@ -15,7 +16,15 @@ OrderController.prototype.getByOrderId = async function getByOrderId(req, res) {
   res.status(response.statusCode).send(response);
 };
 
-OrderController.prototype.updateOrderStatusById = async function updateOrderStatusById(req, res) {
+OrderController.prototype.getByUser = async function getByUser(req, res) {
+  let response = await this.service.getByUser(req.params);
+  res.status(response.statusCode).send(response);
+};
+
+OrderController.prototype.updateOrderStatusById = async function updateOrderStatusById(
+  req,
+  res
+) {
   let response = await this.service.updateOrderStatusById(req.params, req.body);
   res.status(response.statusCode).send(response);
 };

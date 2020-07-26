@@ -4,6 +4,7 @@ import { Logger, untilDestroyed } from '@core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { AuthenticationService } from './auth/authentication.service';
 
 const log = new Logger('App');
 
@@ -13,7 +14,12 @@ const log = new Logger('App');
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private _authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit() {
     // Setup logger
@@ -43,6 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.titleService.setTitle(title);
         }
       });
+
+    this._authenticationService.appAuthAndRoleChecker(this.router.routerState.snapshot);
   }
 
   ngOnDestroy() {}

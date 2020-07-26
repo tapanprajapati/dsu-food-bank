@@ -26,12 +26,16 @@ const routes: Routes = [
   },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: APP_TITLES?.forgot_pwd } },
   { path: 'donate', loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule) },
-  { path: 'profile', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) },
+  {
+    path: 'profile',
+    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
+    canActivate: [AuthenticationGuard],
+  },
   { path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule) },
   {
     path: 'orders',
     loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
-    // canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'cart',
@@ -44,7 +48,7 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-    // canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard],
   },
   { path: 'not-found', component: NotFoundComponent, data: { title: APP_TITLES?.not_found } },
   // Fallback when no prior route is matched

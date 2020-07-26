@@ -3,21 +3,18 @@
     <fa-icon [icon]="faCookieBite" class="app-icon"></fa-icon><span class="app-heading pl-1">Food Bank</span>
   </div>
   <div fxHide.lt-md class="pl-2">
-    <button
-      mat-button
-      *ngFor="let item of primaryNavItems"
-      [routerLink]="[item.routeLink]"
-      routerLinkActive="mat-accent"
-    >
-      <span>{{ item.name }}</span>
-    </button>
+    <ng-container *ngFor="let item of primaryNavItems">
+      <button mat-button *ngIf="!isAdmin" [routerLink]="[item.routeLink]" routerLinkActive="mat-accent">
+        <span>{{ item.name }}</span>
+      </button>
+    </ng-container>
   </div>
   <span fxFlex></span>
   <div fxHide.lt-md>
     <ng-container *ngFor="let item of secondaryNavItems">
       <button
         mat-button
-        *ngIf="item.isAuthenticationRequired === isLoggedIn"
+        *ngIf="item.isAuthenticationRequired === isLoggedIn && !isAdmin"
         [routerLink]="[item.routeLink]"
         routerLinkActive="mat-accent"
       >
@@ -36,13 +33,19 @@
   <mat-sidenav #sidenav mode="over" class="pt-3">
     <nav>
       <mat-list *ngFor="let item of primaryNavItems">
-        <a mat-list-item [routerLink]="[item.routeLink]" routerLinkActive="mat-accent" (click)="sidenav.close()">
+        <a
+          *ngIf="!isAdmin"
+          mat-list-item
+          [routerLink]="[item.routeLink]"
+          routerLinkActive="mat-accent"
+          (click)="sidenav.close()"
+        >
           <span>{{ item.name }}</span>
         </a>
       </mat-list>
       <mat-divider></mat-divider>
       <ng-container *ngFor="let item of secondaryNavItems">
-        <mat-list *ngIf="item.isAuthenticationRequired === isLoggedIn">
+        <mat-list *ngIf="item.isAuthenticationRequired === isLoggedIn && !isAdmin">
           <a mat-list-item [routerLink]="[item.routeLink]" routerLinkActive="mat-accent" (click)="sidenav.close()">
             <span>{{ item.name }}</span>
           </a>
