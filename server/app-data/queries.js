@@ -25,6 +25,8 @@ WHERE
   addUserRole: 'update User SET RoleId = ? where FirstName = ?',
   getOrders:
     "SELECT orderId,BannerId,DATE_FORMAT(Order.OrderDate,'%M %d %Y') as 'OrderDate',DATE_FORMAT(Order.DeliveredDate,'%M %d %Y') as 'DeliveredDate',UCASE(Status) as 'Status',DATE_FORMAT(Order.PickUpSlot,'%M %d %Y, %h:%m:%S %p') as PickUpSlot FROM dalfoodbank.Order;", //need to update with bannerId in where clause
+  getOrdersByBannerId:
+    "SELECT orderId,BannerId,DATE_FORMAT(Order.OrderDate,'%M %d %Y') as 'OrderDate',DATE_FORMAT(Order.DeliveredDate,'%M %d %Y') as 'DeliveredDate',UCASE(Status) as 'Status',DATE_FORMAT(Order.PickUpSlot,'%M %d %Y, %h:%m:%S %p') as PickUpSlot FROM dalfoodbank.Order where BannerId=?;", //need to update with bannerId in where clause
   getOrder:
     'SELECT Order.OrderId,Item.ItemName,OrderDetails.ItemQuantity,Order.OrderDate,Order.DeliveredDate,Order.status,Order.PickUpSlot,Category.CategoryName,OrderDetails.ItemId FROM dalfoodbank.OrderDetails,dalfoodbank.Order,dalfoodbank.Item,dalfoodbank.Category where Order.OrderId=OrderDetails.OrderId and OrderDetails.ItemId=Item.ItemId and Item.CategoryId=Category.CategoryId and Order.OrderId=?;',
   deletecart: 'DELETE FROM dalfoodbank.Cart where BannerId=?',

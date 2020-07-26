@@ -60,6 +60,26 @@ OrderService.prototype.getByOrderId = async function getByOrderId(params) {
   }
 };
 
+OrderService.prototype.getByUser = async function getByUser(params) {
+  const getOrderByUser = mysql.format(queries.getOrdersByBannerId, [params.bannerId]);
+  console.log(`The Query for finding the orders for banner id- ${getOrderByUser}`);
+  try {
+    let result = await database.query(getOrderByUser);
+    console.log(result);
+    return {
+      success: true,
+      statusCode: 200,
+      items: result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 OrderService.prototype.updateOrderStatusById = async function updateOrderStatusById(params, data) {
   const updateOrderStatus = mysql.format(queries.orderStatusUpdate, [data.status, params.orderId]);
   console.log(`The Query for updating order status - ${updateOrderStatus}`);
