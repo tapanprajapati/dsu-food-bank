@@ -14,6 +14,7 @@ import { GlobalErrorService } from '@app/@core/services/global-error.service';
 import { faLongArrowAltLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { untilDestroyed } from '@app/@core';
 import { ApiResponseModel } from '@app/@core/model/api-response.model';
+import { AuthenticationService } from '@app/auth';
 
 @Component({
   selector: 'app-checkout',
@@ -35,6 +36,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private _router: Router,
+    private _authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private _matDialog: MatDialog,
     private _checkoutService: CheckoutService,
@@ -101,7 +103,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   private _createCheckoutForm() {
     this.checkoutForm = this.formBuilder.group({
-      bannerId: ['', [Validators.required, Validators.pattern('^(B){1}([0-9]){8}$')]],
+      bannerId: ['', [Validators.required, Validators.pattern(`^${this._authenticationService.authUserBannerId}$`)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

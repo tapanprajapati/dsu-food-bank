@@ -36,7 +36,11 @@ export class CheckoutService {
   // This function will send POST request to the server
   createOrder(order: OrderModel) {
     try {
-      return this._http.post<any>(`${environment.serverUrl}checkout/`, order);
+      console.log('URL IS:' + `${environment.serverUrl}` + 'checkout/' + this._authenticationService.authUserBannerId);
+      return this._http.post<any>(
+        `${environment.serverUrl}` + 'checkout/' + this._authenticationService.authUserBannerId,
+        order
+      );
     } catch (e) {
       throw new Error();
     }

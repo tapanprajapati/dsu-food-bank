@@ -9,7 +9,7 @@ function checkoutController(service) {
 
 // This method will call service to create an order and send the order object in request body.
 checkoutController.prototype.createOrder = async function createOrder(req, res) {
-  let response = await this.service.createOrder(req.body);
+  let response = await this.service.createOrder(req.body, req.params.bannerId);
   res.status(response.statusCode).send(response);
 };
 

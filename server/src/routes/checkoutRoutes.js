@@ -20,6 +20,6 @@ const { authenticateRoute } = require('src/helpers/auth');
 // Route to create a new order. This will handle the POST request from the Checkout component to
 // create new order.
 
-router.route('').post(checkoutController.createOrder);
+router.route('/:bannerId').post(checkoutController.createOrder);
 
 module.exports = router;
