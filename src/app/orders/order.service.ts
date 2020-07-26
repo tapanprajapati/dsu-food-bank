@@ -1,8 +1,4 @@
-/**
- * @author Malav Jani <ml805403@dal.ca>
- *
- */
-import { environment } from '@env/environment';
+import { environment } from './../../environments/environment.prod';
 import { OrderDetailModel } from './../@core/model/order.model';
 import { Observable } from 'rxjs';
 import { OrderModel } from '@core/model/order.model';
@@ -23,11 +19,10 @@ export class OrderService {
     return `${environment.serverUrl}orders/`;
   }
   getAllOrders(): Observable<OrderModel[]> {
-    console.log(this.http.get<OrderModel[]>(this._getUrl()));
     return this.http.get<OrderModel[]>(this._getUrl());
   }
 
   getOrderDetails(orderId: number) {
-    return this.http.get<OrderDetailModel[]>(this._getUrl() + orderId);
+    return this.http.get<OrderDetailModel[]>(`${this._getUrl()}/${orderId}`);
   }
 }

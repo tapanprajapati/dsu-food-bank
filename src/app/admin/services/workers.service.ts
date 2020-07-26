@@ -19,10 +19,8 @@ import { environment } from '@env/environment';
 export class WorkersService {
   formData: Workers;
   form: Workers;
-  //public JobsList: Workers[];
 
   readonly URL = `${this._getUrl()}`;
-  //'http://localhost:80/api';
 
   constructor(private http: HttpClient) {}
 
@@ -39,7 +37,6 @@ export class WorkersService {
 
   addUserRole(formData: Workers) {
     return this.http.put<ApiResponseModel>(this.URL + 'employee/add', formData);
-    //return a;
   }
 
   getRole() {
