@@ -54,6 +54,14 @@ export class AuthenticationService {
     return Number(localStorage.getItem('role_id'));
   }
 
+  set authUserBannerId(bannerId: string) {
+    localStorage.setItem('banner_id', bannerId);
+  }
+
+  get authUserBannerId() {
+    return localStorage.getItem('banner_id');
+  }
+
   getAuthorizationHeader(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${this.authToken}`,

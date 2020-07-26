@@ -49,7 +49,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           (res) => {
             if (res?.token?.length > 0 && res?.authenticate?.success === true) {
               this.authenticationService.authToken = res.token;
+              console.log(res?.authenticate?.user);
               this.authenticationService.authUserRole = res?.authenticate?.user?.roleid;
+              this.authenticationService.authUserBannerId = res?.authenticate?.user?.bannerId;
               this.authenticationService.setIsLoggedIn(true);
 
               this.router.navigate(['/home']);
