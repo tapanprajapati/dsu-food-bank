@@ -63,7 +63,7 @@ UserService.prototype.createUser = async function createUser(data) {
   const saltRounds = 10;
   const plain_password = data.password;
   const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
-
+  const email_id = data.email;
   // Query to create a new user.
   const createUserquery = mysql.format(queries.createUser, [
     data.bannerId,
@@ -81,15 +81,10 @@ UserService.prototype.createUser = async function createUser(data) {
     // This transporter will be used to send an email to user.
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-      host: 'smtp.googlemail.com',
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      service: 'Gmail',
       auth: {
         user: 'advsdc12@gmail.com', // generated ethereal user
-        pass: 'Dal@2020', // generated ethereal password
-      },
-      tls: {
-        rejectUnauthorized: false,
+        pass: 'Samkit@123', // generated ethereal password
       },
     });
 
@@ -97,7 +92,7 @@ UserService.prototype.createUser = async function createUser(data) {
     // setup email data with unicode symbols
     let mailOptions = {
       from: 'SAMKIT SHAH', // sender address
-      to: data.email, // list of receivers
+      to: email_id, // list of receivers
       subject: 'Account created successfully.', // Subject line
       text: 'Account created successfully.', // plain text body
       html: `<div style="background-color: #F5F7FA; padding: 50px; min-width: 360px;">
@@ -120,7 +115,7 @@ UserService.prototype.createUser = async function createUser(data) {
           href="https://dsu-food-bank.herokuapp.com/login" target="_blank">CLICK HERE TO LOGIN</a>
       </p>
       <p style="padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">
-        If you have any problem and need any help then you can call us on (902) 494â€‘2140.
+        If you have any problem and need any help then you can call us on (902)-494-2140.
         For more information email dsufoodbank@dal.ca
       </p>
       <p style="padding-bottom: 0; font-family: Arial, sans-serif; font-size: 18px; color: #52556B; line-height: 1.5">

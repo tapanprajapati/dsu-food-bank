@@ -19,7 +19,6 @@ export class OrderService {
   getAllOrders(): Observable<OrderModel[]> {
     return this.http.get<OrderModel[]>(this._getUrl() + 'user/' + this.authenticationService.authUserBannerId);
   }
-
   getOrderDetails(orderId: number) {
     return this.http.get<OrderDetailModel[]>(this._getUrl() + orderId);
   }

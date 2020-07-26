@@ -19,7 +19,7 @@ function CheckoutService() {}
  */
 
 // method to create an order.
-CheckoutService.prototype.createOrder = async function createOrder(data) {
+CheckoutService.prototype.createOrder = async function createOrder(data, banner) {
   const date = data.pickupDate;
   const time = data.pickupTime;
 
@@ -31,15 +31,15 @@ CheckoutService.prototype.createOrder = async function createOrder(data) {
   const status = 'placed';
 
   // Query to create an order in order table.
-  const createOrderquery = mysql.format(queries.createOrder, [data.bannerId, today, status, dateTime]);
+  const createOrderquery = mysql.format(queries.createOrder, [banner, today, status, dateTime]);
   console.log(`The Query for creating a Order entry - ${createOrderquery}`);
 
   // fetch an order id for the recent order by user
-  fetchidquery = mysql.format(queries.fetchOrderId, [data.bannerId]);
+  fetchidquery = mysql.format(queries.fetchOrderId, [banner]);
   console.log(`Query to fetch order Id-${fetchidquery}`);
 
   // fetch the products in the cart to add in orderdetails table
-  const getCartProductsQuery = mysql.format(queries.getCartProducts, data.bannerId);
+  const getCartProductsQuery = mysql.format(queries.getCartProducts, banner);
   console.log(`The Query for fetching all products from cart - ${getCartProductsQuery}`);
   try {
     let items = await database.query(createOrderquery);
@@ -55,7 +55,7 @@ CheckoutService.prototype.createOrder = async function createOrder(data) {
         mysql.format(queries.createOrderdetails, [id[0].OrderId, cartItems[i][keys[0]], cartItems[i][keys[3]]])
       );
     }
-    const deletecartquery = mysql.format(queries.deletecart, data.bannerId);
+    const deletecartquery = mysql.format(queries.deletecart, banner);
     let rs = await database.query(deletecartquery);
     return {
       success: true,
