@@ -53,9 +53,11 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.authenticationService.authUserBannerId = res?.authenticate?.user?.bannerId;
               this.authenticationService.setIsLoggedIn(true);
 
-              if (this.authenticationService.authUserRole == 1 || this.authenticationService.authUserRole == 2) {
+              if (this.authenticationService.authUserRole === 1 || this.authenticationService.authUserRole === 2) {
+                this.authenticationService.setIsAdmin(true);
                 this.router.navigate(['/admin']);
               } else {
+                this.authenticationService.setIsAdmin(false);
                 this.router.navigate(['/home']);
               }
             } else {

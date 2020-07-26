@@ -11,24 +11,11 @@ const log = new Logger('AuthenticationGuard');
 })
 export class AuthenticationGuard implements CanActivate, OnDestroy {
   private _isLoggedIn: boolean;
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
-    this._observeAuthenticationFlag();
-  }
+  constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (localStorage.getItem('access_key')) {
-      return true;
-    }
-
-    log.debug('Not authenticated, redirecting and adding redirect url...');
-    this.router.navigate(['/login'], { queryParams: { redirect: state.url }, replaceUrl: true });
-    return false;
+    return this.authenticationService.appAuthAndRoleChecker(state);
   }
 
   ngOnDestroy() {}
-  private _observeAuthenticationFlag() {
-    this.authenticationService.isLoggedIn.pipe(untilDestroyed(this)).subscribe((val) => {
-      this._isLoggedIn = val;
-    });
-  }
 }
