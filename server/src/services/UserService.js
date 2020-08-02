@@ -197,6 +197,8 @@ UserService.prototype.getRoles = async function getRoles() {
 UserService.prototype.resetPassword = async function resetPassword(data) {
   console.log(data);
   console.log(data.bannerId);
+
+  //Created token
   var resettoken = jwt.sign({ bannerId: data.bannerId }, jwtSecret);
 
   console.log(resettoken);
@@ -212,7 +214,7 @@ UserService.prototype.resetPassword = async function resetPassword(data) {
 
   // This will verify and provide the BannerId
   // var decoded = jwt.verify(resettoken, jwtSecret);
-  // console.log(decoded.bannerId)
+  // console.log("Decoded BannerID: "+decoded.bannerId);
   try {
     let items = await database.query(resetPasswordQuery);
 
@@ -231,7 +233,7 @@ UserService.prototype.resetPassword = async function resetPassword(data) {
       subject: 'Reset Password.', // Subject line
       text: 'Reset your password.', // plain text body
       html: `<h2> Please click on the given link to reset the password</h2>
-            <p>https://dsu-food-bank.herokuapp.com/updatepassword/${resettoken}</p>
+            <p>http://localhost:80/updatepassword/${resettoken}</p>
       `,
     };
     // send mail with defined transport object
