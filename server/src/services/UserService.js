@@ -12,6 +12,8 @@ const queries = require('app-data/queries');
 const dbConfig = require('app-data/dbConfig');
 const nodemailer = require('nodemailer');
 const { formatUsers } = require('../helpers/formatters/formatter');
+const { jwtSecret, jwtDuration, jwtAlgorithm } = require('app-data/tokenConfig');
+const jwt = require('jsonwebtoken');
 
 /**
  * Creating a new database instance
@@ -188,6 +190,82 @@ UserService.prototype.getRoles = async function getRoles() {
       statusCode: 500,
       error,
     };
+  }
+};
+
+// Method to send the reset link to the user
+UserService.prototype.resetPassword = async function resetPassword(data) {
+  console.log(data);
+  console.log(data.bannerId);
+  var resettoken = jwt.sign({ bannerId: data.bannerId }, jwtSecret);
+
+  console.log(resettoken);
+  const resetPasswordQuery = mysql.format(queries.resetPassword, [resettoken, data.bannerId]);
+  const getUserQuery = mysql.format(queries.signIn, [data.bannerId]);
+  console.log(`The Query to fetch email address-${getUserQuery}`);
+
+  let result = await database.query(getUserQuery);
+  const users = formatUsers(result);
+  console.log(users);
+  const email = users[0].email;
+  console.log(`The Query for reset a password entry - ${resetPasswordQuery}`);
+
+  // This will verify and provide the BannerId
+  // var decoded = jwt.verify(resettoken, jwtSecret);
+  // console.log(decoded.bannerId)
+  try {
+    let items = await database.query(resetPasswordQuery);
+
+    // This transporter will be used to send an email to user.
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'advsdc12@gmail.com', // generated ethereal user
+        pass: 'Samkit@123', // generated ethereal password
+      },
+    });
+    let mailOptions = {
+      from: 'SAMKIT SHAH', // sender address
+      to: email, // list of receivers
+      subject: 'Reset Password.', // Subject line
+      text: 'Reset your password.', // plain text body
+      html: `<h2> Please click on the given link to reset the password</h2>
+            <p>https://dsu-food-bank.herokuapp.com/updatepassword/${resettoken}</p>
+      `,
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log('error' + error);
+        return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+      res.render('contact', { msg: 'Email has been sent' });
+    });
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    if (error.errno === 1062) {
+      return {
+        success: false,
+        statusCode: 400,
+        message: 'User already exists.',
+        error,
+      };
+    } else {
+      return {
+        success: false,
+        statusCode: 500,
+        message: 'Please try after some time.',
+        error,
+      };
+    }
   }
 };
 module.exports = UserService;

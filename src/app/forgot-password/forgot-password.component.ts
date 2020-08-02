@@ -1,5 +1,7 @@
+import { ForgotPasswordSerice } from './forogt-password.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-forgot-password',
@@ -10,7 +12,11 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   resetPasswordForm!: FormGroup;
   isResetPwdLinkSent = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private _http: HttpClient,
+    private _ForgotPasswordSerice: ForgotPasswordSerice
+  ) {
     this._resetPasswordForm();
   }
 
@@ -20,18 +26,30 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   resetPasswordLink() {
     if (this.resetPasswordForm.valid) {
-      this.resetPasswordForm.reset();
-      this.isResetPwdLinkSent = true;
+      this._ForgotPasswordSerice.resetPassword(this.resetPasswordForm.value).subscribe(
+        (res) => {
+          this.resetPasswordForm.reset();
+          this.isResetPwdLinkSent = true;
+        },
+        (error) => {
+          console.log(error.status);
+          console.log(error.statusCode);
+          this.resetPasswordForm.reset();
+          this.isResetPwdLinkSent = false;
+        }
+      );
+
+      // return this._http.post<any>(`${environment.serverUrl}resetpassword`, this.resetPasswordForm.value);
     }
   }
 
-  get email() {
-    return this.resetPasswordForm.controls.email;
+  get bannerId() {
+    return this.resetPasswordForm.controls.bannerId;
   }
 
   private _resetPasswordForm() {
     this.resetPasswordForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      bannerId: ['', [Validators.required, Validators.pattern('^(B){1}([0-9]){8}$')]],
     });
   }
 }

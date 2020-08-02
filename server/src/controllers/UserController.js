@@ -8,6 +8,7 @@ function UserController(service) {
   this.authenticate = this.authenticate.bind(this);
   this.createUser = this.createUser.bind(this);
   this.getRoles = this.getRoles.bind(this);
+  this.resetPassword = this.resetPassword.bind(this);
 }
 
 UserController.prototype.authenticate = async function authenticate(req, res, next) {
@@ -28,6 +29,12 @@ UserController.prototype.createUser = async function createUser(req, res) {
 // This method will call the service to get the roles from the database and return response.
 UserController.prototype.getRoles = async function getRoles(req, res) {
   let response = await this.service.getRoles();
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.resetPassword = async function resetPassword(req, res) {
+  console.log(req.body);
+  let response = await this.service.resetPassword(req.body);
   res.status(response.statusCode).send(response);
 };
 
