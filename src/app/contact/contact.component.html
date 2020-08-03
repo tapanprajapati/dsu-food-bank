@@ -1,10 +1,6 @@
-<!-- <section class="mt-5">
-    <h1>Contact Us</h1>
-    <a [routerLink]="'special-item'">Special Item Request</a>
-  </section> -->
-<div class="container-fluid">
+<div class="container-fluid m-3">
   <div class="row justify-content-center">
-    <div class="col-md-5 col-sm-12 d-flex flex-column justify-content-center">
+    <div class="col-md-6 col-sm-6 d-flex flex-column justify-content-center">
       <mat-card class="contact-card mt-4 mb-4 mat-elevation-z16">
         <mat-card-header class="p-4">
           <mat-card-title>{{ 'Contact Us' | uppercase }}</mat-card-title>
@@ -77,6 +73,30 @@
           </form>
         </mat-card-content>
       </mat-card>
+    </div>
+    <div class="col-md-6 col-sm-6 d-flex flex-column justify-content-center p-5">
+      <h3>Address</h3>
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <Address
+        >Dalhousie Student Union,<br />
+        6136 University Avenue,<br />
+        Halifax, NS, B3H,<br />
+        Canada
+      </Address>
+
+      <h3>Contact</h3>
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <address>
+        dsufoodbank@dal.ca<br />
+        +1 (902) 494-2140
+      </address>
+
+      <h3>Hours Of Operation</h3>
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <address>
+        Monday: 12pm-5pm<br />
+        Thursday: 1pm-5pm
+      </address>
     </div>
   </div>
 </div>

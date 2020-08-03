@@ -1,30 +1,18 @@
-<!-- <section class="mt-5">
-  <h1>About Us</h1>
-  <a [routerLink]="'our-team'">Our Team</a>
-  <span>|</span>
-  <a [routerLink]="'join'">Join as a Volunteer</a>
-</section> -->
-
 <div class="container-fluid mt-4 mb-4">
-  <div class="row mt-2">
-    <h2>Welcome to Dalhouise Food Bank<mat-divider class="divider"></mat-divider></h2>
-
-    <p class="m-2">
-      This web application will help all the community members and especially students, by providing an easy way of
-      registering the items and picking it up at their convenience. Using this website, the student can save their time
-      by avoiding standing in a long queue to get their food. Moreover, the major goal of this application is to help
-      students to ask for the items they need regularly. Students will have all the new updates on the food bank and
-      would be able to give feedback. Considering the current scenario of such pandemic "DSU food bank" will help in
-      maintaining social distancing for students by scheduling proper pickup time for students
-    </p>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <h2>Over Vision</h2>
+  <div class="row mt-3">
+    <div class="col-md-7 col-sm-12 d-flex flex-column justify-content-center">
+      <h1>Our Vision</h1>
       <mat-divider class="divider"></mat-divider>
+      <p class="mt-3 mb-2">
+        The application aims to eliminate the cumbersome manual processes followed by the staff members and volunteers
+        working with the DFB by providing a digital system to carry out their day-to-day activities.
+      </p>
+      <app-our-team></app-our-team>
     </div>
-    <div class="col-md-6">
-      <h1>hello</h1>
+    <div fxHide.lt-md class="col-md-5">
+      <picture>
+        <img class="app-signup-img" alt="signup page image" src="./../../assets/media/about us.png" />
+      </picture>
     </div>
   </div>
 </div>
