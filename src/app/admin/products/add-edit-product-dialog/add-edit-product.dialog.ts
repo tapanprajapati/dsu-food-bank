@@ -48,35 +48,6 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
     }
   }
 
-  private _getProduct(id: number) {
-    this._ProductService.getProductDetails(id.toString()).subscribe((res) => {
-      this.product = res['items'][0] as ProductModel;
-      console.log(this.product);
-      this.fetchProductImage(this.product);
-      this.setFormData();
-      this.showLoader(false);
-    });
-  }
-  private _getAllCategories() {
-    this._ProductService
-      .getAllCategories()
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        (res: ApiResponseModel) => {
-          this.categories = res.items as CategoryModel[];
-        },
-        (err) => {
-          this._globalErrorService.reactToAppError(err);
-        }
-      );
-  }
-
-  private fetchProductImage(product: ProductModel) {
-    this._ProductService.fetchProductImage(product.id).subscribe((url) => {
-      this.imageUrl = url;
-    });
-  }
-
   public preview(event: any) {
     this.imageFile = event.target.files[0];
 
@@ -115,7 +86,6 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           (res: any) => {
-            // console.log(res)
             this.product = {
               id: res.result.insertId,
               availableQuantity: 0,
@@ -153,6 +123,34 @@ export class AdminAddEditProductDialog implements OnInit, OnDestroy {
 
   public close() {
     this.dialogRef.close(null);
+  }
+
+  private _getProduct(id: number) {
+    this._ProductService.getProductDetails(id.toString()).subscribe((res) => {
+      this.product = res['items'][0] as ProductModel;
+      this.fetchProductImage(this.product);
+      this.setFormData();
+      this.showLoader(false);
+    });
+  }
+  private _getAllCategories() {
+    this._ProductService
+      .getAllCategories()
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (res: ApiResponseModel) => {
+          this.categories = res.items as CategoryModel[];
+        },
+        (err) => {
+          this._globalErrorService.reactToAppError(err);
+        }
+      );
+  }
+
+  private fetchProductImage(product: ProductModel) {
+    this._ProductService.fetchProductImage(product.id).subscribe((url) => {
+      this.imageUrl = url;
+    });
   }
 
   private showLoader(value: boolean) {

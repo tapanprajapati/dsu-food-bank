@@ -35,7 +35,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   viewOrderDetails(order: OrderModel) {
-    console.log(order.orderId);
     this._router.navigate([`orders/${order.orderId}`]);
   }
 

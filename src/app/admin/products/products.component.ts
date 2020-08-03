@@ -56,39 +56,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this._getAllCategories();
     this._createForm();
   }
-  private _getAllProducts() {
-    this._ProductService.getAllProducts(null).subscribe((res) => {
-      this._Products = res['items'] as ProductModel[];
-      this._initializeDataGrid();
-    });
-  }
-
-  private _getAllCategories() {
-    this._ProductService
-      .getAllCategories()
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        (res: ApiResponseModel) => {
-          this._Categories = res.items as CategoryModel[];
-          this.setCategoryTable(this._Categories);
-        },
-        (err) => {
-          this._globalErrorService.reactToAppError(err);
-        }
-      );
-  }
-
-  private setCategoryTable(categories: CategoryModel[]) {
-    this.categorySource = new MatTableDataSource<CategoryModel>(categories);
-    this.categorySource.paginator = this.categoryPaginator;
-    this.categorySource.sort = this.categorySort;
-  }
-
-  private _initializeDataGrid() {
-    this.dataSource = new MatTableDataSource<ProductModel>(this._Products);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
   delete(product: ProductModel) {
     const dialogRef = this.dialog.open(AdminDeleteProductDialog, {
@@ -130,7 +97,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       const dialogConfig = this._matDialogConfig;
       if (result) {
-        console.log(result);
         dialogConfig.data = { header: 'Success!', content: 'Product edited successfully.' };
         this._getAllProducts();
         this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
@@ -169,23 +135,14 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   get id() {
     return this.CategoryFormGroup.controls.id;
   }
-  private _createForm() {
-    this.CategoryFormGroup = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      id: [],
-    });
-  }
+
   public updateCategory() {
     const dialogConfig = this._matDialogConfig;
-
-    console.log(this.CategoryFormGroup.controls.id.value);
-    console.log(this.CategoryFormGroup.controls.name.value);
     const id = this.CategoryFormGroup.controls.id.value;
     const CatName = this.CategoryFormGroup.controls.name.value;
     if (id == null) {
       this._ProductService.addCategory({ name: CatName }).subscribe(
         (res) => {
-          console.log(res);
           dialogConfig.data = { header: 'Success!', content: 'Category added successfully.' };
           this._getAllCategories();
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
@@ -199,7 +156,6 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     } else if (id != null) {
       this._ProductService.updateCategoryById(id, { name: CatName }).subscribe(
         (res) => {
-          console.log(res);
           dialogConfig.data = { header: 'Success!', content: 'Category updated successfully.' };
           this._getAllCategories();
           this.Successdialog.open(MatDialogWrapperComponent, dialogConfig);
@@ -221,5 +177,46 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.buttonName = 'Add';
     this.CategoryFormGroup.controls.id.reset(null);
     this.CategoryFormGroup.controls.name.reset(' ');
+  }
+
+  private _getAllProducts() {
+    this._ProductService.getAllProducts(null).subscribe((res) => {
+      this._Products = res['items'] as ProductModel[];
+      this._initializeDataGrid();
+    });
+  }
+
+  private _getAllCategories() {
+    this._ProductService
+      .getAllCategories()
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (res: ApiResponseModel) => {
+          this._Categories = res.items as CategoryModel[];
+          this.setCategoryTable(this._Categories);
+        },
+        (err) => {
+          this._globalErrorService.reactToAppError(err);
+        }
+      );
+  }
+
+  private setCategoryTable(categories: CategoryModel[]) {
+    this.categorySource = new MatTableDataSource<CategoryModel>(categories);
+    this.categorySource.paginator = this.categoryPaginator;
+    this.categorySource.sort = this.categorySort;
+  }
+
+  private _initializeDataGrid() {
+    this.dataSource = new MatTableDataSource<ProductModel>(this._Products);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  private _createForm() {
+    this.CategoryFormGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      id: [],
+    });
   }
 }

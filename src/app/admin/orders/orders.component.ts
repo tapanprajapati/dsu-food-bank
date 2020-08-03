@@ -50,7 +50,6 @@ export class AdminOrdersComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: ApiResponseModel) => {
           this.orders = res.items as OrderModel[];
-          console.log(this.orders);
           this.setUpDataSource();
           this._showLoader(false);
         },
