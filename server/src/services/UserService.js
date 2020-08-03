@@ -234,6 +234,7 @@ UserService.prototype.resetPassword = async function resetPassword(data) {
       text: 'Reset your password.', // plain text body
       html: `<h2> Please click on the given link to reset the password</h2>
             <p>http://localhost:80/updatepassword/${resettoken}</p>
+            
       `,
     };
     // send mail with defined transport object
