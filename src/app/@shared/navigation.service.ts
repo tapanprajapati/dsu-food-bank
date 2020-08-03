@@ -21,7 +21,7 @@ export class NavigationService {
   getPrimaryNavigationItems(): NavItemModel[] {
     return [
       { name: 'Home', routeLink: '/home' },
-      { name: 'Donate', routeLink: '/donate' },
+      // { name: 'Donate', routeLink: '/donate' }, -- Way forward feature
       { name: 'Products', routeLink: '/products' },
       { name: 'Contact Us', routeLink: '/contact' },
       { name: 'About Us', routeLink: '/about' },
@@ -34,7 +34,7 @@ export class NavigationService {
       { name: 'Sign Up', routeLink: '/signup', isAuthenticationRequired: false },
       { name: 'Orders', routeLink: '/orders', isAuthenticationRequired: true },
       { name: 'Profile', routeLink: '/profile', isAuthenticationRequired: true },
-      { name: 'Cart', routeLink: '/cart', isAuthenticationRequired: true, isIcon: true, iconName: faShoppingCart },
+      { name: 'Cart', routeLink: '/cart', isAuthenticationRequired: true, isIcon: true, iconName: 'shopping_cart' },
     ];
   }
 

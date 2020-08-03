@@ -101,4 +101,5 @@ WHERE
   deleteProductFromCart: `DELETE FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
   isProductAvailableInCart: `SELECT * FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
   postContactUsMessage: `insert into ContactUs (BannerId, FirstName, Email, Message) values(?, ?, ?, ?)`,
+  getUser: `SELECT * FROM dalfoodbank.User where BannerId = ?`,
 };

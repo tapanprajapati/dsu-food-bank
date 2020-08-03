@@ -2,7 +2,7 @@
  @author Samkit Shah <samkit@dal.ca>
  -->
 <section class="shopping-cart container mt-5 mb-5">
-  <h1>Shopping Cart</h1>
+  <h1 *ngIf="cartItems.length != 0">Shopping Cart</h1>
   <div class="row mt-4">
     <div class="card col-md-8 border-0">
       <div
@@ -32,6 +32,16 @@
       </div>
     </div>
     <div class="col-md-3"></div>
+  </div>
+  <div class="row">
+    <div
+      class="d-flex flex-column col-md-12 justify-content-center align-items-center cart-empty"
+      *ngIf="cartItems.length == 0"
+    >
+      <h4 class="font-weight-bold">Your shopping cart is empty!</h4>
+      <div class="font-weight-light">There is nothing in your cart. Let's add some items.</div>
+      <button mat-button class="app-primary-btn mt-3" [routerLink]="['/products']">Products</button>
+    </div>
   </div>
   <mat-divider></mat-divider>
   <div class="row d-flex justify-content-between mt-3 pl-5 pr-5">

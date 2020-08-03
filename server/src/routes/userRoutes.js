@@ -5,6 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const { validate } = require('express-validation');
+const { authenticateRoute } = require('src/helpers/auth');
 
 const userSchema = require('src/helpers/validate/userSchema');
 const UserService = require('src/services/UserService');
@@ -28,9 +29,20 @@ const auth = require('src/helpers/auth');
  * 3. User not found: { "authenticate": { "success": false, "statusCode": 404, "message": "User not found." } }
  * 4. Incorrect password: { "authenticate": { "success": false, "statusCode": 404, "message": "incorrect password" } }
  */
-router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
+router
+  .route(`/authenticate`)
+  .post(
+    validate(userSchema.authenticate),
+    userController.authenticate,
+    auth.sendJwtToken
+  );
 router.route('/signup').post(userController.createUser);
 
 // Route to get the roles from the database. This will handle the GET request from the front end.
 router.route('/getRoles').get(userController.getRoles);
+
+router
+  .route(`/user/:bannerId`)
+  .get(authenticateRoute, validate(userSchema.getUser), userController.getUser);
+
 module.exports = router;

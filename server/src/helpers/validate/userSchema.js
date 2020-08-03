@@ -12,4 +12,10 @@ module.exports = {
       password: Joi.string().required(),
     }),
   },
+  // GET: /api/user/:bannerId
+  getUser: {
+    params: Joi.object({
+      bannerId: Joi.string().required(),
+    }),
+  },
 };

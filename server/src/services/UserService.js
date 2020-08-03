@@ -24,7 +24,10 @@ function UserService() {}
  * Services interacting with database and returning the results back to the controller
  */
 UserService.prototype.authenticate = async function authenticate(credentials) {
-  const signInQuery = mysql.format(queries.signIn, [credentials.bannerId, credentials.password]);
+  const signInQuery = mysql.format(queries.signIn, [
+    credentials.bannerId,
+    credentials.password,
+  ]);
 
   console.log(`The Query for finding user entry - ${signInQuery}`);
 
@@ -58,8 +61,6 @@ UserService.prototype.authenticate = async function authenticate(credentials) {
 
 // This function will create a new user.
 UserService.prototype.createUser = async function createUser(data) {
-  // bcrypt to encrypt the password.
-  const bcrypt = require('bcrypt');
   const saltRounds = 10;
   const plain_password = data.password;
   const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
@@ -174,7 +175,9 @@ UserService.prototype.getRoles = async function getRoles() {
   const getRolesquery = queries.getRoles;
 
   // Query to fetch the roles from the database.
-  console.log(`The Query for returning all roles information - ${getRolesquery}`);
+  console.log(
+    `The Query for returning all roles information - ${getRolesquery}`
+  );
   try {
     let items = await database.query(getRolesquery);
     return {
@@ -190,4 +193,33 @@ UserService.prototype.getRoles = async function getRoles() {
     };
   }
 };
+
+UserService.prototype.getUser = async function getUser(bannerId) {
+  const getUserQuery = mysql.format(queries.getUser, bannerId);
+
+  console.log(`The Query for returning user information - ${getUserQuery}`);
+  try {
+    let user = await database.query(getUserQuery);
+    if (user.length != 1) {
+      return {
+        success: false,
+        statusCode: 404,
+        message: 'User Not Found',
+      };
+    } else {
+      return {
+        success: true,
+        statusCode: 200,
+        items: user[0],
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 module.exports = UserService;
