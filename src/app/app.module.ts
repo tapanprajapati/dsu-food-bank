@@ -25,6 +25,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { environment } from './../environments/environment.prod';
+import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { environment } from './../environments/environment.prod';
     NotFoundComponent,
     SignUpComponent,
     ForgotPasswordComponent,
+    UpdatePasswordComponent,
     CheckoutComponent,
   ],
   providers: [

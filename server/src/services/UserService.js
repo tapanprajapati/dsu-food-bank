@@ -193,6 +193,99 @@ UserService.prototype.getRoles = async function getRoles() {
   }
 };
 
+// Method to get password reset token from database
+UserService.prototype.getPasswordResetToken = async function getPasswordResetToken(param) {
+  const getResetTokenQuery = mysql.format(queries.getResetToken, [param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for getting password reset token - ${getResetTokenQuery}`);
+  try {
+    let items = await database.query(getResetTokenQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+// Method to get password reset token from database
+UserService.prototype.removeToken = async function removeToken(param) {
+  const removeTokenQuery = mysql.format(queries.removeToken, [param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for removing token - ${removeTokenQuery}`);
+  try {
+    let items = await database.query(removeTokenQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+// Method to convert token to banner id
+UserService.prototype.convertTokenToBannerId = async function convertTokenToBannerId(param) {
+  // Query to fetch the roles from the database.
+  console.log(`Token - ${param.token}`);
+
+  try {
+    var bannerId = jwt.verify(param.token, jwtSecret);
+    console.log('Decoded BannerID: ' + bannerId);
+    return {
+      success: true,
+      statusCode: 200,
+      items: bannerId,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+// Method to update password
+UserService.prototype.updatePassword = async function updatePassword(param, body) {
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  const plain_password = body.password;
+  const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
+
+  const getUpdatePasswordQuery = mysql.format(queries.updatePassword, [cipher_password, param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for updating password - ${getUpdatePasswordQuery}`);
+  try {
+    let items = await database.query(getUpdatePasswordQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 // Method to send the reset link to the user
 UserService.prototype.resetPassword = async function resetPassword(data) {
   console.log(data);

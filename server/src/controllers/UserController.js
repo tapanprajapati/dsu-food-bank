@@ -9,6 +9,10 @@ function UserController(service) {
   this.createUser = this.createUser.bind(this);
   this.getRoles = this.getRoles.bind(this);
   this.resetPassword = this.resetPassword.bind(this);
+  this.getPasswordResetToken = this.getPasswordResetToken.bind(this);
+  this.updatePassword = this.updatePassword.bind(this);
+  this.convertTokenToBannerId = this.convertTokenToBannerId.bind(this);
+  this.removeToken = this.removeToken.bind(this);
 }
 
 UserController.prototype.authenticate = async function authenticate(req, res, next) {
@@ -35,6 +39,31 @@ UserController.prototype.getRoles = async function getRoles(req, res) {
 UserController.prototype.resetPassword = async function resetPassword(req, res) {
   console.log(req.body);
   let response = await this.service.resetPassword(req.body);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.getPasswordResetToken = async function getPasswordResetToken(req, res) {
+  console.log(req.params);
+  let response = await this.service.getPasswordResetToken(req.params);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.updatePassword = async function updatePassword(req, res) {
+  console.log(req.body);
+  console.log(req.params);
+  let response = await this.service.updatePassword(req.params, req.body);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.convertTokenToBannerId = async function convertTokenToBannerId(req, res) {
+  console.log(req.params);
+  let response = await this.service.convertTokenToBannerId(req.params);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.removeToken = async function removeToken(req, res) {
+  console.log(req.params);
+  let response = await this.service.removeToken(req.params);
   res.status(response.statusCode).send(response);
 };
 

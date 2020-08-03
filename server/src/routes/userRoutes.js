@@ -34,4 +34,9 @@ router.route('/resetpassword').post(userController.resetPassword);
 
 // Route to get the roles from the database. This will handle the GET request from the front end.
 router.route('/getRoles').get(userController.getRoles);
+
+router.route('/updatepassword/:bannerId').put(userController.updatePassword);
+router.route('/resettoken/:bannerId').get(userController.getPasswordResetToken);
+router.route('/removetoken/:bannerId').put(userController.removeToken);
+router.route('/converttoken/:token').get(userController.convertTokenToBannerId);
 module.exports = router;
