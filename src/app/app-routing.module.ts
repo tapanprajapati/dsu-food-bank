@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from '@app/forgot-password/forgot-password.co
 import { AuthenticationGuard } from '@app/auth';
 
 import { APP_TITLES } from '@core/const/app.const';
+import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: APP_TITLES?.forgot_pwd } },
+  { path: 'updatepassword/:token', component: UpdatePasswordComponent, data: { title: APP_TITLES?.update_pwd } },
   { path: 'donate', loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule) },
   {
     path: 'profile',

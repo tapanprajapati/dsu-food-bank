@@ -36,6 +36,9 @@ WHERE
   createUser: 'INSERT INTO dalfoodbank.User(BannerId,FirstName,LastName,Password,Email,RoleId) VALUES (?,?,?,?,?,?)',
   getRoles: 'SELECT * FROM dalfoodbank.Role',
   resetPassword: `UPDATE dalfoodbank.User SET token=? WHERE User.BannerId = ?;`,
+  removeToken: `UPDATE dalfoodbank.User SET token=null WHERE User.BannerId = ?;`,
+  getResetToken: `SELECT token FROM dalfoodbank.User WHERE User.BannerId = ?;`,
+  updatePassword: `UPDATE dalfoodbank.User SET Password=? WHERE User.BannerId = ?;`,
 
   createProduct:
     'INSERT INTO `dalfoodbank`.`Item` (`ItemName`,`ItemDescription`,`CategoryId`,`AvailableQuantity`,`ItemLimit`) VALUES (?,?,?,?,?);',
