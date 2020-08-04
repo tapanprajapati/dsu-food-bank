@@ -39,7 +39,6 @@ export class UpdatePasswordService {
   }
 
   private _getUrl() {
-    // return `${environment.serverUrl}/`;
-    return `http://localhost/api/`;
+    return `${environment.serverUrl}/`;
   }
 }
