@@ -1,3 +1,5 @@
+@import "abstract/placeholders";
+
 .container {
   text-align: center;
   padding: 1rem;
@@ -9,4 +11,10 @@
 
 .divider {
   border-width: 2px;
+}
+
+.app-about-img {
+  @extend %app-img;
+
+  height: 100%;
 }
