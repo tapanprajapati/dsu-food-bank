@@ -200,6 +200,7 @@ UserService.prototype.getUser = async function getUser(bannerId) {
   console.log(`The Query for returning user information - ${getUserQuery}`);
   try {
     let user = await database.query(getUserQuery);
+    user = formatUsers(user);
     if (user.length != 1) {
       return {
         success: false,
@@ -213,6 +214,30 @@ UserService.prototype.getUser = async function getUser(bannerId) {
         items: user[0],
       };
     }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+UserService.prototype.updateUser = async function updateUser(user, bannerId) {
+  const updateUserQuery = mysql.format(queries.updateUser, [
+    user.firstName,
+    user.lastName,
+    user.email,
+    bannerId,
+  ]);
+  console.log(`The Query for updating product - ${updateUserQuery}`);
+  try {
+    let result = await database.query(updateUserQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
+    };
   } catch (error) {
     return {
       success: false,

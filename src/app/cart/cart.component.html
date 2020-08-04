@@ -2,7 +2,7 @@
  @author Samkit Shah <samkit@dal.ca>
  -->
 <section class="shopping-cart container mt-5 mb-5">
-  <h1 *ngIf="cartItems.length != 0">Shopping Cart</h1>
+  <h1 *ngIf="cartItems?.length != 0">Shopping Cart</h1>
   <div class="row mt-4">
     <div class="card col-md-8 border-0">
       <div
@@ -36,7 +36,7 @@
   <div class="row">
     <div
       class="d-flex flex-column col-md-12 justify-content-center align-items-center cart-empty"
-      *ngIf="cartItems.length == 0"
+      *ngIf="cartItems?.length == 0"
     >
       <h4 class="font-weight-bold">Your shopping cart is empty!</h4>
       <div class="font-weight-light">There is nothing in your cart. Let's add some items.</div>

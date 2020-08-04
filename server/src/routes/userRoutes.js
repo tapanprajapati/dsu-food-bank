@@ -43,6 +43,11 @@ router.route('/getRoles').get(userController.getRoles);
 
 router
   .route(`/user/:bannerId`)
-  .get(authenticateRoute, validate(userSchema.getUser), userController.getUser);
+  .get(authenticateRoute, validate(userSchema.getUser), userController.getUser)
+  .put(
+    authenticateRoute,
+    validate(userSchema.updateUser),
+    userController.updateUser
+  );
 
 module.exports = router;

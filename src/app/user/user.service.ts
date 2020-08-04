@@ -25,6 +25,12 @@ export class UserService implements OnDestroy {
       .pipe(catchError(this._globalErrorService.handleHttepResponseError));
   }
 
+  updateUser(user: any, bannerId: string) {
+    return this._http
+      .put<ApiResponseModel>(`${this._getUserUrl()}/${bannerId}`, user, { headers: this._getAuthorizationHeader() })
+      .pipe(catchError(this._globalErrorService.handleHttepResponseError));
+  }
+
   private _getUserUrl() {
     return `${environment.serverUrl}user`;
   }

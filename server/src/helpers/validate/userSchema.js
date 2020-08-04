@@ -18,4 +18,10 @@ module.exports = {
       bannerId: Joi.string().required(),
     }),
   },
+  // PUT: /api/user/:bannerId
+  updateUser: {
+    params: Joi.object({
+      bannerId: Joi.string().required(),
+    }),
+  },
 };

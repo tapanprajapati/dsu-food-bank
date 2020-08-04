@@ -102,4 +102,7 @@ WHERE
   isProductAvailableInCart: `SELECT * FROM dalfoodbank.Cart WHERE ItemId = ? AND BannerId = ? AND Status = 'true'`,
   postContactUsMessage: `insert into ContactUs (BannerId, FirstName, Email, Message) values(?, ?, ?, ?)`,
   getUser: `SELECT * FROM dalfoodbank.User where BannerId = ?`,
+  updateUser: `UPDATE dalfoodbank.User
+    SET FirstName = ?, LastName = ?, Email = ?
+    WHERE bannerId = ?`,
 };

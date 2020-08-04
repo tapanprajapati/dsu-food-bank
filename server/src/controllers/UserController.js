@@ -9,6 +9,7 @@ function UserController(service) {
   this.createUser = this.createUser.bind(this);
   this.getRoles = this.getRoles.bind(this);
   this.getUser = this.getUser.bind(this);
+  this.updateUser = this.updateUser.bind(this);
 }
 
 UserController.prototype.authenticate = async function authenticate(
@@ -38,6 +39,11 @@ UserController.prototype.getRoles = async function getRoles(req, res) {
 
 UserController.prototype.getUser = async function getUser(req, res) {
   let response = await this.service.getUser(req.params.bannerId);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.updateUser = async function updateUser(req, res) {
+  let response = await this.service.updateUser(req.body, req.params.bannerId);
   res.status(response.statusCode).send(response);
 };
 
