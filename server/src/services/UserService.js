@@ -12,6 +12,8 @@ const queries = require('app-data/queries');
 const dbConfig = require('app-data/dbConfig');
 const nodemailer = require('nodemailer');
 const { formatUsers } = require('../helpers/formatters/formatter');
+const { jwtSecret, jwtDuration, jwtAlgorithm } = require('app-data/tokenConfig');
+const jwt = require('jsonwebtoken');
 
 /**
  * Creating a new database instance
@@ -24,10 +26,7 @@ function UserService() {}
  * Services interacting with database and returning the results back to the controller
  */
 UserService.prototype.authenticate = async function authenticate(credentials) {
-  const signInQuery = mysql.format(queries.signIn, [
-    credentials.bannerId,
-    credentials.password,
-  ]);
+  const signInQuery = mysql.format(queries.signIn, [credentials.bannerId, credentials.password]);
 
   console.log(`The Query for finding user entry - ${signInQuery}`);
 
@@ -99,7 +98,7 @@ UserService.prototype.createUser = async function createUser(data) {
       html: `<div style="background-color: #F5F7FA; padding: 50px; min-width: 360px;">
     <div style="max-width: 600px; margin: 0 auto; padding: 60px 75px 50px; background-color: white;">
       <img style="display: block; max-width: 200px; height: auto;"
-        src="./../../../src/assets/media/logo.JPG"
+        src="https://i.ibb.co/1ZYzmcC/logo.jpg"
         alt="FoodBank Logo" />
       <h1 style="padding: 50px 0 15px; font-family: Arial, sans-serif; font-size: 36px; color: #343B4E;">Welcome to
         Foodbank</h1>
@@ -175,9 +174,7 @@ UserService.prototype.getRoles = async function getRoles() {
   const getRolesquery = queries.getRoles;
 
   // Query to fetch the roles from the database.
-  console.log(
-    `The Query for returning all roles information - ${getRolesquery}`
-  );
+  console.log(`The Query for returning all roles information - ${getRolesquery}`);
   try {
     let items = await database.query(getRolesquery);
     return {
@@ -194,6 +191,71 @@ UserService.prototype.getRoles = async function getRoles() {
   }
 };
 
+// Method to get password reset token from database
+UserService.prototype.getPasswordResetToken = async function getPasswordResetToken(param) {
+  const getResetTokenQuery = mysql.format(queries.getResetToken, [param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for getting password reset token - ${getResetTokenQuery}`);
+  try {
+    let items = await database.query(getResetTokenQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+// Method to get password reset token from database
+UserService.prototype.removeToken = async function removeToken(param) {
+  const removeTokenQuery = mysql.format(queries.removeToken, [param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for removing token - ${removeTokenQuery}`);
+  try {
+    let items = await database.query(removeTokenQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+// Method to convert token to banner id
+UserService.prototype.convertTokenToBannerId = async function convertTokenToBannerId(param) {
+  // Query to fetch the roles from the database.
+  console.log(`Token - ${param.token}`);
+
+  try {
+    var bannerId = jwt.verify(param.token, jwtSecret);
+    console.log('Decoded BannerID: ' + bannerId);
+    return {
+      success: true,
+      statusCode: 200,
+      items: bannerId,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
 UserService.prototype.getUser = async function getUser(bannerId) {
   const getUserQuery = mysql.format(queries.getUser, bannerId);
 
@@ -223,13 +285,35 @@ UserService.prototype.getUser = async function getUser(bannerId) {
   }
 };
 
+// Method to update password
+UserService.prototype.updatePassword = async function updatePassword(param, body) {
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  const plain_password = body.password;
+  const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
+
+  const getUpdatePasswordQuery = mysql.format(queries.updatePassword, [cipher_password, param.bannerId]);
+
+  // Query to fetch the roles from the database.
+  console.log(`The Query for updating password - ${getUpdatePasswordQuery}`);
+  try {
+    let items = await database.query(getUpdatePasswordQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
 UserService.prototype.updateUser = async function updateUser(user, bannerId) {
-  const updateUserQuery = mysql.format(queries.updateUser, [
-    user.firstName,
-    user.lastName,
-    user.email,
-    bannerId,
-  ]);
+  const updateUserQuery = mysql.format(queries.updateUser, [user.firstName, user.lastName, user.email, bannerId]);
   console.log(`The Query for updating product - ${updateUserQuery}`);
   try {
     let result = await database.query(updateUserQuery);
@@ -247,4 +331,96 @@ UserService.prototype.updateUser = async function updateUser(user, bannerId) {
   }
 };
 
+// Method to send the reset link to the user
+UserService.prototype.resetPassword = async function resetPassword(data) {
+  console.log(data);
+  console.log(data.bannerId);
+  const signInQuery = mysql.format(queries.signIn, [data.bannerId]);
+
+  console.log(`The Query for finding user entry - ${signInQuery}`);
+
+  let check = await database.query(signInQuery);
+  const u = formatUsers(check);
+
+  if (u.length === 0) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: 'User does not exist.',
+    };
+  }
+
+  //Created token
+  var resettoken = jwt.sign({ bannerId: data.bannerId }, jwtSecret);
+
+  console.log(resettoken);
+  const resetPasswordQuery = mysql.format(queries.resetPassword, [resettoken, data.bannerId]);
+  const getUserQuery = mysql.format(queries.signIn, [data.bannerId]);
+  console.log(`The Query to fetch email address-${getUserQuery}`);
+
+  let result = await database.query(getUserQuery);
+  const users = formatUsers(result);
+  console.log(users);
+  const email = users[0].email;
+  console.log(`The Query for reset a password entry - ${resetPasswordQuery}`);
+
+  // This will verify and provide the BannerId
+  // var decoded = jwt.verify(resettoken, jwtSecret);
+  // console.log("Decoded BannerID: "+decoded.bannerId);
+  try {
+    let items = await database.query(resetPasswordQuery);
+
+    // This transporter will be used to send an email to user.
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'advsdc12@gmail.com', // generated ethereal user
+        pass: 'Samkit@123', // generated ethereal password
+      },
+    });
+    let mailOptions = {
+      from: 'SAMKIT SHAH', // sender address
+      to: email, // list of receivers
+      subject: 'Reset Password.', // Subject line
+      text: 'Reset your password.', // plain text body
+      html: `<h2> Please click on the given link to reset the password</h2>
+            <p>https://dsu-food-bank.herokuapp.com/updatepassword/${resettoken}</p>
+            
+      `,
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log('error' + error);
+        return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+      res.render('contact', { msg: 'Email has been sent' });
+    });
+    return {
+      success: true,
+      statusCode: 200,
+      items,
+    };
+  } catch (error) {
+    if (error.errno === 1062) {
+      return {
+        success: false,
+        statusCode: 400,
+        message: 'User already exists.',
+        error,
+      };
+    } else {
+      return {
+        success: false,
+        statusCode: 500,
+        message: 'Please try after some time.',
+        error,
+      };
+    }
+  }
+};
 module.exports = UserService;

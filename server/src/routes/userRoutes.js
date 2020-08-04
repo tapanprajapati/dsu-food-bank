@@ -29,25 +29,20 @@ const auth = require('src/helpers/auth');
  * 3. User not found: { "authenticate": { "success": false, "statusCode": 404, "message": "User not found." } }
  * 4. Incorrect password: { "authenticate": { "success": false, "statusCode": 404, "message": "incorrect password" } }
  */
-router
-  .route(`/authenticate`)
-  .post(
-    validate(userSchema.authenticate),
-    userController.authenticate,
-    auth.sendJwtToken
-  );
+router.route(`/authenticate`).post(validate(userSchema.authenticate), userController.authenticate, auth.sendJwtToken);
 router.route('/signup').post(userController.createUser);
+router.route('/resetpassword').post(userController.resetPassword);
 
 // Route to get the roles from the database. This will handle the GET request from the front end.
 router.route('/getRoles').get(userController.getRoles);
 
+router.route('/updatepassword/:bannerId').put(userController.updatePassword);
+router.route('/resettoken/:bannerId').get(userController.getPasswordResetToken);
+router.route('/removetoken/:bannerId').put(userController.removeToken);
+router.route('/converttoken/:token').get(userController.convertTokenToBannerId);
 router
   .route(`/user/:bannerId`)
   .get(authenticateRoute, validate(userSchema.getUser), userController.getUser)
-  .put(
-    authenticateRoute,
-    validate(userSchema.updateUser),
-    userController.updateUser
-  );
+  .put(authenticateRoute, validate(userSchema.updateUser), userController.updateUser);
 
 module.exports = router;

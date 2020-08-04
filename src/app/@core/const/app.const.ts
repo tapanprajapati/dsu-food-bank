@@ -15,6 +15,7 @@ const APP_TITLES = {
   login: `Login - ${APP_NAME}`,
   signup: `Sign Up - ${APP_NAME}`,
   forgot_pwd: `Forgot Password - ${APP_NAME}`,
+  update_pwd: `Update Password - ${APP_NAME}`,
   terms: `Terms & Condition - ${APP_NAME}`,
   privacy: `Privacy Policy - ${APP_NAME}`,
   not_found: `Page Not Found - ${APP_NAME}`,
