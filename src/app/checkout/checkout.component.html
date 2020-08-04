@@ -65,6 +65,7 @@
                 [formControl]="bannerId"
                 autocomplete="off"
                 required
+                readonly
               />
               <mat-error *ngIf="bannerId.hasError('required') && !bannerId.hasError('pattern')"
                 >BannerId is required.</mat-error

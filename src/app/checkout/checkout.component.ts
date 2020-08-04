@@ -122,7 +122,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   private _createCheckoutForm() {
     this.checkoutForm = this.formBuilder.group({
-      bannerId: ['', [Validators.required, Validators.pattern(`^${this._authenticationService.authUserBannerId}$`)]],
+      bannerId: [`${this._authenticationService.authUserBannerId}`],
+      // bannerId: ['', [Validators.required, Validators.pattern(`^${this._authenticationService.authUserBannerId}$`)]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
