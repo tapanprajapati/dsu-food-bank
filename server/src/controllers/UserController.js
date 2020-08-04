@@ -13,6 +13,8 @@ function UserController(service) {
   this.updatePassword = this.updatePassword.bind(this);
   this.convertTokenToBannerId = this.convertTokenToBannerId.bind(this);
   this.removeToken = this.removeToken.bind(this);
+  this.getUser = this.getUser.bind(this);
+  this.updateUser = this.updateUser.bind(this);
 }
 
 UserController.prototype.authenticate = async function authenticate(req, res, next) {
@@ -64,6 +66,14 @@ UserController.prototype.convertTokenToBannerId = async function convertTokenToB
 UserController.prototype.removeToken = async function removeToken(req, res) {
   console.log(req.params);
   let response = await this.service.removeToken(req.params);
+};
+UserController.prototype.getUser = async function getUser(req, res) {
+  let response = await this.service.getUser(req.params.bannerId);
+  res.status(response.statusCode).send(response);
+};
+
+UserController.prototype.updateUser = async function updateUser(req, res) {
+  let response = await this.service.updateUser(req.body, req.params.bannerId);
   res.status(response.statusCode).send(response);
 };
 

@@ -40,7 +40,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   // This function will be called when the form will be submitted.
   signup() {
     try {
-      console.log(this.signupForm.controls);
       if (this.signupForm.valid) {
         // Call service to add the user
         this.Signup_Service.addUser(this.signupForm.value).subscribe(
@@ -51,8 +50,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
           },
           (error) => {
-            console.log(error.status);
-            console.log(error.statusCode);
             const dialogConfig = this._matDialogConfig;
             if (error.error.message) {
               dialogConfig.data = { header: 'Failure!', content: error.error.message };

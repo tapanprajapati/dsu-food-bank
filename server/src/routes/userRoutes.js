@@ -5,6 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const { validate } = require('express-validation');
+const { authenticateRoute } = require('src/helpers/auth');
 
 const userSchema = require('src/helpers/validate/userSchema');
 const UserService = require('src/services/UserService');
@@ -39,4 +40,9 @@ router.route('/updatepassword/:bannerId').put(userController.updatePassword);
 router.route('/resettoken/:bannerId').get(userController.getPasswordResetToken);
 router.route('/removetoken/:bannerId').put(userController.removeToken);
 router.route('/converttoken/:token').get(userController.convertTokenToBannerId);
+router
+  .route(`/user/:bannerId`)
+  .get(authenticateRoute, validate(userSchema.getUser), userController.getUser)
+  .put(authenticateRoute, validate(userSchema.updateUser), userController.updateUser);
+
 module.exports = router;

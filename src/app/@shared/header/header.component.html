@@ -19,7 +19,7 @@
         routerLinkActive="mat-accent"
       >
         <span *ngIf="!item.isIcon">{{ item.name }}</span>
-        <fa-icon *ngIf="item.isIcon" [icon]="item.iconName"></fa-icon>
+        <mat-icon *ngIf="item.isIcon">{{ item.iconName }}</mat-icon>
       </button>
     </ng-container>
     <button mat-button *ngIf="isLoggedIn" (click)="logout()"><span>Logout</span></button>

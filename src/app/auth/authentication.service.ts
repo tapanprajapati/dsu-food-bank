@@ -80,9 +80,6 @@ export class AuthenticationService {
     });
     const isRouteGuarded = routeDetails && routeDetails?.canActivate != null;
 
-    console.log(routeDetails);
-    console.log(isRouteGuarded);
-
     // If jwt key not exist or the value is blank, flush up the login state
     if (!token) {
       this.setIsLoggedIn(false);
@@ -109,8 +106,6 @@ export class AuthenticationService {
        */
       if (decodedToken?.roleId === 1 || decodedToken?.roleId === 2) {
         this.setIsAdmin(true);
-        console.log(state.url);
-        console.log(!state?.url.startsWith(`/admin`));
         if (state?.url && !state?.url.startsWith(`/admin`)) {
           // You are not authorized to access
           this._router.navigate(['/admin']);

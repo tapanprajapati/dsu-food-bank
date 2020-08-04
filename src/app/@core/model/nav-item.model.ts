@@ -9,5 +9,5 @@ export interface NavItemModel {
   routeLink: string;
   isAuthenticationRequired?: boolean;
   isIcon?: boolean;
-  iconName?: IconDefinition;
+  iconName?: IconDefinition | string;
 }

@@ -37,7 +37,6 @@ export class ContactComponent implements OnInit {
 
   submit() {
     try {
-      console.log(this.contactUsForm.controls);
       if (this.contactUsForm.valid) {
         this.contactUs_service.postMessage(this.contactUsForm.value).subscribe(
           (res) => {
@@ -47,8 +46,6 @@ export class ContactComponent implements OnInit {
             this.router.navigate(['/home']);
           },
           (error) => {
-            console.log(error.status);
-            console.log(error.statusCode);
             const dialogConfig = this._matDialogConfig;
             if (error.error.message) {
               dialogConfig.data = { header: 'Failure!', content: error.error.message };

@@ -54,7 +54,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   // This function will be called when the user click on the checkout button.
   checkout() {
     try {
-      console.log(this.checkoutForm.controls);
       if (this.checkoutForm.valid) {
         this._checkoutService.createOrder(this.checkoutForm.value).subscribe(
           (res) => {
@@ -79,6 +78,26 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
     }
   }
+
+  deleteProductFromCart(cartProduct: ProductModel) {
+    this._cartService
+      .deleteProductFromCart(cartProduct.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (res: ApiResponseModel) => {
+          if (res.success && res.result.affectedRows === 1) {
+            const dialogConfig = this._matDialogConfig;
+            dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
+            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
+            this._loadShoppingCart();
+          } // TODO: handle else block
+        },
+        (err) => {
+          this._globalErrorService.reactToAppError(err);
+        }
+      );
+  }
+
   get bannerId() {
     return this.checkoutForm.controls.bannerId;
   }
@@ -112,26 +131,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       pickupDate: ['', Validators.required],
       pickupTime: ['', [Validators.required, Validators.min(9), Validators.max(18)]],
     });
-  }
-
-  deleteProductFromCart(cartProduct: ProductModel) {
-    this._cartService
-      .deleteProductFromCart(cartProduct.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        (res: ApiResponseModel) => {
-          if (res.success && res.result.affectedRows === 1) {
-            console.log('Product Deleted Successfully!');
-            const dialogConfig = this._matDialogConfig;
-            dialogConfig.data = { header: 'Success!', content: 'Product Deleted.' };
-            this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-            this._loadShoppingCart();
-          } // TODO: handle else block
-        },
-        (err) => {
-          this._globalErrorService.reactToAppError(err);
-        }
-      );
   }
 
   private _getCartProducts() {

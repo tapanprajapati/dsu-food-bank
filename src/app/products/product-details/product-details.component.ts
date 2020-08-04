@@ -83,9 +83,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
               const dialogConfig = this._matDialogConfig;
               dialogConfig.data = { header: 'Failure!', content: 'Already exist in the cart.' };
               this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-              // TODO: Product already exist in the cart
-              // Show an appropriate message
-              console.log('Product already exist');
             } else {
               this._cartService
                 .addToCart(product)
@@ -96,8 +93,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                       const dialogConfig = this._matDialogConfig;
                       dialogConfig.data = { header: 'Success!', content: 'Added to cart.' };
                       this._matDialog.open(MatDialogWrapperComponent, dialogConfig);
-                      // TODO: Show message that product has been added successfully
-                      console.log('Product successfully added!!');
                     } // TODO: else block???
                   },
                   (cartErr) => {

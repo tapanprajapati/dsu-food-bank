@@ -60,8 +60,6 @@ UserService.prototype.authenticate = async function authenticate(credentials) {
 
 // This function will create a new user.
 UserService.prototype.createUser = async function createUser(data) {
-  // bcrypt to encrypt the password.
-  const bcrypt = require('bcrypt');
   const saltRounds = 10;
   const plain_password = data.password;
   const cipher_password = bcrypt.hashSync(plain_password, saltRounds);
@@ -258,6 +256,34 @@ UserService.prototype.convertTokenToBannerId = async function convertTokenToBann
     };
   }
 };
+UserService.prototype.getUser = async function getUser(bannerId) {
+  const getUserQuery = mysql.format(queries.getUser, bannerId);
+
+  console.log(`The Query for returning user information - ${getUserQuery}`);
+  try {
+    let user = await database.query(getUserQuery);
+    user = formatUsers(user);
+    if (user.length != 1) {
+      return {
+        success: false,
+        statusCode: 404,
+        message: 'User Not Found',
+      };
+    } else {
+      return {
+        success: true,
+        statusCode: 200,
+        items: user[0],
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
 
 // Method to update password
 UserService.prototype.updatePassword = async function updatePassword(param, body) {
@@ -276,6 +302,25 @@ UserService.prototype.updatePassword = async function updatePassword(param, body
       success: true,
       statusCode: 200,
       items,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: 500,
+      error,
+    };
+  }
+};
+
+UserService.prototype.updateUser = async function updateUser(user, bannerId) {
+  const updateUserQuery = mysql.format(queries.updateUser, [user.firstName, user.lastName, user.email, bannerId]);
+  console.log(`The Query for updating product - ${updateUserQuery}`);
+  try {
+    let result = await database.query(updateUserQuery);
+    return {
+      success: true,
+      statusCode: 200,
+      result,
     };
   } catch (error) {
     return {

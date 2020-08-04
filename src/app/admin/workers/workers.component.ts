@@ -53,15 +53,12 @@ export class AdminWorkersComponent implements OnInit {
     this.service.getWorkersList().subscribe(
       (response: WorkersResponse) => {
         this.workers = response?.items;
-        console.log(response);
       },
-      (error) => console.log(error)
+      (error) => {}
     );
   }
 
   delete(worker: Workers) {
-    console.log(worker);
-    console.log(worker);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
@@ -72,7 +69,6 @@ export class AdminWorkersComponent implements OnInit {
     });
 
     ref.afterClosed().subscribe((result) => {
-      console.log(`Dialog Result: ${result}`);
       if (result) {
         this.service.deleteUserRole(result).subscribe(
           (res) => {
@@ -80,25 +76,20 @@ export class AdminWorkersComponent implements OnInit {
             this.getStudent();
             this.loadRoles();
           },
-          (error) => {
-            console.log(error.message);
-          }
+          (error) => {}
         );
       }
     });
   }
 
   add(form: NgForm) {
-    console.log(form.value);
     this.service.addUserRole(form.value).subscribe(
       (res) => {
         this.getData();
         this.getStudent();
         this.loadRoles();
       },
-      (error) => {
-        console.log(error.message);
-      }
+      (error) => {}
     );
   }
 
@@ -106,9 +97,8 @@ export class AdminWorkersComponent implements OnInit {
     this.service.getRole().subscribe(
       (response: RolesResponse) => {
         this.roles = response?.items;
-        console.log(response);
       },
-      (error) => console.log(error)
+      (error) => {}
     );
   }
 
@@ -116,9 +106,8 @@ export class AdminWorkersComponent implements OnInit {
     this.service.getStudent().subscribe(
       (response: ApiResponseModel) => {
         this.students = response?.items;
-        console.log(response);
       },
-      (error) => console.log(error)
+      (error) => {}
     );
   }
 }
