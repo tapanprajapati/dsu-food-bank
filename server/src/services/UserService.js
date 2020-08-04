@@ -100,7 +100,7 @@ UserService.prototype.createUser = async function createUser(data) {
       html: `<div style="background-color: #F5F7FA; padding: 50px; min-width: 360px;">
     <div style="max-width: 600px; margin: 0 auto; padding: 60px 75px 50px; background-color: white;">
       <img style="display: block; max-width: 200px; height: auto;"
-        src="./../../../src/assets/media/logo.JPG"
+        src="https://i.ibb.co/1ZYzmcC/logo.jpg"
         alt="FoodBank Logo" />
       <h1 style="padding: 50px 0 15px; font-family: Arial, sans-serif; font-size: 36px; color: #343B4E;">Welcome to
         Foodbank</h1>
@@ -290,6 +290,20 @@ UserService.prototype.updatePassword = async function updatePassword(param, body
 UserService.prototype.resetPassword = async function resetPassword(data) {
   console.log(data);
   console.log(data.bannerId);
+  const signInQuery = mysql.format(queries.signIn, [data.bannerId]);
+
+  console.log(`The Query for finding user entry - ${signInQuery}`);
+
+  let check = await database.query(signInQuery);
+  const u = formatUsers(check);
+
+  if (u.length === 0) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: 'User does not exist.',
+    };
+  }
 
   //Created token
   var resettoken = jwt.sign({ bannerId: data.bannerId }, jwtSecret);
@@ -326,7 +340,7 @@ UserService.prototype.resetPassword = async function resetPassword(data) {
       subject: 'Reset Password.', // Subject line
       text: 'Reset your password.', // plain text body
       html: `<h2> Please click on the given link to reset the password</h2>
-            <p>http://localhost:80/updatepassword/${resettoken}</p>
+            <p>https://dsu-food-bank.herokuapp.com/updatepassword/${resettoken}</p>
             
       `,
     };
